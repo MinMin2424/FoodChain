@@ -1,8 +1,15 @@
 package cz.cvut.fel.omo.semestralka;
 
+import cz.cvut.fel.omo.semestralka.model.Address;
+import cz.cvut.fel.omo.semestralka.model.Product;
+import cz.cvut.fel.omo.semestralka.model.enums.Place;
 import cz.cvut.fel.omo.semestralka.model.enums.ProductsCatalogue;
+import cz.cvut.fel.omo.semestralka.model.factory.FarmerFactory;
+import cz.cvut.fel.omo.semestralka.model.roles.Farmer;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Start {
 
@@ -11,15 +18,21 @@ public class Start {
     }
 
     public static void main(String[] args) {
-//        System.out.println("Hello world!");
-//
-//        System.out.println(ProductsCatalogue.WHEAT.name().toLowerCase());
+        List<Place> places = new ArrayList<>();
+        places.add(Place.FARM);
+        Address address = new Address("Dejvicka", "Prague", "169 00", "Czech");
+        Farmer farmer = new Farmer("Verca", "123456789", 100_000_000, places, address);
 
-        LocalDate producedOnDays = LocalDate.of(2024, 10, 30);
-        int durationDays = 30;
+        Product cow = new Product(ProductsCatalogue.COW.name(), 1, LocalDate.now());
+        Product cow1 = new Product(ProductsCatalogue.COW.name(), 1, LocalDate.now());
+        farmer.getWarehouse().addProduct(cow);
+        farmer.getWarehouse().addProduct(cow1);
 
-        LocalDate expirationDate = createExpirationDays(producedOnDays, durationDays);
-        System.out.println("Expiration Date: " + expirationDate);
+        System.out.println(farmer.getWarehouse().toString());
+        FarmerFactory farmerFactory = new FarmerFactory(farmer);
+        farmerFactory.createProduct(ProductsCatalogue.BEEF.name());
+        farmer.getWarehouse().getWarehouseInventory();
+
 
 
     }

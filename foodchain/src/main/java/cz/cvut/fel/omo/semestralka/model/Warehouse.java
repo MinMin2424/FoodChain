@@ -31,15 +31,24 @@ public class Warehouse {
                 if (checkTemperature(ProductsCatalogue.getTemperatureByName(product.getName()), getTemperature())) {
                     p.setQuantity(p.getQuantity() + product.getQuantity());
                     found = true;
+                    System.out.println("DONE");
                 } else {
+                    System.out.println("NOPE");
                     return;
                 }
-                    break;
+                break;
             }
         }
         if (!found) {
             productList.add(product);
+            if (checkTemperature(ProductsCatalogue.getTemperatureByName(product.getName()), getTemperature())) {
+                productList.add(product);
+                System.out.println("NEW PRODUCT");
+            } else {
+                System.out.println("NOPE");
+            }
         }
+
     }
 
     public void removeProduct(Product product, int removeQuantity) {
@@ -63,7 +72,35 @@ public class Warehouse {
     }
 
     private boolean checkTemperature(int productTemperature, int warehouseTemperature) {
-        return productTemperature <= warehouseTemperature;
+        return productTemperature >= warehouseTemperature;
     }
+
+    public boolean findProduct(String productName) {
+        for (Product product : productList) {
+            return product.getName().equals(productName);
+        }
+        return false;
+    }
+
+    public int countFullness() {
+        int fullness = 0;
+        for (Product product : productList) {
+//            fullness += 1;
+            fullness += product.getQuantity();
+        }
+        return fullness;
+    }
+
+    public void getWarehouseInventory(){
+        StringBuilder warehouseInventory = new StringBuilder();
+        warehouseInventory.append("This warehouse contains: \n");
+        for (Product product : productList) {
+            warehouseInventory.append(product.getName()).append(": ").append(product.getQuantity()).append("\n");
+
+        }
+        System.out.println(warehouseInventory);
+    }
+
+
 }
 
