@@ -1,0 +1,71 @@
+package cz.cvut.fel.omo.semestralka.model.enums;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
+public enum ProductsCatalogue {
+
+    // FARMER PRODUCTS
+    COW (90000, 0, 25),
+    SHEEP (3000, 0, 25),
+    CHICKEN (250, 0, 25),
+    FISH (500, 0, 15),
+    WHEAT (20, 900, 10),
+    APPLE (10, 7, 12),
+    WALNUT (120, 100, 12),
+    POTATO (10, 14, 12),
+    CARROT (10, 14, 12),
+    STRAWBERRY (90, 8, 12),
+
+    MILK (15, 7, 5),
+    EGG (25, 90,15),
+    WOOL (10, 0, 0),
+    FEATHER (90, 0, 0),
+
+    // BUTCHER PRODUCTS
+    BEEF (250, 7, 5),
+    CHICKEN_MEAT (150, 7, 5),
+    FISH_FILET (350, 7, 5),
+    LAMB (350, 7, 5),
+
+    // PRODUCER PRODUCTS
+    FLOUR (12, 1000, 0),
+    YOGHURT (20, 16, 5),
+    HEAVY_CREAM (100, 16, 5),
+    CHEESE (100, 31, 5),
+    PIE (130, 5, 5),
+    CHEESECAKE (230, 5, 5),
+    PASTA (30, 500, 0),
+    PASTA_FRESH (40, 5, 5),
+    FRIES (50, 1000, -15),
+    BURGER (220, 1, 5),
+    CHICKEN_STRIPS (80, 1, 5),
+    BREAD (25, 4, 0);
+
+
+    private final int price;
+    private final int durationDays;
+    private final int keepInTemperature;
+
+    public static int getDurationByName(String name) {
+        for (ProductsCatalogue productsCatalogue : ProductsCatalogue.values()) {
+            if (productsCatalogue.name().equalsIgnoreCase(name)) {
+                return productsCatalogue.durationDays;
+            }
+        }
+        return -1;
+    }
+
+    public static int getTemperatureByName(String name) {
+        for (ProductsCatalogue productsCatalogue : ProductsCatalogue.values()) {
+            if (productsCatalogue.name().equalsIgnoreCase(name)) {
+                return productsCatalogue.keepInTemperature;
+            }
+        }
+        return -1;
+    }
+
+}
+
