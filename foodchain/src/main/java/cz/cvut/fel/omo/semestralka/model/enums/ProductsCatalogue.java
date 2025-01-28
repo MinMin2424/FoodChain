@@ -24,7 +24,6 @@ public enum ProductsCatalogue {
     WOOL (10, 0, 0),
     FEATHER (90, 0, 0),
 
-    // BUTCHER PRODUCTS
     BEEF (250, 7, 5),
     CHICKEN_MEAT (150, 7, 5),
     FISH_FILET (350, 7, 5),

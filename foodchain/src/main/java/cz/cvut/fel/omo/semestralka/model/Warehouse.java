@@ -28,13 +28,13 @@ public class Warehouse {
         for (Product p : productList) {
             if (p.getName().equals(product.getName())) {
 
-                p.setQuantity(p.getQuantity() + product.getQuantity());
-                found = true;
-
-                if (!checkTemperature(ProductsCatalogue.getTemperatureByName(product.getName()), getTemperature())) {
-                    System.out.println("Wrong temperature");
+                if (checkTemperature(ProductsCatalogue.getTemperatureByName(product.getName()), getTemperature())) {
+                    p.setQuantity(p.getQuantity() + product.getQuantity());
+                    found = true;
+                } else {
+                    return;
                 }
-                break;
+                    break;
             }
         }
         if (!found) {
