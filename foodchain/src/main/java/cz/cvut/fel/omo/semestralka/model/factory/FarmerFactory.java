@@ -14,8 +14,11 @@ public class FarmerFactory implements Factory{
         this.farmer = farmer;
     }
 
-
-    // function creates new product out of already existing product in farmers warehouse
+    /**
+     * Creates and adds new product out of already existing products in warehouse
+     * @param productName name of the product
+     * @return Product
+     */
     @Override
     public Product createProduct(String productName) {
         if (farmer.getWarehouse().findProduct(getProductOrigin(productName))) {
@@ -26,12 +29,22 @@ public class FarmerFactory implements Factory{
         return null;
     }
 
-
+    /**
+     * Assignes source products to the give product
+     * @param productName name of the products
+     * @return String listing out source products
+     */
     @Override
     public String getProductOrigin(String productName) {
         switch (productName) {
-            case "BEEF":
+            case "BEEF", "MILK":
                 return ProductsCatalogue.COW.name();
+            case "CHICKEN_MEAT", "EGG", "FEATHER":
+                return ProductsCatalogue.CHICKEN.name();
+            case "FISH_FILET":
+                return ProductsCatalogue.FISH.name();
+            case "LAMB", "WOOL":
+                return ProductsCatalogue.SHEEP.name();
             default:
                 return null;
         }

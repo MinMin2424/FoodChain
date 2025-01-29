@@ -19,6 +19,10 @@ public class Warehouse {
         this.productList = new ArrayList<>();
     }
 
+    /**
+     * Adds product to the warehouse
+     * @param product product to be added
+     */
     public void addProduct(Product product) {
         if (product == null) {
             return;
@@ -51,6 +55,11 @@ public class Warehouse {
 
     }
 
+    /**
+     * Removes product from the warehouse
+     * @param product product to be removed
+     * @param removeQuantity amount of the product to be removed
+     */
     public void removeProduct(Product product, int removeQuantity) {
         if (product == null) {
             return;
@@ -71,10 +80,21 @@ public class Warehouse {
         }
     }
 
+    /**
+     * Compares warehouse temperature with products storing temperature
+     * @param productTemperature payment information separated by semicolon
+     * @param warehouseTemperature IP address of the sender
+     * @return if product temperature is higher than temperature in warehouse
+     */
     private boolean checkTemperature(int productTemperature, int warehouseTemperature) {
         return productTemperature >= warehouseTemperature;
     }
 
+    /**
+     * Checks for product in the warehouse
+     * @param productName name of the searched product
+     * @return whether is the product in the warehouse
+     */
     public boolean findProduct(String productName) {
         for (Product product : productList) {
             return product.getName().equals(productName);
@@ -82,6 +102,10 @@ public class Warehouse {
         return false;
     }
 
+    /**
+     * Counts and adds number of quantities of each product in warehouse
+     * @return the number of all items in warehouse
+     */
     public int countFullness() {
         int fullness = 0;
         for (Product product : productList) {
@@ -91,6 +115,9 @@ public class Warehouse {
         return fullness;
     }
 
+    /**
+     * Writes out each product and its quantity in warehouse
+     */
     public void getWarehouseInventory(){
         StringBuilder warehouseInventory = new StringBuilder();
         warehouseInventory.append("This warehouse contains: \n");

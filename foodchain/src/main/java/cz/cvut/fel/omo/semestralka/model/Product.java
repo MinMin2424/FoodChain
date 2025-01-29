@@ -1,12 +1,10 @@
 package cz.cvut.fel.omo.semestralka.model;
 
 import cz.cvut.fel.omo.semestralka.model.enums.ProductsCatalogue;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -22,6 +20,10 @@ public class Product {
         this.producedOnDate = producedOnDate;
     }
 
+    /**
+     * Counts the expiration date
+     * @return Products date of expiration
+     */
     public LocalDate getExpirationDate() {
         int durationDays = ProductsCatalogue.getDurationByName(name);
 

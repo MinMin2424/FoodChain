@@ -18,6 +18,7 @@ public enum ProductsCatalogue {
     POTATO (10, 14, 12),
     CARROT (10, 14, 12),
     STRAWBERRY (90, 8, 12),
+    TOMATO(30, 8, 5),
 
     MILK (15, 7, 5),
     EGG (25, 90,15),
@@ -41,13 +42,18 @@ public enum ProductsCatalogue {
     FRIES (50, 1000, -15),
     BURGER (220, 1, 5),
     CHICKEN_STRIPS (80, 1, 5),
-    BREAD (25, 4, 0);
-
+    BREAD (25, 4, 0),
+    BUN (10, 4, 0);
 
     private final int price;
     private final int durationDays;
     private final int keepInTemperature;
 
+    /**
+     * Finds product in Product catalogue by its name and returns its duration
+     * @param name of the product
+     * @return Duration of product
+     */
     public static int getDurationByName(String name) {
         for (ProductsCatalogue productsCatalogue : ProductsCatalogue.values()) {
             if (productsCatalogue.name().equalsIgnoreCase(name)) {
@@ -57,6 +63,11 @@ public enum ProductsCatalogue {
         return -1;
     }
 
+    /**
+     * Finds product in ProductCatalogue by its name and
+     * @param name name of the product
+     * @return Highest temperature the product can be kept in
+     */
     public static int getTemperatureByName(String name) {
         for (ProductsCatalogue productsCatalogue : ProductsCatalogue.values()) {
             if (productsCatalogue.name().equalsIgnoreCase(name)) {
