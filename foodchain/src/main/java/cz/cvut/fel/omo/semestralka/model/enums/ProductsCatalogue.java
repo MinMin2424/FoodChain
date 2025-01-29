@@ -45,7 +45,7 @@ public enum ProductsCatalogue {
     BREAD (25, 4, 0),
     BUN (10, 4, 0);
 
-    private final int price;
+    private final double price;
     private final int durationDays;
     private final int keepInTemperature;
 
@@ -72,6 +72,15 @@ public enum ProductsCatalogue {
         for (ProductsCatalogue productsCatalogue : ProductsCatalogue.values()) {
             if (productsCatalogue.name().equalsIgnoreCase(name)) {
                 return productsCatalogue.keepInTemperature;
+            }
+        }
+        return -1;
+    }
+
+    public static double getPriceByName(String name) {
+        for (ProductsCatalogue productsCatalogue : ProductsCatalogue.values()) {
+            if (productsCatalogue.name().equalsIgnoreCase(name)) {
+                return productsCatalogue.price;
             }
         }
         return -1;

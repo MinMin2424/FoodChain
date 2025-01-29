@@ -4,12 +4,16 @@ import cz.cvut.fel.omo.semestralka.model.Product;
 import cz.cvut.fel.omo.semestralka.model.enums.OperationType;
 import cz.cvut.fel.omo.semestralka.model.enums.ProductsCatalogue;
 import cz.cvut.fel.omo.semestralka.model.roles.Farmer;
+import cz.cvut.fel.omo.semestralka.model.transaction.Transaction;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FarmerFactory implements Factory{
+import static cz.cvut.fel.omo.semestralka.model.enums.Place.*;
+import static cz.cvut.fel.omo.semestralka.model.enums.OperationType.*;
+
+public class FarmerFactory implements Factory {
 
     private final Farmer farmer;
 
@@ -17,13 +21,16 @@ public class FarmerFactory implements Factory{
         this.farmer = farmer;
     }
 
-    public void executeOperation(String productName, OperationType operationType) {
+    @Override
+    public void executeOperation(String productName, int sellQuantity, OperationType operationType) {
         switch (operationType) {
             case CREATE:
                 createProduct(productName);
                 break;
+            case STORE:
+                storeProduct(productName);
             case SELL:
-
+                // TODO
                 break;
         }
     }
@@ -35,17 +42,28 @@ public class FarmerFactory implements Factory{
      */
     private void createProduct(String productName) {
         List<String> origins = getProductOrigin(productName);
+        if (origins == null) {
+            return;
+        }
         for (String origin : origins) {
-            boolean found = farmer.getWarehouse().findProduct(origin);
+            boolean found = farmer.getStorage().findProduct(origin);
             if (!found) {
                 return;
             }
         }
         for (String origin : origins) {
-            Product productOrigin = farmer.getWarehouse().getProductByName(origin);
-            farmer.getWarehouse().removeProduct(productOrigin, 1);
+            Product productOrigin = farmer.getStorage().getProductByName(origin);
+            farmer.getStorage().removeProductFromStorage(productOrigin, WAREHOUSE, MANUFACTORY, 1);
         }
-        farmer.getWarehouse().addProduct(new Product(productName, 1, LocalDate.now()));
+        Product newProduct = new Product(productName, 1, LocalDate.now());
+        Transaction transaction = new Transaction(newProduct, MUSHROOM_LAND, MUSHROOM_LAND, CREATE, LocalDate.now(), 0, null);
+        farmer.getStorage().addProductToStorage(newProduct, MANUFACTORY, WAREHOUSE);
+    }
+
+    @Override
+    public void storeProduct(String productName) {
+        Product product = farmer.getStorage().getProductByName(productName);
+        farmer.getStorage().addProductToStorage(product, FARM, WAREHOUSE);
     }
 
     /**
@@ -57,13 +75,17 @@ public class FarmerFactory implements Factory{
         List<String> origins = new ArrayList<>();
         switch (productName) {
             case "BEEF", "MILK":
-                return ProductsCatalogue.COW.name();
+                origins.add(ProductsCatalogue.COW.name());
+                break;
             case "CHICKEN_MEAT", "EGG", "FEATHER":
-                return ProductsCatalogue.CHICKEN.name();
+                origins.add(ProductsCatalogue.CHICKEN.name());
+                break;
             case "FISH_FILET":
-                return ProductsCatalogue.FISH.name();
+                origins.add(ProductsCatalogue.FISH.name());
+                break;
             case "LAMB", "WOOL":
-                return ProductsCatalogue.SHEEP.name();
+                origins.add(ProductsCatalogue.SHEEP.name());
+                break;
             default:
                 return null;
         }

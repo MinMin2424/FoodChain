@@ -1,15 +1,6 @@
 package cz.cvut.fel.omo.semestralka;
 
-import cz.cvut.fel.omo.semestralka.model.Address;
-import cz.cvut.fel.omo.semestralka.model.Product;
-import cz.cvut.fel.omo.semestralka.model.enums.Place;
-import cz.cvut.fel.omo.semestralka.model.enums.ProductsCatalogue;
-import cz.cvut.fel.omo.semestralka.model.factory.FarmerFactory;
-import cz.cvut.fel.omo.semestralka.model.roles.Farmer;
-
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Start {
 

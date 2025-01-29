@@ -7,12 +7,16 @@ import lombok.Getter;
 @Getter
 public enum Place {
 
+    MUSHROOM_LAND,
     FARM,
     FIELD,
+    WAREHOUSE,
+    NULL,
     LAKE,
     ORCHARD,
+    VAN,
     SHOP,
-    FACTORY;
+    MANUFACTORY;
 
 }
 

@@ -5,11 +5,14 @@ import lombok.Getter;
 
 @Getter
 public enum OperationType {
-    CREATE,
-    STORE,
-    SELL,
-    TRANSPORT,
-    REMOVE,
-    RETURN,
-    PURCHASE;
+    CREATE(0),
+    STORE(0),
+    SELL(0),
+    TRANSPORT(100),
+    REMOVE(0),
+    RETURN(0),
+    PURCHASE(0);
+
+    private final double price;
+
 }

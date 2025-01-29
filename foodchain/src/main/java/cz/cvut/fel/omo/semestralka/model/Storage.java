@@ -1,29 +1,61 @@
 package cz.cvut.fel.omo.semestralka.model;
 
+import cz.cvut.fel.omo.semestralka.model.enums.OperationType;
+import cz.cvut.fel.omo.semestralka.model.enums.Place;
 import cz.cvut.fel.omo.semestralka.model.enums.ProductsCatalogue;
+import cz.cvut.fel.omo.semestralka.model.transaction.Transaction;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
-public class Warehouse {
+public class Storage {
 
     private int temperature;
     private List<Product> productList;
 
-    public Warehouse(int temperature) {
+    public Storage(int temperature) {
         this.temperature = temperature;
         this.productList = new ArrayList<>();
+    }
+
+    public void addProductToStorage(Product product, Place movedFrom, Place movedTo) {
+        addProduct(product);
+        Transaction transaction = new Transaction(
+                product,
+                movedFrom,
+                movedTo,
+                OperationType.STORE,
+                LocalDate.now(),
+                0,
+                product.getLastTransaction()
+        );
+        product.addTransaction(transaction);
+    }
+
+    public void removeProductFromStorage(Product product, Place movedFrom, Place movedTo, int removeQuantity) {
+        removeProduct(product, removeQuantity);
+        Transaction transaction = new Transaction(
+                product,
+                movedFrom,
+                movedTo,
+                OperationType.REMOVE,
+                LocalDate.now(),
+                0,
+                product.getLastTransaction()
+        );
+        product.addTransaction(transaction);
     }
 
     /**
      * Adds product to the warehouse
      * @param product product to be added
      */
-    public void addProduct(Product product) {
+    private void addProduct(Product product) {
         if (product == null) {
             return;
         }
@@ -60,7 +92,7 @@ public class Warehouse {
      * @param product product to be removed
      * @param removeQuantity amount of the product to be removed
      */
-    public void removeProduct(Product product, int removeQuantity) {
+    private void removeProduct(Product product, int removeQuantity) {
         if (product == null) {
             return;
         }
