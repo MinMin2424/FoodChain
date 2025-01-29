@@ -74,6 +74,7 @@ public class Warehouse {
                     productList.remove(i);
                 } else {
                     System.out.println("Not enough product to remove");
+                    return;
                 }
                 break;
             }
@@ -128,6 +129,14 @@ public class Warehouse {
         System.out.println(warehouseInventory);
     }
 
+    public Product getProductByName(String productName) {
+        for (Product product : productList) {
+            if (product.getName().equals(productName)) {
+                return product;
+            }
+        }
+        return null;
+    }
 
 }
 

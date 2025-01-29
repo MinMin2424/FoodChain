@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -13,6 +14,7 @@ public class Product {
     private String name;
     private int quantity;
     private LocalDate producedOnDate;
+    private List<Transaction> transactionHistory;
 
     public Product(String name, int quantity, LocalDate producedOnDate) {
         this.name = name;
@@ -34,6 +36,9 @@ public class Product {
         }
     }
 
+    public void addTransaction(Transaction transaction) {
+        transactionHistory.add(transaction);
+    }
 
 }
 

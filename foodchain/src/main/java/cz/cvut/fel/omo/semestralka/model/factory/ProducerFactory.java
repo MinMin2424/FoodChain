@@ -5,6 +5,8 @@ import cz.cvut.fel.omo.semestralka.model.enums.ProductsCatalogue;
 import cz.cvut.fel.omo.semestralka.model.roles.Producer;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProducerFactory implements Factory{
 
@@ -15,23 +17,28 @@ public class ProducerFactory implements Factory{
     }
 
     // function creates new product out of already existing product in farmers warehouse
-    @Override
     public Product createProduct(String productName) {
-        if (producer.getWarehouse().findProduct(getProductOrigin(productName))) {
-            Product newProduct = new Product(productName, 1, LocalDate.now());
-            producer.getWarehouse().addProduct(newProduct);
-            return newProduct;
+        List<String> origins = getProductOrigin(productName);
+        for (String origin : origins) {
+            boolean found = producer.getWarehouse().findProduct(origin);
+            if (!found) {
+                return null;
+            }
         }
-        return null;
+        for (String origin : origins) {
+            Product productOrigin = producer.getWarehouse().getProductByName(origin);
+            producer.getWarehouse().removeProduct(productOrigin, 1);
+        }
+        return new Product(productName, 1, LocalDate.now());
     }
 
-    @Override
-    public String getProductOrigin(String productName) {
+    public List<String> getProductOrigin(String productName) {
+        List<String> origins = new ArrayList<>();
         switch (productName){
             case "FLOUR":
-                return ProductsCatalogue.WHEAT.name();
-            case "YOGHURT", "HEAVY?CREAM", "CHEESE":
-                return ProductsCatalogue.MILK.name();
+                origins.add(ProductsCatalogue.WHEAT.name());
+            case "YOGHURT", "HEAVY_CREAM", "CHEESE":
+                ProductsCatalogue.FLOUR.name() + " " + ProductsCatalogue.EGG.name() + " " + ProductsCatalogue.APPLE.name();
             case "PIE":
                 return ProductsCatalogue.FLOUR.name() + " " + ProductsCatalogue.EGG.name() + " " + ProductsCatalogue.APPLE.name();
             case "CHEESE_CAKE":
@@ -50,6 +57,7 @@ public class ProducerFactory implements Factory{
                 return ProductsCatalogue.FLOUR.name() + " " + ProductsCatalogue.EGG.name() + " " + ProductsCatalogue.MILK.name();
             default: return null;
         }
+        return origins;
     }
 }
 

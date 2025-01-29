@@ -2,7 +2,6 @@ package cz.cvut.fel.omo.semestralka.model.factory;
 import cz.cvut.fel.omo.semestralka.model.Product;
 
 public interface Factory {
-    Product createProduct(String productName);
-    String getProductOrigin(String productName);
+    void executeOperation(String productName, OperationType type);
 }
 

@@ -10,10 +10,9 @@ import lombok.Setter;
 import java.util.List;
 
 @Getter
-@Setter
 public class Producer extends Person {
 
-    private Warehouse warehouse;
+    private final Warehouse warehouse;
     private final int WAREHOUSE_TEMPERATURE = 5;
 
     public Producer(String name, String phoneNumber, int wallet, List<Place> workplaces, Address workAddress) {
