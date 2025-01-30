@@ -6,7 +6,9 @@ import cz.cvut.fel.omo.semestralka.model.Storage;
 import cz.cvut.fel.omo.semestralka.enums.OperationType;
 import cz.cvut.fel.omo.semestralka.enums.Place;
 import cz.cvut.fel.omo.semestralka.model.roles.Distributor;
+import cz.cvut.fel.omo.semestralka.transaction.MoneyTransaction;
 import cz.cvut.fel.omo.semestralka.transaction.Transaction;
+import cz.cvut.fel.omo.semestralka.transaction.Transaction_Report;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -39,7 +41,7 @@ public abstract class AbstractFactory {
         storeProduct(newProduct);
     }
 
-    public Product sellProduct(Product product) {
+    public final Product sellProduct(Product product) {
         if (!canSellProduct()) {
             throw new UnsupportedOperationException("Cannot sell product " + product.getName());
         }
@@ -47,7 +49,7 @@ public abstract class AbstractFactory {
             throw new IllegalArgumentException("Product " + product.getName() + " not found. Cannot create product " + product.getName());
         }
         getStorage().removeProductFromStorage(product, getPerson(), Place.WAREHOUSE, Place.ON_SALE);
-        createNewTransaction(product, OperationType.SELL, getPriceByName(product.getName()));
+        createNewTransaction(product, getPriceByName(product.getName()));
         return product;
     }
 
@@ -85,6 +87,7 @@ public abstract class AbstractFactory {
         createNewTransaction(product, salesman, getPriceByName(product.getName()));
         transportProduct(product, distributor, salesman);
         storeProduct(product);
+        createMoneyTransaction(product, salesman, getPriceByName(product.getName()));
     }
 
     protected boolean canCreateProduct() {
@@ -107,21 +110,23 @@ public abstract class AbstractFactory {
     protected abstract Storage getStorage();
     protected abstract List<String> getProductOrigin(String productName);
 
-    protected void createNewTransaction(Product product, Person person) {
-        Transaction transaction = new Transaction(
+    protected final void createMoneyTransaction(Product product, Person personFrom, double price) {
+        MoneyTransaction transaction = new MoneyTransaction(
                 product,
-                person,
-                Place.VAN,
-                Place.WAREHOUSE,
-                OperationType.TRANSPORT,
+                price,
+                personFrom,
+                getPerson(),
+                OperationType.PURCHASE,
                 LocalDate.now(),
-                OperationType.TRANSPORT.getPrice(),
-                product.getLastTransaction()
+                personFrom.getWallet() - price,
+                getPerson().getWallet() + price,
+                personFrom.getWallet(),
+                getPerson().getWallet()
         );
-        product.addTransaction(transaction);
+        Transaction_Report.transactionHistory.add(transaction);
     }
 
-    protected void createNewTransaction(Product product, Place movedFrom, Place moveTo) {
+    protected final void createNewTransaction(Product product, Place movedFrom, Place moveTo) {
         Transaction transaction = new Transaction(
                 product,
                 getPerson(),
@@ -135,11 +140,11 @@ public abstract class AbstractFactory {
         product.addTransaction(transaction);
     }
 
-    protected void createNewTransaction(Product product, OperationType operationType, double price) {
+    protected final void createNewTransaction(Product product, double price) {
         Transaction transaction = new Transaction(
                 product,
                 getPerson(),
-                operationType,
+                OperationType.SELL,
                 LocalDate.now(),
                 price,
                 product.getLastTransaction()
@@ -147,7 +152,7 @@ public abstract class AbstractFactory {
         product.addTransaction(transaction);
     }
 
-    protected void createNewTransaction(Product product, Person personFrom, double price) {
+    protected final void createNewTransaction(Product product, Person personFrom, double price) {
         Transaction transaction = new Transaction(
                 product,
                 personFrom,
@@ -160,7 +165,7 @@ public abstract class AbstractFactory {
         product.addTransaction(transaction);
     }
 
-    protected void createNewTransaction(Product product, Person personFrom, Person personTo) {
+    protected final void createNewTransaction(Product product, Person personFrom, Person personTo) {
         Transaction transaction = new Transaction(
                 product,
                 personFrom,
@@ -173,7 +178,7 @@ public abstract class AbstractFactory {
         product.addTransaction(transaction);
     }
 
-    protected void createNewTransaction(Product product) {
+    protected final void createNewTransaction(Product product) {
         Transaction transaction = new Transaction(
                 product,
                 getPerson(),

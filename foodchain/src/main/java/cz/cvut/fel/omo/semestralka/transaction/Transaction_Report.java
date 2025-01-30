@@ -10,29 +10,26 @@ import java.util.List;
 @Setter
 public class Transaction_Report {
 
-    private static List<Transaction> transactionHistory;
+    public static List<MoneyTransaction> transactionHistory = new ArrayList<>();
 
-    public Transaction_Report() {
-        transactionHistory = new ArrayList<Transaction>();
-    }
-
-    public void generateTransactionReport() {
+    public static void generateTransactionReport() {
         if (transactionHistory == null || transactionHistory.isEmpty()) {
             throw new IllegalArgumentException("Transaction history is empty");
         }
 
-        for (Transaction transaction : transactionHistory) {
+        for (MoneyTransaction transaction : transactionHistory) {
             System.out.println("Transaction Report for Product: " + transaction.getProduct().getName());
+            System.out.println("Product's price: " + transaction.getProductPrice());
             System.out.println("Transaction Type: " + transaction.getOperationType());
-            System.out.println("Person from: " + transaction.getPersonFrom());
-            System.out.println("Person to: " + transaction.getPersonTo());
+            System.out.println("Person from: " + transaction.getPersonFrom().getName());
+            System.out.println("Person to: " + transaction.getPersonTo().getName());
             System.out.println("Before Transaction:");
-            System.out.println("Person from - Money: " + (transaction.getPersonFrom().getWallet() - transaction.getPrice()));
-            System.out.println("Person to - Money: " + (transaction.getPersonTo().getWallet() + transaction.getPrice()));
+            System.out.println("Person from - Money: " + transaction.getWallet_PersonFrom_BeforeTransaction());
+            System.out.println("Person to - Money: " + transaction.getWallet_PersonTo_BeforeTransaction());
             System.out.println("After Transaction:");
-            System.out.println("Person from - Money: " + transaction.getPersonFrom().getWallet());
-            System.out.println("Person to - Money: " + transaction.getPersonTo().getWallet());
-            System.out.println("----------------------------------------------------------------");
+            System.out.println("Person from - Money: " + transaction.getWallet_PersonFrom_AfterTransaction());
+            System.out.println("Person to - Money: " + transaction.getWallet_PersonTo_AfterTransaction());
+            System.out.println("-----------------------------------");
         }
     }
 }

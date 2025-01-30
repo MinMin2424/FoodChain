@@ -10,6 +10,7 @@ import cz.cvut.fel.omo.semestralka.newFactory.DistributorFactory;
 import cz.cvut.fel.omo.semestralka.newFactory.FarmerFactory;
 import cz.cvut.fel.omo.semestralka.model.roles.Farmer;
 import cz.cvut.fel.omo.semestralka.newFactory.ProducerFactory;
+import cz.cvut.fel.omo.semestralka.transaction.Transaction_Report;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class Start {
         List<Place> places = new ArrayList<>();
         places.add(Place.FARM);
         Address address = new Address("Dejvicka", "Prague", "169 00", "Czech");
-        Farmer farmer_VERCA = new Farmer("Verca", "123456789", 100_000_000, places, address);
+        Farmer farmer_VERCA = new Farmer("Verca", "123456789", 500_000, places, address);
         FarmerFactory farmerFactory_VERCA = new FarmerFactory(farmer_VERCA);
 
         // CREATE NEW PRODUCTS AND ADD IN FARMER STORAGE
@@ -51,7 +52,7 @@ public class Start {
         // CREATE NEW PRODUCER
         List<Place> places1 = new ArrayList<>();
         places1.add(Place.MANUFACTORY);
-        Producer producer_MINA  = new Producer("Mina", "123456789", 500_000, places1, address);
+        Producer producer_MINA  = new Producer("Mina", "123456789", 10_000, places1, address);
         ProducerFactory producerFactory_MINA = new ProducerFactory(producer_MINA);
 
         // FARMER SELLS SOME PRODUCTS
@@ -61,7 +62,7 @@ public class Start {
         // CREATE NEW DISTRIBUTOR
         List<Place> places2 = new ArrayList<>();
         places1.add(Place.MANUFACTORY);
-        Distributor distributor_TOM  = new Distributor("Tom", "123456789", 500_000, places2, address);
+        Distributor distributor_TOM  = new Distributor("Tom", "123456789", 0, places2, address);
 
         // PRODUCER BUYS PRODUCTS
         producerFactory_MINA.purchaseProduct(MILK_SELL, distributor_TOM, farmer_VERCA);
@@ -76,6 +77,12 @@ public class Start {
 //        MILK_SELL.generateFoodChainReport();
         BEEF_SELL.generateFoodChainReport();
         BEEF_SELL.generatePartiesReport();
+
+//        System.out.println("Farmer's wallet: " + farmer_VERCA.getWallet());
+//        System.out.println("Producer's wallet: " + producer_MINA.getWallet());
+//        System.out.println("Distributor's wallet: " + distributor_TOM.getWallet());
+
+        Transaction_Report.generateTransactionReport();
 
     }
 }
