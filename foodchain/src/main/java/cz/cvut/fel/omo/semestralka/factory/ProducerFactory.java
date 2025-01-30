@@ -11,6 +11,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static cz.cvut.fel.omo.semestralka.enums.OperationType.*;
+import static cz.cvut.fel.omo.semestralka.enums.Place.*;
 import static cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue.getPriceByName;
 
 public class ProducerFactory implements Factory {
@@ -58,9 +60,9 @@ public class ProducerFactory implements Factory {
         }
         for (String origin : origins) {
             Product productOrigin = producer.getStorage().getProductByName(origin);
-            producer.getStorage().removeProductFromStorage(productOrigin, producer, WAREHOUSE, MANUFACTORY, 1);
+            producer.getStorage().removeProductFromStorage(productOrigin, producer, WAREHOUSE, MANUFACTORY);
         }
-        Product newProduct = new Product(productName, 1, LocalDate.now());
+        Product newProduct = new Product(productName, LocalDate.now());
         Transaction transaction = new Transaction(newProduct, producer, MUSHROOM_LAND, MUSHROOM_LAND, CREATE, LocalDate.now(), CREATE.getPrice(), null);
         producer.getStorage().addProductToStorage(newProduct, producer, MANUFACTORY, WAREHOUSE);
     }
@@ -85,8 +87,8 @@ public class ProducerFactory implements Factory {
         if (product == null) {
             return;
         }
-        producer.getStorage().removeProductFromStorage(product, producer, WAREHOUSE, VAN, sellQuantity);
-        Transaction sellTransaction = new Transaction(product, producer, PLACE_OF_SOLD, PLACE_OF_SOLD, SELL, LocalDate.now(), getPriceByName(productName), product.getLastTransaction());
+        producer.getStorage().removeProductFromStorage(product, producer, WAREHOUSE, VAN);
+        Transaction sellTransaction = new Transaction(product, producer, ON_SALE, ON_SALE, SELL, LocalDate.now(), getPriceByName(productName), product.getLastTransaction());
         product.addTransaction(sellTransaction);
         Transaction transportTransaction = new Transaction(product, producer, VAN, WAREHOUSE, TRANSPORT, LocalDate.now(), TRANSPORT.getPrice(), product.getLastTransaction());
         product.addTransaction(transportTransaction);
@@ -97,7 +99,7 @@ public class ProducerFactory implements Factory {
         if (product == null) {
             return;
         }
-        producer.getStorage().removeProductFromStorage(product, producer, WAREHOUSE, VAN, product.getQuantity());
+        producer.getStorage().removeProductFromStorage(product, producer, WAREHOUSE, VAN);
 //        Transaction returnTransaction = new Transaction(product, , , RETURN, LocalDate.now(), 0, product.getLastTransaction());
 //        product.addTransaction(returnTransaction);
         Transaction transportTransaction = new Transaction(product, producer, VAN, WAREHOUSE, TRANSPORT, LocalDate.now(), TRANSPORT.getPrice(), product.getLastTransaction());

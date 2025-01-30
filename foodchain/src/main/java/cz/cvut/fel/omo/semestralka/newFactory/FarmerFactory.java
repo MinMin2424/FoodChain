@@ -34,11 +34,6 @@ public class FarmerFactory extends AbstractFactory{
     }
 
     @Override
-    protected boolean canTransportProduct() {
-        return false;
-    }
-
-    @Override
     protected boolean canReturnProduct() {
         return false;
     }

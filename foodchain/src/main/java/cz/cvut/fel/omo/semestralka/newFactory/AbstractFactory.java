@@ -5,6 +5,7 @@ import cz.cvut.fel.omo.semestralka.model.Product;
 import cz.cvut.fel.omo.semestralka.model.Storage;
 import cz.cvut.fel.omo.semestralka.enums.OperationType;
 import cz.cvut.fel.omo.semestralka.enums.Place;
+import cz.cvut.fel.omo.semestralka.model.roles.Distributor;
 import cz.cvut.fel.omo.semestralka.transaction.Transaction;
 
 import java.time.LocalDate;
@@ -31,38 +32,35 @@ public abstract class AbstractFactory {
         }
         for (String origin : origins) {
             Product productOrigin = getStorage().getProductByName(origin);
-            getStorage().removeProductFromStorage(productOrigin, getPerson(), Place.WAREHOUSE, Place.MANUFACTORY, 1);
+            getStorage().removeProductFromStorage(productOrigin, getPerson(), Place.WAREHOUSE, Place.MANUFACTORY);
         }
-        Product newProduct = new Product(productName, 1, LocalDate.now());
+        Product newProduct = new Product(productName, LocalDate.now());
         createNewTransaction(newProduct);
         storeProduct(newProduct);
     }
 
-    public Product sellProduct(String productName, int sellQuantity) {
+    public Product sellProduct(Product product) {
         if (!canSellProduct()) {
-            throw new UnsupportedOperationException("Cannot sell product " + productName);
+            throw new UnsupportedOperationException("Cannot sell product " + product.getName());
         }
-        Product product = getStorage().getProductByName(productName);
         if (product == null) {
-            throw new IllegalArgumentException("Product " + productName + " not found. Cannot create product " + productName);
+            throw new IllegalArgumentException("Product " + product.getName() + " not found. Cannot create product " + product.getName());
         }
-        getStorage().removeProductFromStorage(product, getPerson(), Place.WAREHOUSE, Place.VAN, sellQuantity);
-        createNewTransaction(product, OperationType.SELL, getPriceByName(productName));
-        //TODO
-        createNewTransaction(product, Place.VAN, Place.WAREHOUSE, OperationType.TRANSPORT, OperationType.TRANSPORT.getPrice());
-        // Není lepší mi TransportTransaction až v metodě purchaseProduct???
+        getStorage().removeProductFromStorage(product, getPerson(), Place.WAREHOUSE, Place.ON_SALE);
+        createNewTransaction(product, OperationType.SELL, getPriceByName(product.getName()));
         return product;
     }
 
-    public void transportProduct(Product product) {
-        //TODO
-        if (!canTransportProduct()) {
+    public void transportProduct(Product product, Person distributor, Person salesman) {
+        if (distributor instanceof Distributor) {
+            distributor.setWallet(distributor.getWallet() + OperationType.TRANSPORT.getPrice());
+            createNewTransaction(product, salesman, distributor);
+        } else {
             throw new UnsupportedOperationException("Cannot transport product " + product.getName());
         }
-
     }
 
-    public void returnProduct(String productName, int returnQuantity) {
+    public void returnProduct(String productName, Person distributor, Person salesman) {
         if (!canReturnProduct()) {
             throw new UnsupportedOperationException("Cannot return product " + productName);
         }
@@ -72,7 +70,7 @@ public abstract class AbstractFactory {
         }
     }
 
-    public void purchaseProduct(Product product) {
+    public void purchaseProduct(Product product, Person distributor, Person salesman) {
         if (!canPurchaseProduct()) {
             throw new UnsupportedOperationException("Cannot purchase product " + product.getName());
         }
@@ -82,8 +80,10 @@ public abstract class AbstractFactory {
         if (!checkWallet(getPriceByName(product.getName()))) {
             throw new IllegalArgumentException("Wallet has not enough money to purchase product.");
         }
+        salesman.setWallet(salesman.getWallet() + getPriceByName(product.getName()));
         getPerson().setWallet(getPerson().getWallet() - getPriceByName(product.getName()));
-        createNewTransaction(product, OperationType.PURCHASE, getPriceByName(product.getName()));
+        createNewTransaction(product, salesman, getPriceByName(product.getName()));
+        transportProduct(product, distributor, salesman);
         storeProduct(product);
     }
 
@@ -92,10 +92,6 @@ public abstract class AbstractFactory {
     }
 
     protected boolean canSellProduct() {
-        return true;
-    }
-
-    protected boolean canTransportProduct() {
         return true;
     }
 
@@ -111,15 +107,29 @@ public abstract class AbstractFactory {
     protected abstract Storage getStorage();
     protected abstract List<String> getProductOrigin(String productName);
 
-    protected void createNewTransaction(Product product, Place movedFrom, Place moveTo, OperationType operationType, double price) {
+    protected void createNewTransaction(Product product, Person person) {
+        Transaction transaction = new Transaction(
+                product,
+                person,
+                Place.VAN,
+                Place.WAREHOUSE,
+                OperationType.TRANSPORT,
+                LocalDate.now(),
+                OperationType.TRANSPORT.getPrice(),
+                product.getLastTransaction()
+        );
+        product.addTransaction(transaction);
+    }
+
+    protected void createNewTransaction(Product product, Place movedFrom, Place moveTo) {
         Transaction transaction = new Transaction(
                 product,
                 getPerson(),
                 movedFrom,
                 moveTo,
-                operationType,
+                OperationType.RETURN,
                 LocalDate.now(),
-                price,
+                0,
                 product.getLastTransaction()
         );
         product.addTransaction(transaction);
@@ -132,6 +142,32 @@ public abstract class AbstractFactory {
                 operationType,
                 LocalDate.now(),
                 price,
+                product.getLastTransaction()
+        );
+        product.addTransaction(transaction);
+    }
+
+    protected void createNewTransaction(Product product, Person personFrom, double price) {
+        Transaction transaction = new Transaction(
+                product,
+                personFrom,
+                getPerson(),
+                OperationType.PURCHASE,
+                LocalDate.now(),
+                price,
+                product.getLastTransaction()
+        );
+        product.addTransaction(transaction);
+    }
+
+    protected void createNewTransaction(Product product, Person personFrom, Person personTo) {
+        Transaction transaction = new Transaction(
+                product,
+                personFrom,
+                personTo,
+                OperationType.TRANSPORT,
+                LocalDate.now(),
+                OperationType.TRANSPORT.getPrice(),
                 product.getLastTransaction()
         );
         product.addTransaction(transaction);

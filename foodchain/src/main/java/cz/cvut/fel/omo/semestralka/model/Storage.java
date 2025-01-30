@@ -38,8 +38,8 @@ public class Storage {
         product.addTransaction(transaction);
     }
 
-    public void removeProductFromStorage(Product product, Person person, Place movedFrom, Place movedTo, int removeQuantity) {
-        removeProduct(product, removeQuantity);
+    public void removeProductFromStorage(Product product, Person person, Place movedFrom, Place movedTo) {
+        removeProduct(product);
         Transaction transaction = new Transaction(
                 product,
                 person,
@@ -59,55 +59,55 @@ public class Storage {
      */
     private void addProduct(Product product) {
         if (product == null) {
-            return;
+            throw new IllegalArgumentException("Product cannot be null");
         }
 
-        boolean found = false;
-        for (Product p : productList) {
-            if (p.getName().equals(product.getName())) {
+//        for (Product p : productList) {
+//            if (p.getName().equals(product.getName())) {
+//
+//                if (checkTemperature(ProductsCatalogue.getTemperatureByName(product.getName()), getTemperature())) {
+//                    p.setQuantity(p.getQuantity() + product.getQuantity());
+//                    found = true;
+//                    System.out.println("ALREADY EXISTING PRODUCT: " + product.getName() + " has been added to the list");
+//                } else {
+//                    System.out.println("NOPE");
+//                    throw new IllegalArgumentException("Product cannot be added to the list because of temperature.");
+//                }
+//                break;
+//            }
+//        }
 
-                if (checkTemperature(ProductsCatalogue.getTemperatureByName(product.getName()), getTemperature())) {
-                    p.setQuantity(p.getQuantity() + product.getQuantity());
-                    found = true;
-                    System.out.println("ALREADY EXISTING PRODUCT: " + product.getName() + " has been added to the list");
-                } else {
-                    System.out.println("NOPE");
-                    return;
-                }
-                break;
-            }
-        }
-        if (!found) {
-            if (checkTemperature(ProductsCatalogue.getTemperatureByName(product.getName()), getTemperature())) {
-                productList.add(product);
-                System.out.println("NEW PRODUCT " + product.getName() + " has been added to the list");
-            } else {
-                System.out.println("NOPE");
-            }
+        if (checkTemperature(ProductsCatalogue.getTemperatureByName(product.getName()), getTemperature())) {
+            productList.add(product);
+            System.out.println("NEW PRODUCT " + product.getName() + " has been added to the list");
+        } else {
+            System.out.println("NOPE");
+            throw new IllegalArgumentException("Product cannot be added to the list because of temperature.");
         }
     }
 
     /**
      * Removes product from the warehouse
      * @param product product to be removed
-     * @param removeQuantity amount of the product to be removed
      */
-    private void removeProduct(Product product, int removeQuantity) {
+    private void removeProduct(Product product) {
         if (product == null) {
-            return;
+            throw new IllegalArgumentException("Product cannot be null");
         }
-
         for (int i = 0; i < productList.size(); i++) {
             Product currentProduct = productList.get(i);
             if (currentProduct.getName().equals(product.getName())) {
-                if (currentProduct.getQuantity() > removeQuantity) {
-                    currentProduct.setQuantity(currentProduct.getQuantity() - removeQuantity);
-                } else if (currentProduct.getQuantity() == removeQuantity) {
-                    productList.remove(i);
-                } else {
-                    System.out.println("Not enough product to remove");
-                    return;
-                }
+//                    if (currentProduct.getQuantity() > count) {
+//                        currentProduct.setQuantity(currentProduct.getQuantity() - count);
+//                        count = 0;
+//                    } else if (currentProduct.getQuantity() == count) {
+//                        productList.remove(i);
+//                        count = 0;
+//                    } else {
+//                        count -= currentProduct.getQuantity();
+//                        productList.remove(i);
+//                    }
+                productList.remove(i);
                 break;
             }
         }
@@ -129,10 +129,24 @@ public class Storage {
      * @return whether is the product in the warehouse
      */
     public boolean findProduct(String productName) {
+        boolean found = false;
         for (Product product : productList) {
-            return product.getName().equals(productName);
+            if (product.getName().equals(productName)) {
+                found = true;
+                break;
+            }
         }
-        return false;
+        return found;
+    }
+
+    public List<Product> getAllProducts(String productName) {
+        List<Product> products = new ArrayList<>();
+        for (Product product : productList) {
+            if (product.getName().equals(productName)) {
+                products.add(product);
+            }
+        }
+        return products;
     }
 
     /**
@@ -142,8 +156,7 @@ public class Storage {
     public int countFullness() {
         int fullness = 0;
         for (Product product : productList) {
-//            fullness += 1;
-            fullness += product.getQuantity();
+            fullness += 1;
         }
         return fullness;
     }
@@ -155,7 +168,7 @@ public class Storage {
         StringBuilder warehouseInventory = new StringBuilder();
         warehouseInventory.append("This storage contains: \n");
         for (Product product : productList) {
-            warehouseInventory.append(product.getName()).append(": ").append(product.getQuantity()).append("\n");
+            warehouseInventory.append(product.getName()).append("\n");
 
         }
         System.out.println(warehouseInventory);

@@ -1,5 +1,6 @@
 package cz.cvut.fel.omo.semestralka.factory;
 
+import cz.cvut.fel.omo.semestralka.enums.Place;
 import cz.cvut.fel.omo.semestralka.model.Product;
 import cz.cvut.fel.omo.semestralka.enums.OperationType;
 import cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue;
@@ -10,6 +11,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static cz.cvut.fel.omo.semestralka.enums.OperationType.*;
+import static cz.cvut.fel.omo.semestralka.enums.Place.*;
 import static cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue.getPriceByName;
 
 public class FarmerFactory implements Factory {
@@ -29,7 +32,7 @@ public class FarmerFactory implements Factory {
     @Override
     public void executeOperation(String productName, int sellQuantity, OperationType operationType) {
         switch (operationType) {
-            case OperationType.CREATE:
+            case CREATE:
                 createProduct(productName);
                 break;
             case STORE:
@@ -61,9 +64,9 @@ public class FarmerFactory implements Factory {
         }
         for (String origin : origins) {
             Product productOrigin = farmer.getStorage().getProductByName(origin);
-            farmer.getStorage().removeProductFromStorage(productOrigin, farmer, WAREHOUSE, MANUFACTORY, 1);
+            farmer.getStorage().removeProductFromStorage(productOrigin, farmer, WAREHOUSE, MANUFACTORY);
         }
-        Product newProduct = new Product(productName, 1, LocalDate.now());
+        Product newProduct = new Product(productName, LocalDate.now());
         Transaction transaction = new Transaction(newProduct, farmer,MUSHROOM_LAND, MUSHROOM_LAND, CREATE, LocalDate.now(), 0, null);
         farmer.getStorage().addProductToStorage(newProduct, farmer, MANUFACTORY, WAREHOUSE);
     }
@@ -88,8 +91,8 @@ public class FarmerFactory implements Factory {
         if (product == null) {
             return;
         }
-        farmer.getStorage().removeProductFromStorage(product, farmer, WAREHOUSE, VAN, sellQuantity);
-        Transaction sellTransaction = new Transaction(product, farmer,PLACE_OF_SOLD, PLACE_OF_SOLD, SELL, LocalDate.now(), getPriceByName(productName), product.getLastTransaction());
+        farmer.getStorage().removeProductFromStorage(product, farmer, WAREHOUSE, VAN);
+        Transaction sellTransaction = new Transaction(product, farmer, ON_SALE, ON_SALE, SELL, LocalDate.now(), getPriceByName(productName), product.getLastTransaction());
         product.addTransaction(sellTransaction);
         Transaction transportTransaction = new Transaction(product, farmer,VAN, WAREHOUSE, TRANSPORT, LocalDate.now(), TRANSPORT.getPrice(), product.getLastTransaction());
         product.addTransaction(transportTransaction);

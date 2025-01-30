@@ -9,6 +9,8 @@ import cz.cvut.fel.omo.semestralka.model.roles.Customer;
 
 import java.util.List;
 
+import static cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue.getPriceByName;
+
 public class CustomerFactory extends AbstractFactory {
 
     private final Customer customer;
@@ -28,11 +30,6 @@ public class CustomerFactory extends AbstractFactory {
     }
 
     @Override
-    protected boolean canTransportProduct() {
-        return false;
-    }
-
-    @Override
     protected boolean canCreateProduct() {
         return false;
     }
@@ -48,7 +45,7 @@ public class CustomerFactory extends AbstractFactory {
     }
 
     @Override
-    public void returnProduct(String productName, int returnQuantity) {
+    public void returnProduct(String productName, Person distributor, Person salesman) {
         if (!canReturnProduct()) {
             throw new UnsupportedOperationException("Cannot return product " + productName);
         }
@@ -56,7 +53,20 @@ public class CustomerFactory extends AbstractFactory {
         if (product == null) {
             throw new IllegalArgumentException("Product " + productName + " not found. Cannot return product " + productName);
         }
-        createNewTransaction(product, Place.BACKPACK, Place.SHOP, OperationType.RETURN, returnQuantity);
+        createNewTransaction(product, Place.BACKPACK, Place.SHOP);
+    }
+
+    @Override
+    public void purchaseProduct(Product product, Person distributor, Person salesman) {
+        if (product == null) {
+            throw new IllegalArgumentException("Product cannot be null.");
+        }
+        if (!checkWallet(getPriceByName(product.getName()))) {
+            throw new IllegalArgumentException("Wallet has not enough money to purchase product.");
+        }
+        getPerson().setWallet(getPerson().getWallet() - getPriceByName(product.getName()));
+        createNewTransaction(product, salesman, getPriceByName(product.getName()));
+        storeProduct(product);
     }
 
     @Override

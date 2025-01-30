@@ -23,12 +23,7 @@ public class ShopOwnerFactory extends AbstractFactory{
     }
 
     @Override
-    protected boolean canTransportProduct() {
-        return false;
-    }
-
-    @Override
-    public void returnProduct(String productName, int returnQuantity) {
+    public void returnProduct(String productName, Person distributor, Person salesman) {
         if (!canReturnProduct()) {
             throw new UnsupportedOperationException("Cannot return product " + productName);
         }
@@ -36,8 +31,8 @@ public class ShopOwnerFactory extends AbstractFactory{
         if (product == null) {
             throw new IllegalArgumentException("Product " + productName + " not found. Cannot return product " + productName);
         }
-        createNewTransaction(product, Place.SHOP, Place.VAN, OperationType.RETURN, returnQuantity);
-        createNewTransaction(product, Place.VAN, Place.WAREHOUSE_PRODUCER, OperationType.TRANSPORT, returnQuantity);
+        createNewTransaction(product, Place.SHOP, Place.VAN);
+        transportProduct(product, distributor, salesman);
     }
 
     @Override

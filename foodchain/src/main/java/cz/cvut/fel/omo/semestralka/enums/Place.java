@@ -14,7 +14,7 @@ public enum Place {
     WAREHOUSE,
     WAREHOUSE_FARMER,
     WAREHOUSE_PRODUCER,
-    PLACE_OF_SOLD,
+    ON_SALE,
     VAN,
     SHOP,
     MANUFACTORY,
