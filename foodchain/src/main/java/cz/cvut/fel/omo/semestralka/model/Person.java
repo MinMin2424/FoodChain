@@ -14,11 +14,10 @@ public abstract class Person {
 
     private String name;
     private String phoneNumber;
-    private int wallet;
+    private double wallet;
     private List<Place> workplaces;
     private Address workAddress;
 
     protected abstract Storage getStorage();
 
 }
-

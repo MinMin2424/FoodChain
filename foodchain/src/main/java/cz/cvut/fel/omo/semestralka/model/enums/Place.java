@@ -1,7 +1,9 @@
 package cz.cvut.fel.omo.semestralka.model.enums;
 
+import cz.cvut.fel.omo.semestralka.model.Address;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 @AllArgsConstructor
 @Getter
@@ -9,14 +11,13 @@ public enum Place {
 
     MUSHROOM_LAND,
     FARM,
-    FIELD,
     WAREHOUSE,
-    NULL,
-    LAKE,
-    ORCHARD,
+    WAREHOUSE_FARMER,
+    WAREHOUSE_PRODUCER,
+    PLACE_OF_SOLD,
     VAN,
     SHOP,
-    MANUFACTORY;
+    MANUFACTORY,
+    BACKPACK;
 
 }
-

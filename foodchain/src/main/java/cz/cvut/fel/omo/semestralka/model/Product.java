@@ -2,10 +2,13 @@ package cz.cvut.fel.omo.semestralka.model;
 
 import cz.cvut.fel.omo.semestralka.model.enums.ProductsCatalogue;
 import cz.cvut.fel.omo.semestralka.model.transaction.Transaction;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -21,6 +24,7 @@ public class Product {
         this.name = name;
         this.quantity = quantity;
         this.producedOnDate = producedOnDate;
+        this.transactionHistory = new ArrayList<>();
     }
 
     /**
@@ -56,6 +60,7 @@ public class Product {
 
         for (Transaction transaction : transactionHistory) {
             System.out.println("Product: " + name);
+            System.out.println("Person: " + transaction.getPersonFrom().getName());
             System.out.println("Transaction Type: " + transaction.getOperationType());
             System.out.println("Moved from: " + transaction.getMovedFrom());
             System.out.println("Moved to: " + transaction.getMovedTo());
@@ -65,6 +70,4 @@ public class Product {
         }
     }
 
-
 }
-

@@ -12,6 +12,7 @@ import java.util.List;
 
 import static cz.cvut.fel.omo.semestralka.model.enums.Place.*;
 import static cz.cvut.fel.omo.semestralka.model.enums.OperationType.*;
+import static cz.cvut.fel.omo.semestralka.model.enums.ProductsCatalogue.getPriceByName;
 
 public class FarmerFactory implements Factory {
 
@@ -21,24 +22,33 @@ public class FarmerFactory implements Factory {
         this.farmer = farmer;
     }
 
+    /**
+     * Executes specific function
+     * @param productName name of the product
+     * @param sellQuantity quantity of the product
+     * @param operationType name of the function to be executed
+     */
     @Override
     public void executeOperation(String productName, int sellQuantity, OperationType operationType) {
         switch (operationType) {
-            case CREATE:
+            case OperationType.CREATE:
                 createProduct(productName);
                 break;
             case STORE:
                 storeProduct(productName);
+                break;
             case SELL:
-                // TODO
+                sellProduct(productName, sellQuantity);
                 break;
         }
     }
 
+    //should not function also remove products used for creating the new product out of the warehouse?
+    //right now you can get infinetly meat from one cow
+    //on the other hand you can get infinite ammount of milk from one cow
     /**
      * Creates and adds new product out of already existing products in warehouse
      * @param productName name of the product
-     * @return Product
      */
     private void createProduct(String productName) {
         List<String> origins = getProductOrigin(productName);
@@ -53,17 +63,38 @@ public class FarmerFactory implements Factory {
         }
         for (String origin : origins) {
             Product productOrigin = farmer.getStorage().getProductByName(origin);
-            farmer.getStorage().removeProductFromStorage(productOrigin, WAREHOUSE, MANUFACTORY, 1);
+            farmer.getStorage().removeProductFromStorage(productOrigin, farmer, WAREHOUSE, MANUFACTORY, 1);
         }
         Product newProduct = new Product(productName, 1, LocalDate.now());
-        Transaction transaction = new Transaction(newProduct, MUSHROOM_LAND, MUSHROOM_LAND, CREATE, LocalDate.now(), 0, null);
-        farmer.getStorage().addProductToStorage(newProduct, MANUFACTORY, WAREHOUSE);
+        Transaction transaction = new Transaction(newProduct, farmer,MUSHROOM_LAND, MUSHROOM_LAND, CREATE, LocalDate.now(), 0, null);
+        farmer.getStorage().addProductToStorage(newProduct, farmer, MANUFACTORY, WAREHOUSE);
     }
 
+    /**
+     * Adds product to customers storage
+     * @param productName name of the product
+     */
     @Override
     public void storeProduct(String productName) {
         Product product = farmer.getStorage().getProductByName(productName);
-        farmer.getStorage().addProductToStorage(product, FARM, WAREHOUSE);
+        farmer.getStorage().addProductToStorage(product, farmer, MUSHROOM_LAND, FARM);
+    }
+
+    /**
+     * Subtracts quantity of said product from farmers storage and transfers it to van and then to warehouse
+     * @param productName name of the product
+     * @param sellQuantity quantity of the product to be sold
+     */
+    private void sellProduct(String productName, int sellQuantity) {
+        Product product = farmer.getStorage().getProductByName(productName);
+        if (product == null) {
+            return;
+        }
+        farmer.getStorage().removeProductFromStorage(product, farmer, WAREHOUSE, VAN, sellQuantity);
+        Transaction sellTransaction = new Transaction(product, farmer,PLACE_OF_SOLD, PLACE_OF_SOLD, SELL, LocalDate.now(), getPriceByName(productName), product.getLastTransaction());
+        product.addTransaction(sellTransaction);
+        Transaction transportTransaction = new Transaction(product, farmer,VAN, WAREHOUSE, TRANSPORT, LocalDate.now(), TRANSPORT.getPrice(), product.getLastTransaction());
+        product.addTransaction(transportTransaction);
     }
 
     /**
@@ -93,4 +124,3 @@ public class FarmerFactory implements Factory {
     }
 
 }
-

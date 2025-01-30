@@ -23,10 +23,11 @@ public class Storage {
         this.productList = new ArrayList<>();
     }
 
-    public void addProductToStorage(Product product, Place movedFrom, Place movedTo) {
+    public void addProductToStorage(Product product, Person person, Place movedFrom, Place movedTo) {
         addProduct(product);
         Transaction transaction = new Transaction(
                 product,
+                person,
                 movedFrom,
                 movedTo,
                 OperationType.STORE,
@@ -37,10 +38,11 @@ public class Storage {
         product.addTransaction(transaction);
     }
 
-    public void removeProductFromStorage(Product product, Place movedFrom, Place movedTo, int removeQuantity) {
+    public void removeProductFromStorage(Product product, Person person, Place movedFrom, Place movedTo, int removeQuantity) {
         removeProduct(product, removeQuantity);
         Transaction transaction = new Transaction(
                 product,
+                person,
                 movedFrom,
                 movedTo,
                 OperationType.REMOVE,
@@ -67,7 +69,7 @@ public class Storage {
                 if (checkTemperature(ProductsCatalogue.getTemperatureByName(product.getName()), getTemperature())) {
                     p.setQuantity(p.getQuantity() + product.getQuantity());
                     found = true;
-                    System.out.println("DONE");
+                    System.out.println("ALREADY EXISTING PRODUCT: " + product.getName() + " has been added to the list");
                 } else {
                     System.out.println("NOPE");
                     return;
@@ -76,15 +78,13 @@ public class Storage {
             }
         }
         if (!found) {
-            productList.add(product);
             if (checkTemperature(ProductsCatalogue.getTemperatureByName(product.getName()), getTemperature())) {
                 productList.add(product);
-                System.out.println("NEW PRODUCT");
+                System.out.println("NEW PRODUCT " + product.getName() + " has been added to the list");
             } else {
                 System.out.println("NOPE");
             }
         }
-
     }
 
     /**
@@ -151,9 +151,9 @@ public class Storage {
     /**
      * Writes out each product and its quantity in warehouse
      */
-    public void getWarehouseInventory(){
+    public void getStorageInventory(){
         StringBuilder warehouseInventory = new StringBuilder();
-        warehouseInventory.append("This warehouse contains: \n");
+        warehouseInventory.append("This storage contains: \n");
         for (Product product : productList) {
             warehouseInventory.append(product.getName()).append(": ").append(product.getQuantity()).append("\n");
 
@@ -171,4 +171,3 @@ public class Storage {
     }
 
 }
-
