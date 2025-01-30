@@ -1,14 +1,12 @@
 package cz.cvut.fel.omo.semestralka.model;
 
-import cz.cvut.fel.omo.semestralka.model.enums.ProductsCatalogue;
-import cz.cvut.fel.omo.semestralka.model.transaction.Transaction;
-import lombok.AllArgsConstructor;
+import cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue;
+import cz.cvut.fel.omo.semestralka.transaction.Transaction;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Getter

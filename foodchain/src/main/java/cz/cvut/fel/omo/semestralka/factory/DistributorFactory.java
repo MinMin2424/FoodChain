@@ -1,10 +1,8 @@
-package cz.cvut.fel.omo.semestralka.model.factory;
+package cz.cvut.fel.omo.semestralka.factory;
 
 import cz.cvut.fel.omo.semestralka.model.Product;
-import cz.cvut.fel.omo.semestralka.model.enums.OperationType;
+import cz.cvut.fel.omo.semestralka.enums.OperationType;
 import cz.cvut.fel.omo.semestralka.model.roles.Distributor;
-
-import static cz.cvut.fel.omo.semestralka.model.enums.Place.*;
 
 public class DistributorFactory implements Factory {
     private final Distributor distributor;

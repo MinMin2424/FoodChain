@@ -1,18 +1,16 @@
-package cz.cvut.fel.omo.semestralka.model.factory;
+package cz.cvut.fel.omo.semestralka.factory;
 
 import cz.cvut.fel.omo.semestralka.model.Product;
-import cz.cvut.fel.omo.semestralka.model.enums.OperationType;
-import cz.cvut.fel.omo.semestralka.model.enums.ProductsCatalogue;
+import cz.cvut.fel.omo.semestralka.enums.OperationType;
+import cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue;
 import cz.cvut.fel.omo.semestralka.model.roles.Farmer;
-import cz.cvut.fel.omo.semestralka.model.transaction.Transaction;
+import cz.cvut.fel.omo.semestralka.transaction.Transaction;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static cz.cvut.fel.omo.semestralka.model.enums.Place.*;
-import static cz.cvut.fel.omo.semestralka.model.enums.OperationType.*;
-import static cz.cvut.fel.omo.semestralka.model.enums.ProductsCatalogue.getPriceByName;
+import static cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue.getPriceByName;
 
 public class FarmerFactory implements Factory {
 

@@ -3,15 +3,13 @@ package cz.cvut.fel.omo.semestralka.newFactory;
 import cz.cvut.fel.omo.semestralka.model.Person;
 import cz.cvut.fel.omo.semestralka.model.Product;
 import cz.cvut.fel.omo.semestralka.model.Storage;
-import cz.cvut.fel.omo.semestralka.model.enums.OperationType;
-import cz.cvut.fel.omo.semestralka.model.enums.Place;
-import cz.cvut.fel.omo.semestralka.model.enums.ProductsCatalogue;
+import cz.cvut.fel.omo.semestralka.enums.OperationType;
+import cz.cvut.fel.omo.semestralka.enums.Place;
+import cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue;
 import cz.cvut.fel.omo.semestralka.model.roles.Producer;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static cz.cvut.fel.omo.semestralka.model.enums.ProductsCatalogue.getPriceByName;
 
 public class ProducerFactory extends AbstractFactory{
 

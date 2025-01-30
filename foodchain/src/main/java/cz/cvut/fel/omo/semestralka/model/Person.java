@@ -1,6 +1,6 @@
 package cz.cvut.fel.omo.semestralka.model;
 
-import cz.cvut.fel.omo.semestralka.model.enums.Place;
+import cz.cvut.fel.omo.semestralka.enums.Place;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,5 +1,5 @@
 
-package cz.cvut.fel.omo.semestralka.model.enums;
+package cz.cvut.fel.omo.semestralka.enums;
 
 import lombok.Getter;
 

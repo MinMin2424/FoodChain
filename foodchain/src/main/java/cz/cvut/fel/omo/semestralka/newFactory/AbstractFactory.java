@@ -3,13 +3,13 @@ package cz.cvut.fel.omo.semestralka.newFactory;
 import cz.cvut.fel.omo.semestralka.model.Person;
 import cz.cvut.fel.omo.semestralka.model.Product;
 import cz.cvut.fel.omo.semestralka.model.Storage;
-import cz.cvut.fel.omo.semestralka.model.enums.OperationType;
-import cz.cvut.fel.omo.semestralka.model.enums.Place;
-import cz.cvut.fel.omo.semestralka.model.transaction.Transaction;
+import cz.cvut.fel.omo.semestralka.enums.OperationType;
+import cz.cvut.fel.omo.semestralka.enums.Place;
+import cz.cvut.fel.omo.semestralka.transaction.Transaction;
 
 import java.time.LocalDate;
 import java.util.List;
-import static cz.cvut.fel.omo.semestralka.model.enums.ProductsCatalogue.getPriceByName;
+import static cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue.getPriceByName;
 
 public abstract class AbstractFactory {
 

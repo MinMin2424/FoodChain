@@ -1,10 +1,9 @@
-package cz.cvut.fel.omo.semestralka.model.transaction;
+package cz.cvut.fel.omo.semestralka.transaction;
 
 import cz.cvut.fel.omo.semestralka.model.Person;
 import cz.cvut.fel.omo.semestralka.model.Product;
-import cz.cvut.fel.omo.semestralka.model.enums.OperationType;
-import cz.cvut.fel.omo.semestralka.model.enums.Place;
-import lombok.AllArgsConstructor;
+import cz.cvut.fel.omo.semestralka.enums.OperationType;
+import cz.cvut.fel.omo.semestralka.enums.Place;
 import lombok.Getter;
 
 import java.time.LocalDate;

@@ -3,7 +3,7 @@ package cz.cvut.fel.omo.semestralka.model.roles;
 import cz.cvut.fel.omo.semestralka.model.Address;
 import cz.cvut.fel.omo.semestralka.model.Person;
 import cz.cvut.fel.omo.semestralka.model.Storage;
-import cz.cvut.fel.omo.semestralka.model.enums.Place;
+import cz.cvut.fel.omo.semestralka.enums.Place;
 import lombok.Getter;
 
 import java.util.List;

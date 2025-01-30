@@ -1,17 +1,16 @@
-package cz.cvut.fel.omo.semestralka.model.factory;
+package cz.cvut.fel.omo.semestralka.factory;
 
 import cz.cvut.fel.omo.semestralka.model.Product;
-import cz.cvut.fel.omo.semestralka.model.enums.OperationType;
+import cz.cvut.fel.omo.semestralka.enums.OperationType;
 import cz.cvut.fel.omo.semestralka.model.roles.ShopOwner;
-import cz.cvut.fel.omo.semestralka.model.transaction.Transaction;
+import cz.cvut.fel.omo.semestralka.transaction.Transaction;
 
 import java.time.LocalDate;
 
-import static cz.cvut.fel.omo.semestralka.model.enums.OperationType.SELL;
-import static cz.cvut.fel.omo.semestralka.model.enums.OperationType.TRANSPORT;
-import static cz.cvut.fel.omo.semestralka.model.enums.Place.*;
-import static cz.cvut.fel.omo.semestralka.model.enums.Place.WAREHOUSE;
-import static cz.cvut.fel.omo.semestralka.model.enums.ProductsCatalogue.getPriceByName;
+import static cz.cvut.fel.omo.semestralka.enums.OperationType.SELL;
+import static cz.cvut.fel.omo.semestralka.enums.OperationType.TRANSPORT;
+import static cz.cvut.fel.omo.semestralka.enums.Place.WAREHOUSE;
+import static cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue.getPriceByName;
 
 public class ShopOwnerFactory implements Factory{
     private final ShopOwner shopOwner;

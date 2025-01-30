@@ -1,6 +1,6 @@
-package cz.cvut.fel.omo.semestralka.model.factory;
+package cz.cvut.fel.omo.semestralka.factory;
 
-import cz.cvut.fel.omo.semestralka.model.enums.OperationType;
+import cz.cvut.fel.omo.semestralka.enums.OperationType;
 
 public interface Factory {
     void executeOperation(String productName, int sellQuantity, OperationType operationType);
