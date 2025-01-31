@@ -8,9 +8,9 @@ import java.util.List;
 
 public class WoolOriginStrategy implements ProductOriginStrategy {
     @Override
-    public List<String> getListProductOrigin() {
-        List<String> origins = new ArrayList<>();
-        origins.add(ProductsCatalogue.SHEEP.name());
+    public List<ProductsCatalogue> getListProductOrigin() {
+        List<ProductsCatalogue> origins = new ArrayList<>();
+        origins.add(ProductsCatalogue.SHEEP);
         return origins;
     }
 }

@@ -1,5 +1,8 @@
 package cz.cvut.fel.omo.semestralka;
 
+import cz.cvut.fel.omo.semestralka.decorator.BioProductDecorator;
+import cz.cvut.fel.omo.semestralka.decorator.DiscountedProductDecorator;
+import cz.cvut.fel.omo.semestralka.decorator.ProductDecorator;
 import cz.cvut.fel.omo.semestralka.factory.CustomerFactory;
 import cz.cvut.fel.omo.semestralka.factory.ShopOwnerFactory;
 import cz.cvut.fel.omo.semestralka.model.Address;
@@ -40,9 +43,9 @@ public class Start {
 
 
         // CREATE NEW PRODUCTS BY EXISTING PRODUCTS IN STORAGE
-        farmerFactory_VERCA.createProduct(ProductsCatalogue.MILK.name());
-        farmerFactory_VERCA.createProduct(ProductsCatalogue.BEEF.name());
-        farmerFactory_VERCA.createProduct(ProductsCatalogue.EGG.name());
+        farmerFactory_VERCA.createProduct(ProductsCatalogue.MILK);
+        farmerFactory_VERCA.createProduct(ProductsCatalogue.BEEF);
+        farmerFactory_VERCA.createProduct(ProductsCatalogue.EGG);
 
         // CHECKING IF CERTAIN PRODUCTS ARE IN STORAGE
         farmer_VERCA.getStorage().getStorageInventory();
@@ -53,8 +56,8 @@ public class Start {
         Producer producer_MINA  = new Producer("Mina", "123456789", 10_000, places1, address);
         ProducerFactory producerFactory_MINA = new ProducerFactory(producer_MINA);
 
-        Product MILK = farmer_VERCA.getStorage().getProductByName(ProductsCatalogue.MILK.name());
-        Product BEEF = farmer_VERCA.getStorage().getProductByName(ProductsCatalogue.BEEF.name());
+        Product MILK = farmer_VERCA.getStorage().getProduct(ProductsCatalogue.MILK);
+        Product BEEF = farmer_VERCA.getStorage().getProduct(ProductsCatalogue.BEEF);
 
         // FARMER SELLS SOME PRODUCTS
         farmerFactory_VERCA.sellProduct(MILK);
@@ -87,7 +90,6 @@ public class Start {
 
         shopOwnerFactory_Kaufland.sellProduct(BEEF);
         customerFactory_Roxy.purchaseProduct(BEEF, distributor_TOM, shopOwner_Kaufland);
-
 
         BEEF.generateFoodChainReport();
         Transaction_Report.generateTransactionReport();

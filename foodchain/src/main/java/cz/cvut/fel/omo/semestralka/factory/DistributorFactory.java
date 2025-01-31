@@ -1,5 +1,6 @@
 package cz.cvut.fel.omo.semestralka.factory;
 
+import cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue;
 import cz.cvut.fel.omo.semestralka.model.Person;
 import cz.cvut.fel.omo.semestralka.model.Product;
 import cz.cvut.fel.omo.semestralka.model.Storage;
@@ -52,7 +53,7 @@ public class DistributorFactory extends AbstractFactory{
     }
 
     @Override
-    protected List<String> getProductOrigin(String productName) {
+    protected List<ProductsCatalogue> getProductOrigin(ProductsCatalogue product) {
         return null;
     }
 }

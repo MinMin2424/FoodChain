@@ -1,5 +1,6 @@
 package cz.cvut.fel.omo.semestralka.factory;
 
+import cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue;
 import cz.cvut.fel.omo.semestralka.model.Message;
 import cz.cvut.fel.omo.semestralka.model.Person;
 import cz.cvut.fel.omo.semestralka.model.Product;
@@ -32,13 +33,9 @@ public class ShopOwnerFactory extends AbstractFactory{
     }
 
     @Override
-    public void returnProduct(String productName, Person distributor, Person salesman) {
-        if (!canReturnProduct()) {
-            throw new UnsupportedOperationException("Cannot return product " + productName);
-        }
-        Product product = getStorage().getProductByName(productName);
+    public void returnProduct(Product product, Person distributor, Person salesman) {
         if (product == null) {
-            throw new IllegalArgumentException("Product " + productName + " not found. Cannot return product " + productName);
+            throw new IllegalArgumentException("Product is null. Cannot return product.");
         }
         createNewTransaction(product, Place.SHOP, Place.VAN);
         transportProduct(product, distributor, salesman);
@@ -53,9 +50,9 @@ public class ShopOwnerFactory extends AbstractFactory{
         if (product == null) {
             throw new IllegalArgumentException("Product is null.");
         }
-        boolean found = getStorage().findProduct(product.getName());
+        boolean found = getStorage().findProduct(product);
         if (found) {
-            if (getStorage().getProductByName(product.getName()).checkExpirationDateForSale()) {
+            if (product.checkExpirationDateForSale()) {
                 throw new IllegalArgumentException("Product " + product.getName() + " is expired. Cannot sell product " + product.getName());
             }
             getStorage().removeProductFromStorage(product, getPerson(), Place.WAREHOUSE, Place.ON_SALE);
@@ -92,7 +89,7 @@ public class ShopOwnerFactory extends AbstractFactory{
     }
 
     @Override
-    protected List<String> getProductOrigin(String productName) {
+    protected List<ProductsCatalogue> getProductOrigin(ProductsCatalogue product) {
         return null;
     }
 

@@ -1,4 +1,4 @@
-package cz.cvut.fel.omo.semestralka.strategy.farmerStrategy;
+package cz.cvut.fel.omo.semestralka.strategy.producerStrategy;
 
 import cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue;
 import cz.cvut.fel.omo.semestralka.strategy.ProductOriginStrategy;
@@ -6,11 +6,11 @@ import cz.cvut.fel.omo.semestralka.strategy.ProductOriginStrategy;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BeefOriginStrategy implements ProductOriginStrategy {
+public class FriesOriginStrategy implements ProductOriginStrategy {
     @Override
     public List<ProductsCatalogue> getListProductOrigin() {
         List<ProductsCatalogue> origins = new ArrayList<>();
-        origins.add(ProductsCatalogue.COW);
+        origins.add(ProductsCatalogue.POTATO);
         return origins;
     }
 }

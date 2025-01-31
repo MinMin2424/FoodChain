@@ -8,9 +8,9 @@ import java.util.List;
 
 public class FishOriginStrategy implements ProductOriginStrategy {
     @Override
-    public List<String> getListProductOrigin() {
-        List<String> origins = new ArrayList<>();
-        origins.add(ProductsCatalogue.FISH.name());
+    public List<ProductsCatalogue> getListProductOrigin() {
+        List<ProductsCatalogue> origins = new ArrayList<>();
+        origins.add(ProductsCatalogue.FISH);
         return origins;
     }
 }

@@ -76,7 +76,7 @@ public class Storage {
             throw new IllegalArgumentException("Product cannot be null");
         }
 
-        if (checkTemperature(ProductsCatalogue.getTemperatureByName(product.getName()), getTemperature())) {
+        if (checkTemperature(product.getTemperature(), getTemperature())) {
             productList.add(product);
             System.out.println("NEW PRODUCT " + product.getName() + " has been added to the list");
         } else {
@@ -114,13 +114,24 @@ public class Storage {
 
     /**
      * Checks for product in the warehouse
-     * @param productName name of the searched product
+     * @param product the searched product
      * @return whether is the product in the warehouse
      */
-    public boolean findProduct(String productName) {
+    public boolean findProduct(ProductsCatalogue product) {
         boolean found = false;
-        for (Product product : productList) {
-            if (product.getName().equals(productName)) {
+        for (Product productInStorage : productList) {
+            if (productInStorage.getName().equals(product.name())) {
+                found = true;
+                break;
+            }
+        }
+        return found;
+    }
+
+    public boolean findProduct(Product product) {
+        boolean found = false;
+        for (Product productInStorage : productList) {
+            if (productInStorage.equals(product)) {
                 found = true;
                 break;
             }
@@ -165,13 +176,13 @@ public class Storage {
 
     /**
      * Finds product by name
-     * @param productName name of the searched product
+     * @param product the searched product
      * @return Product
      */
-    public Product getProductByName(String productName) {
-        for (Product product : productList) {
-            if (product.getName().equals(productName)) {
-                return product;
+    public Product getProduct(ProductsCatalogue product) {
+        for (Product productInStorage : productList) {
+            if (productInStorage.getName().equals(product.name())) {
+                return productInStorage;
             }
         }
         return null;

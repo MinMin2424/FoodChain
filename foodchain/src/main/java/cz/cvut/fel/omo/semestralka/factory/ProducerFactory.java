@@ -6,16 +6,23 @@ import cz.cvut.fel.omo.semestralka.model.Storage;
 import cz.cvut.fel.omo.semestralka.enums.Place;
 import cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue;
 import cz.cvut.fel.omo.semestralka.model.roles.Producer;
+import cz.cvut.fel.omo.semestralka.strategy.ProductOriginStrategy;
+import cz.cvut.fel.omo.semestralka.strategy.producerStrategy.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ProducerFactory extends AbstractFactory{
 
     private final Producer producer;
+    private final Map<ProductsCatalogue, ProductOriginStrategy> originStrategies;
 
     public ProducerFactory(Producer producer) {
         this.producer = producer;
+        this.originStrategies = new HashMap<>();
+        putOriginsToStrategy();
     }
 
     @Override
@@ -34,65 +41,81 @@ public class ProducerFactory extends AbstractFactory{
     }
 
     @Override
-    public void returnProduct(String productName, Person distributor, Person salesman) {
-        if (!canReturnProduct()) {
-            throw new UnsupportedOperationException("Cannot return product " + productName);
-        }
-        Product product = getStorage().getProductByName(productName);
+    public void returnProduct(Product product, Person distributor, Person salesman) {
         if (product == null) {
-            throw new IllegalArgumentException("Product " + productName + " not found. Cannot return product " + productName);
+            throw new IllegalArgumentException("Product is null. Cannot return product.");
         }
         createNewTransaction(product, Place.WAREHOUSE_PRODUCER, Place.VAN);
         transportProduct(product, distributor, salesman);
     }
 
     @Override
-    protected List<String> getProductOrigin(String productName) {
-        List<String> origins = new ArrayList<>();
-        switch (productName) {
-            case "FLOUR":
-                origins.add(ProductsCatalogue.WHEAT.name());
-            case "YOGHURT", "HEAVY_CREAM", "CHEESE":
-                origins.add(ProductsCatalogue.MILK.name());
-                break;
-            case "PIE":
-                origins.add(ProductsCatalogue.FLOUR.name());
-                origins.add(ProductsCatalogue.EGG.name());
-                origins.add(ProductsCatalogue.APPLE.name());
-                break;
-            case "CHEESE_CAKE":
-                origins.add(ProductsCatalogue.FLOUR.name());
-                origins.add(ProductsCatalogue.EGG.name());
-                origins.add(ProductsCatalogue.HEAVY_CREAM.name());
-                break;
-            case "PASTA":
-                origins.add(ProductsCatalogue.FLOUR.name());
-                break;
-            case "PASTA_FRESH":
-                origins.add(ProductsCatalogue.FLOUR.name());
-                origins.add(ProductsCatalogue.EGG.name());
-                break;
-            case "FRIES":
-                origins.add(ProductsCatalogue.POTATO.name());
-                break;
-            case "BURGER":
-                origins.add(ProductsCatalogue.BUN.name());
-                origins.add(ProductsCatalogue.BEEF.name());
-                origins.add(ProductsCatalogue.TOMATO.name());
-                break;
-            case "CHICKEN_STRIPS":
-                origins.add(ProductsCatalogue.FLOUR.name());
-                origins.add(ProductsCatalogue.EGG.name());
-                origins.add(ProductsCatalogue.CHICKEN_MEAT.name());
-                break;
-            case "BREAD", "BUN":
-                origins.add(ProductsCatalogue.FLOUR.name());
-                origins.add(ProductsCatalogue.EGG.name());
-                origins.add(ProductsCatalogue.MILK.name());
-                break;
-            default:
-                return null;
+    protected List<ProductsCatalogue> getProductOrigin(ProductsCatalogue product) {
+        ProductOriginStrategy strategy = originStrategies.get(product);
+        if (strategy != null) {
+            return strategy.getListProductOrigin();
         }
-        return origins;
+        return null;
+    }
+
+    private void putOriginsToStrategy() {
+        originStrategies.put(ProductsCatalogue.FLOUR, new FlourOriginStrategy());
+        originStrategies.put(ProductsCatalogue.YOGHURT, new YoghurtOriginStrategy());
+        originStrategies.put(ProductsCatalogue.HEAVY_CREAM, new HeavyCreamOriginStrategy());
+        originStrategies.put(ProductsCatalogue.CHEESE, new CheeseOriginStrategy());
+        originStrategies.put(ProductsCatalogue.PIE, new PieOriginStrategy());
+        originStrategies.put(ProductsCatalogue.CHEESECAKE, new CheeseCakeOriginStrategy());
+        originStrategies.put(ProductsCatalogue.PASTA, new PastaOriginStrategy());
+        originStrategies.put(ProductsCatalogue.PASTA_FRESH, new PastaFreshOriginStrategy());
+        originStrategies.put(ProductsCatalogue.FRIES, new FriesOriginStrategy());
+        originStrategies.put(ProductsCatalogue.BURGER, new BurgerOriginStrategy());
+        originStrategies.put(ProductsCatalogue.CHICKEN_STRIPS, new ChickenStripsOriginStrategy());
+        originStrategies.put(ProductsCatalogue.BREAD, new BreadOriginStrategy());
+        originStrategies.put(ProductsCatalogue.BUN, new BunOriginStrategy());
     }
 }
+
+//      switch (productName) {
+//            case "FLOUR":
+//                origins.add(ProductsCatalogue.WHEAT.name());
+//            case "YOGHURT", "HEAVY_CREAM", "CHEESE":
+//                origins.add(ProductsCatalogue.MILK.name());
+//                break;
+//            case "PIE":
+//                origins.add(ProductsCatalogue.FLOUR.name());
+//                origins.add(ProductsCatalogue.EGG.name());
+//                origins.add(ProductsCatalogue.APPLE.name());
+//                break;
+//            case "CHEESE_CAKE":
+//                origins.add(ProductsCatalogue.FLOUR.name());
+//                origins.add(ProductsCatalogue.EGG.name());
+//                origins.add(ProductsCatalogue.HEAVY_CREAM.name());
+//                break;
+//            case "PASTA":
+//                origins.add(ProductsCatalogue.FLOUR.name());
+//                break;
+//            case "PASTA_FRESH":
+//                origins.add(ProductsCatalogue.FLOUR.name());
+//                origins.add(ProductsCatalogue.EGG.name());
+//                break;
+//            case "FRIES":
+//                origins.add(ProductsCatalogue.POTATO.name());
+//                break;
+//            case "BURGER":
+//                origins.add(ProductsCatalogue.BUN.name());
+//                origins.add(ProductsCatalogue.BEEF.name());
+//                origins.add(ProductsCatalogue.TOMATO.name());
+//                break;
+//            case "CHICKEN_STRIPS":
+//                origins.add(ProductsCatalogue.FLOUR.name());
+//                origins.add(ProductsCatalogue.EGG.name());
+//                origins.add(ProductsCatalogue.CHICKEN_MEAT.name());
+//                break;
+//            case "BREAD", "BUN":
+//                origins.add(ProductsCatalogue.FLOUR.name());
+//                origins.add(ProductsCatalogue.EGG.name());
+//                origins.add(ProductsCatalogue.MILK.name());
+//                break;
+//            default:
+//                return null;
+//        }

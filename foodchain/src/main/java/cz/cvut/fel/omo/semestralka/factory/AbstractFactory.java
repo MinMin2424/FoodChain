@@ -1,5 +1,6 @@
 package cz.cvut.fel.omo.semestralka.factory;
 
+import cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue;
 import cz.cvut.fel.omo.semestralka.model.Person;
 import cz.cvut.fel.omo.semestralka.model.Product;
 import cz.cvut.fel.omo.semestralka.model.Storage;
@@ -20,27 +21,27 @@ public abstract class AbstractFactory {
 
     /**
      * Creates specified product
-     * @param productName name of the product to be created
+     * @param product the product to be created
      */
-    public final void createProduct(String productName) {
+    public final void createProduct(ProductsCatalogue product) {
         if (!canCreateProduct()) {
-            throw new UnsupportedOperationException("Cannot create product " + productName);
+            throw new UnsupportedOperationException("Cannot create product " + product.name());
         }
-        List<String> origins = getProductOrigin(productName);
+        List<ProductsCatalogue> origins = getProductOrigin(product);
         if (origins == null) {
-            throw new IllegalArgumentException("Origins is null. Cannot create product " + productName);
+            throw new IllegalArgumentException("Origins is null. Cannot create product " + product.name());
         }
-        for (String origin : origins) {
+        for (ProductsCatalogue origin : origins) {
             boolean found = getStorage().findProduct(origin);
             if (!found) {
-                throw new IllegalArgumentException("Origin " + origin + " not found. Cannot create product " + productName);
+                throw new IllegalArgumentException("Origin " + origin + " not found. Cannot create product " + product.name());
             }
         }
-        for (String origin : origins) {
-            Product productOrigin = getStorage().getProductByName(origin);
+        for (ProductsCatalogue origin : origins) {
+            Product productOrigin = getStorage().getProduct(origin);
             getStorage().removeProductFromStorage(productOrigin, getPerson(), Place.WAREHOUSE, Place.MANUFACTORY);
         }
-        Product newProduct = new Product(productName, LocalDate.now());
+        Product newProduct = new Product(product.name(), LocalDate.now());
         createNewTransaction(newProduct);
         storeProduct(newProduct);
     }
@@ -57,9 +58,9 @@ public abstract class AbstractFactory {
         if (product == null) {
             throw new IllegalArgumentException("Product is null.");
         }
-        boolean found = getStorage().findProduct(product.getName());
+        boolean found = getStorage().findProduct(product);
         if (found) {
-            if (getStorage().getProductByName(product.getName()).checkExpirationDateForSale()) {
+            if (product.checkExpirationDateForSale()) {
                 throw new IllegalArgumentException("Product " + product.getName() + " is expired. Cannot sell product " + product.getName());
             }
             getStorage().removeProductFromStorage(product, getPerson(), Place.WAREHOUSE, Place.ON_SALE);
@@ -86,17 +87,13 @@ public abstract class AbstractFactory {
 
     /**
      * Returns bought product back to seller
-     * @param productName name of the product
+     * @param product the product
      * @param distributor Person who moves the product
      * @param salesman Person who sold the product
      */
-    public void returnProduct(String productName, Person distributor, Person salesman) {
+    public void returnProduct(Product product, Person distributor, Person salesman) {
         if (!canReturnProduct()) {
-            throw new UnsupportedOperationException("Cannot return product " + productName);
-        }
-        Product product = getStorage().getProductByName(productName);
-        if (product == null) {
-            throw new IllegalArgumentException("Product " + productName + " not found. Cannot return product " + productName);
+            throw new UnsupportedOperationException("Cannot return product " + product.getName());
         }
     }
 
@@ -143,7 +140,7 @@ public abstract class AbstractFactory {
 
     protected abstract Person getPerson();
     protected abstract Storage getStorage();
-    protected abstract List<String> getProductOrigin(String productName);
+    protected abstract List<ProductsCatalogue> getProductOrigin(ProductsCatalogue product);
 
     /**
      * Transfers money from one person to another

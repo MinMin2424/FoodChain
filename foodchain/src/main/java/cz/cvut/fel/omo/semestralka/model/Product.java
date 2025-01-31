@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue.getPriceByName;
+import static cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue.getTemperatureByName;
 
 @Getter
 @Setter
@@ -28,12 +29,14 @@ public class Product implements ProductInterface {
     private LocalDate expirationDate;
     private ProductState currentState;
     private double price;
+    private int temperature;
 
     public Product(String name, LocalDate producedOnDate) {
         this.name = name;
         this.producedOnDate = producedOnDate;
         this.transactionHistory = new ArrayList<>();
         this.price = getPriceByName(name);
+        this.temperature = getTemperatureByName(name);
         calcExpirationDate();
         updateState();
     }

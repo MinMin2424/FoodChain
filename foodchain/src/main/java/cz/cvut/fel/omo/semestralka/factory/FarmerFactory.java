@@ -4,9 +4,12 @@ import cz.cvut.fel.omo.semestralka.model.Person;
 import cz.cvut.fel.omo.semestralka.model.Product;
 import cz.cvut.fel.omo.semestralka.model.Storage;
 import cz.cvut.fel.omo.semestralka.enums.Place;
+import cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue;
 import cz.cvut.fel.omo.semestralka.model.roles.Farmer;
 import cz.cvut.fel.omo.semestralka.strategy.ProductOriginStrategy;
+import cz.cvut.fel.omo.semestralka.strategy.farmerStrategy.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,19 +17,12 @@ import java.util.Map;
 public class FarmerFactory extends AbstractFactory{
 
     private final Farmer farmer;
-    private final Map<String, ProductOriginStrategy> originStrategies;
+    private final Map<ProductsCatalogue, ProductOriginStrategy> originStrategies;
 
     public FarmerFactory(Farmer farmer) {
         this.farmer = farmer;
         this.originStrategies = new HashMap<>();
-        originStrategies.put("BEEF", new BeefOriginStrategy());
-        originStrategies.put("MILK", new MilkOriginStrategy());
-        originStrategies.put("CHICKEN_MEAT", new ChickenOriginStrategy());
-        originStrategies.put("EGG", new ChickenOriginStrategy());
-        originStrategies.put("FEATHER", new ChickenOriginStrategy());
-        originStrategies.put("FISH_FILET", new FishOriginStrategy());
-        originStrategies.put("LAMB", new LambOriginStrategy());
-        originStrategies.put("WOOL", new WoolOriginStrategy());
+        putOriginsToStrategy();
     }
 
     @Override
@@ -55,11 +51,22 @@ public class FarmerFactory extends AbstractFactory{
     }
 
     @Override
-    protected List<String> getProductOrigin(String productName) {
-        ProductOriginStrategy strategy = originStrategies.get(productName);
+    protected List<ProductsCatalogue> getProductOrigin(ProductsCatalogue product) {
+        ProductOriginStrategy strategy = originStrategies.get(product);
         if (strategy != null) {
             return strategy.getListProductOrigin();
         }
         return null;
+    }
+
+    private void putOriginsToStrategy() {
+        originStrategies.put(ProductsCatalogue.BEEF, new BeefOriginStrategy());
+        originStrategies.put(ProductsCatalogue.MILK, new MilkOriginStrategy());
+        originStrategies.put(ProductsCatalogue.CHICKEN_MEAT, new ChickenOriginStrategy());
+        originStrategies.put(ProductsCatalogue.EGG, new ChickenOriginStrategy());
+        originStrategies.put(ProductsCatalogue.FEATHER, new ChickenOriginStrategy());
+        originStrategies.put(ProductsCatalogue.FISH_FILET, new FishOriginStrategy());
+        originStrategies.put(ProductsCatalogue.LAMB, new LambOriginStrategy());
+        originStrategies.put(ProductsCatalogue.WOOL, new WoolOriginStrategy());
     }
 }
