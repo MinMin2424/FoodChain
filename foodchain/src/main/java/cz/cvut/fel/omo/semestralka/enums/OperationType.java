@@ -1,8 +1,9 @@
-
 package cz.cvut.fel.omo.semestralka.enums;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+@AllArgsConstructor
 @Getter
 public enum OperationType {
     CREATE(0),
@@ -14,5 +15,4 @@ public enum OperationType {
     PURCHASE(0);
 
     private final double price;
-
 }

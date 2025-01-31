@@ -18,6 +18,4 @@ public class Producer extends Person {
         super(name, phoneNumber, wallet, workplaces, workAddress);
         this.storage = new Storage(WAREHOUSE_TEMPERATURE);
     }
-
 }
-

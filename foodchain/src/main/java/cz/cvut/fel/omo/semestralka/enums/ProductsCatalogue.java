@@ -3,6 +3,7 @@ package cz.cvut.fel.omo.semestralka.enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+
 @AllArgsConstructor
 @Getter
 public enum ProductsCatalogue {
@@ -12,7 +13,7 @@ public enum ProductsCatalogue {
     SHEEP (3000, 0, 25),
     CHICKEN (250, 0, 25),
     FISH (500, 0, 15),
-    WHEAT (20, 900, 10),
+    WHEAT (20, 900, 10), //obili
     APPLE (10, 7, 12),
     WALNUT (120, 100, 12),
     POTATO (10, 14, 12),
@@ -22,7 +23,7 @@ public enum ProductsCatalogue {
 
     MILK (15, 7, 5),
     EGG (25, 90,15),
-    WOOL (10, 0, 0),
+    WOOL (10, 0, 0), // vlna
     FEATHER (90, 0, 0),
 
     BEEF (250, 7, 5),
@@ -44,6 +45,7 @@ public enum ProductsCatalogue {
     CHICKEN_STRIPS (80, 1, 5),
     BREAD (25, 4, 0),
     BUN (10, 4, 0);
+
 
     private final double price;
     private final int durationDays;
@@ -77,6 +79,11 @@ public enum ProductsCatalogue {
         return -1;
     }
 
+    /**
+     * Finds product in Product catalogue by its name and returns its price
+     * @param name of the product
+     * @return Price of product
+     */
     public static double getPriceByName(String name) {
         for (ProductsCatalogue productsCatalogue : ProductsCatalogue.values()) {
             if (productsCatalogue.name().equalsIgnoreCase(name)) {
@@ -87,4 +94,3 @@ public enum ProductsCatalogue {
     }
 
 }
-

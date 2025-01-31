@@ -5,7 +5,7 @@ import cz.cvut.fel.omo.semestralka.model.Product;
 public class DiscountedProductDecorator extends ProductDecorator{
     private final double discount;
 
-    public DiscountedProductDecorator(Product decoratedProduct, double discount) {
+    public DiscountedProductDecorator(ProductInterface decoratedProduct, double discount) {
         super(decoratedProduct);
         this.discount = discount;
     }

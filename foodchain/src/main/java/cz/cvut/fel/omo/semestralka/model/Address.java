@@ -14,4 +14,3 @@ public class Address {
     private String zipCode;
     private String country;
 }
-

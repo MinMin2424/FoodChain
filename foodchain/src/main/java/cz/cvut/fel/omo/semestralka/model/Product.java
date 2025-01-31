@@ -44,7 +44,7 @@ public class Product implements ProductInterface {
     /**
      * Counts the expiration date
      */
-    public void calcExpirationDate() {
+    private void calcExpirationDate() {
         int durationDays = ProductsCatalogue.getDurationByName(name);
 
         if (durationDays > 0) {
@@ -73,7 +73,7 @@ public class Product implements ProductInterface {
         return transactionHistory.getLast();
     }
 
-    public void updateState() {
+    private void updateState() {
         if (LocalDate.now().isAfter(expirationDate)) {
             currentState = new ExpiredProductState();
         } else {
@@ -81,11 +81,11 @@ public class Product implements ProductInterface {
         }
     }
 
-    public boolean eatable() {
+    private boolean eatable() {
         return currentState.eatable();
     }
 
-    public boolean expired() {
+    private boolean expired() {
         return currentState.expired();
     }
 

@@ -1,9 +1,79 @@
 package cz.cvut.fel.omo.semestralka.decorator;
 
 import cz.cvut.fel.omo.semestralka.model.Product;
+import cz.cvut.fel.omo.semestralka.state.ProductState;
+import cz.cvut.fel.omo.semestralka.transaction.Transaction;
 import lombok.AllArgsConstructor;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @AllArgsConstructor
-public abstract class ProductDecorator implements ProductInterface {
-    protected Product decoratedProduct;
+public class ProductDecorator implements ProductInterface {
+    protected ProductInterface decoratedProduct;
+
+    @Override
+    public String getName() {
+        return decoratedProduct.getName();
+    }
+
+    @Override
+    public LocalDate getProducedOnDate() {
+        return decoratedProduct.getProducedOnDate();
+    }
+
+    @Override
+    public List<Transaction> getTransactionHistory() {
+        return decoratedProduct.getTransactionHistory();
+    }
+
+    @Override
+    public LocalDate getExpirationDate() {
+        return decoratedProduct.getExpirationDate();
+    }
+
+    @Override
+    public ProductState getCurrentState() {
+        return decoratedProduct.getCurrentState();
+    }
+
+    @Override
+    public double getPrice() {
+        return decoratedProduct.getPrice();
+    }
+
+    @Override
+    public int getTemperature() {
+        return decoratedProduct.getTemperature();
+    }
+
+    @Override
+    public void addTransaction(Transaction transaction) {
+        decoratedProduct.addTransaction(transaction);
+    }
+
+    @Override
+    public Transaction getLastTransaction() {
+        return decoratedProduct.getLastTransaction();
+    }
+
+    @Override
+    public boolean checkExpirationDateForSale() {
+        return decoratedProduct.checkExpirationDateForSale();
+    }
+
+    @Override
+    public String getDescription() {
+        return decoratedProduct.getDescription();
+    }
+
+    @Override
+    public void generateFoodChainReport() {
+        decoratedProduct.generateFoodChainReport();
+    }
+
+    @Override
+    public void generatePartiesReport() {
+        decoratedProduct.generatePartiesReport();
+    }
 }

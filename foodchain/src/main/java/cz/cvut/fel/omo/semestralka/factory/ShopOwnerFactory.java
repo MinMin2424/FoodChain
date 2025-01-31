@@ -1,5 +1,6 @@
 package cz.cvut.fel.omo.semestralka.factory;
 
+import cz.cvut.fel.omo.semestralka.decorator.ProductInterface;
 import cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue;
 import cz.cvut.fel.omo.semestralka.model.Message;
 import cz.cvut.fel.omo.semestralka.model.Person;
@@ -12,8 +13,6 @@ import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue.getPriceByName;
 
 public class ShopOwnerFactory extends AbstractFactory{
 
@@ -28,12 +27,12 @@ public class ShopOwnerFactory extends AbstractFactory{
     }
 
     @Override
-    public void storeProduct(Product product) {
+    public void storeProduct(ProductInterface product) {
         getStorage().addProductToStorage(product, shopOwner, Place.VAN, Place.SHOP);
     }
 
     @Override
-    public void returnProduct(Product product, Person distributor, Person salesman) {
+    public void returnProduct(ProductInterface product, Person distributor, Person salesman) {
         if (product == null) {
             throw new IllegalArgumentException("Product is null. Cannot return product.");
         }

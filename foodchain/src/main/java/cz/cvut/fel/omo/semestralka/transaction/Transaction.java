@@ -1,5 +1,6 @@
 package cz.cvut.fel.omo.semestralka.transaction;
 
+import cz.cvut.fel.omo.semestralka.decorator.ProductInterface;
 import cz.cvut.fel.omo.semestralka.model.Person;
 import cz.cvut.fel.omo.semestralka.model.Product;
 import cz.cvut.fel.omo.semestralka.enums.OperationType;
@@ -11,7 +12,7 @@ import java.time.LocalDate;
 @Getter
 public class Transaction {
 
-    private final Product product;
+    private final ProductInterface product;
     private final Person personFrom;
     private final Person personTo;
     private final Place movedFrom;
@@ -22,7 +23,7 @@ public class Transaction {
     private final Transaction previousTransaction;
 
     // Transaction for STORE, REMOVE, RETURN
-    public Transaction(Product product, Person personFrom, Place movedFrom, Place movedTo, OperationType operationType, LocalDate transactionDate, double price, Transaction previousTransaction) {
+    public Transaction(ProductInterface product, Person personFrom, Place movedFrom, Place movedTo, OperationType operationType, LocalDate transactionDate, double price, Transaction previousTransaction) {
         this.product = product;
         this.personFrom = personFrom;
         this.personTo = null;
@@ -35,7 +36,7 @@ public class Transaction {
     }
 
     // Transaction for PURCHASE AND TRANSPORT
-    public Transaction(Product product, Person personFrom, Person personTo, OperationType operationType, LocalDate transactionDate, double price, Transaction previousTransaction) {
+    public Transaction(ProductInterface product, Person personFrom, Person personTo, OperationType operationType, LocalDate transactionDate, double price, Transaction previousTransaction) {
         this.product = product;
         this.personFrom = personFrom;
         this.personTo = personTo;
@@ -48,7 +49,7 @@ public class Transaction {
     }
 
     // Transaction for CREATE, SELL
-    public Transaction(Product product, Person person, OperationType operationType, LocalDate transactionDate, double price, Transaction previousTransaction) {
+    public Transaction(ProductInterface product, Person person, OperationType operationType, LocalDate transactionDate, double price, Transaction previousTransaction) {
         this.product = product;
         this.personFrom = person;
         this.personTo = null;

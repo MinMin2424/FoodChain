@@ -19,4 +19,3 @@ public class Farmer extends Person {
         this.storage = new Storage(WAREHOUSE_TEMPERATURE);
     }
 }
-

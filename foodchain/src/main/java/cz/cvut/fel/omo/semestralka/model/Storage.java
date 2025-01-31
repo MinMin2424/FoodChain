@@ -1,5 +1,6 @@
 package cz.cvut.fel.omo.semestralka.model;
 
+import cz.cvut.fel.omo.semestralka.decorator.ProductInterface;
 import cz.cvut.fel.omo.semestralka.enums.OperationType;
 import cz.cvut.fel.omo.semestralka.enums.Place;
 import cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue;
@@ -16,7 +17,7 @@ import java.util.List;
 public class Storage {
 
     private int temperature;
-    private List<Product> productList;
+    private List<ProductInterface> productList;
 
     public Storage(int temperature) {
         this.temperature = temperature;
@@ -30,7 +31,7 @@ public class Storage {
      * @param movedFrom where we are moving product from
      * @param movedTo where we are moving product to
      */
-    public void addProductToStorage(Product product, Person person, Place movedFrom, Place movedTo) {
+    public void addProductToStorage(ProductInterface product, Person person, Place movedFrom, Place movedTo) {
         addProduct(product);
         Transaction transaction = new Transaction(
                 product,
@@ -52,7 +53,7 @@ public class Storage {
      * @param movedFrom Place where we are moving product from
      * @param movedTo Place where we are moving product to
      */
-    public void removeProductFromStorage(Product product, Person person, Place movedFrom, Place movedTo) {
+    public void removeProductFromStorage(ProductInterface product, Person person, Place movedFrom, Place movedTo) {
         removeProduct(product);
         Transaction transaction = new Transaction(
                 product,
@@ -71,7 +72,7 @@ public class Storage {
      * Adds product to the warehouse
      * @param product product to be added
      */
-    private void addProduct(Product product) {
+    private void addProduct(ProductInterface product) {
         if (product == null) {
             throw new IllegalArgumentException("Product cannot be null");
         }
@@ -89,12 +90,12 @@ public class Storage {
      * Removes product from the warehouse
      * @param product product to be removed
      */
-    private void removeProduct(Product product) {
+    private void removeProduct(ProductInterface product) {
         if (product == null) {
             throw new IllegalArgumentException("Product cannot be null");
         }
         for (int i = 0; i < productList.size(); i++) {
-            Product currentProduct = productList.get(i);
+            ProductInterface currentProduct = productList.get(i);
             if (currentProduct.getName().equals(product.getName())) {
                 productList.remove(i);
                 break;
@@ -119,7 +120,7 @@ public class Storage {
      */
     public boolean findProduct(ProductsCatalogue product) {
         boolean found = false;
-        for (Product productInStorage : productList) {
+        for (ProductInterface productInStorage : productList) {
             if (productInStorage.getName().equals(product.name())) {
                 found = true;
                 break;
@@ -128,9 +129,9 @@ public class Storage {
         return found;
     }
 
-    public boolean findProduct(Product product) {
+    public boolean findProduct(ProductInterface product) {
         boolean found = false;
-        for (Product productInStorage : productList) {
+        for (ProductInterface productInStorage : productList) {
             if (productInStorage.equals(product)) {
                 found = true;
                 break;
@@ -139,10 +140,10 @@ public class Storage {
         return found;
     }
 
-    public List<Product> getAllProducts(String productName) {
-        List<Product> products = new ArrayList<>();
-        for (Product product : productList) {
-            if (product.getName().equals(productName)) {
+    public List<ProductInterface> getAllProducts(ProductInterface product) {
+        List<ProductInterface> products = new ArrayList<>();
+        for (ProductInterface productInStorage : productList) {
+            if (productInStorage.getName().equals(product.getName())) {
                 products.add(product);
             }
         }
@@ -155,7 +156,7 @@ public class Storage {
      */
     public int countFullness() {
         int fullness = 0;
-        for (Product product : productList) {
+        for (ProductInterface product : productList) {
             fullness += 1;
         }
         return fullness;
@@ -167,7 +168,7 @@ public class Storage {
     public void getStorageInventory(){
         StringBuilder warehouseInventory = new StringBuilder();
         warehouseInventory.append("This storage contains: \n");
-        for (Product product : productList) {
+        for (ProductInterface product : productList) {
             warehouseInventory.append(product.getName()).append("\n");
 
         }
@@ -179,8 +180,8 @@ public class Storage {
      * @param product the searched product
      * @return Product
      */
-    public Product getProduct(ProductsCatalogue product) {
-        for (Product productInStorage : productList) {
+    public ProductInterface getProduct(ProductsCatalogue product) {
+        for (ProductInterface productInStorage : productList) {
             if (productInStorage.getName().equals(product.name())) {
                 return productInStorage;
             }

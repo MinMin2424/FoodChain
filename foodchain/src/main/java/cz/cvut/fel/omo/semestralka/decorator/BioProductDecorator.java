@@ -4,7 +4,7 @@ import cz.cvut.fel.omo.semestralka.model.Product;
 
 public class BioProductDecorator extends ProductDecorator {
 
-    public BioProductDecorator(Product decoratedProduct) {
+    public BioProductDecorator(ProductInterface decoratedProduct) {
         super(decoratedProduct);
     }
 

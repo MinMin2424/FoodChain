@@ -1,5 +1,6 @@
 package cz.cvut.fel.omo.semestralka.factory;
 
+import cz.cvut.fel.omo.semestralka.decorator.ProductInterface;
 import cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue;
 import cz.cvut.fel.omo.semestralka.model.Person;
 import cz.cvut.fel.omo.semestralka.model.Product;
@@ -40,12 +41,12 @@ public class CustomerFactory extends AbstractFactory {
     }
 
     @Override
-    public void storeProduct(Product product) {
+    public void storeProduct(ProductInterface product) {
         getStorage().addProductToStorage(product, getPerson(), Place.SHOP, Place.BACKPACK);
     }
 
     @Override
-    public void returnProduct(Product product, Person distributor, Person salesman) {
+    public void returnProduct(ProductInterface product, Person distributor, Person salesman) {
         if (product == null) {
             throw new IllegalArgumentException("Product is null. Cannot return product.");
         }
@@ -53,7 +54,7 @@ public class CustomerFactory extends AbstractFactory {
     }
 
     @Override
-    public void purchaseProduct(Product product, Person distributor, Person salesman) {
+    public void purchaseProduct(ProductInterface product, Person distributor, Person salesman) {
         if (product == null) {
             throw new IllegalArgumentException("Product cannot be null.");
         }

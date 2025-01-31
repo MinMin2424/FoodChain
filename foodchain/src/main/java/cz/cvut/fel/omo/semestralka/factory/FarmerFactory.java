@@ -1,5 +1,6 @@
 package cz.cvut.fel.omo.semestralka.factory;
 
+import cz.cvut.fel.omo.semestralka.decorator.ProductInterface;
 import cz.cvut.fel.omo.semestralka.model.Person;
 import cz.cvut.fel.omo.semestralka.model.Product;
 import cz.cvut.fel.omo.semestralka.model.Storage;
@@ -26,7 +27,7 @@ public class FarmerFactory extends AbstractFactory{
     }
 
     @Override
-    public void storeProduct(Product product) {
+    public void storeProduct(ProductInterface product) {
         getStorage().addProductToStorage(product, getPerson(), Place.MANUFACTORY, Place.WAREHOUSE_FARMER);
     }
 

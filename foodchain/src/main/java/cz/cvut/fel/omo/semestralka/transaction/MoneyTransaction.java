@@ -1,5 +1,6 @@
 package cz.cvut.fel.omo.semestralka.transaction;
 
+import cz.cvut.fel.omo.semestralka.decorator.ProductInterface;
 import cz.cvut.fel.omo.semestralka.enums.OperationType;
 import cz.cvut.fel.omo.semestralka.model.Person;
 import cz.cvut.fel.omo.semestralka.model.Product;
@@ -12,7 +13,7 @@ import java.time.LocalDate;
 @Getter
 public class MoneyTransaction {
 
-    private final Product product;
+    private final ProductInterface product;
     private final double productPrice;
     private final Person personFrom;
     private final Person personTo;

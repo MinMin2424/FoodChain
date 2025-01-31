@@ -1,5 +1,6 @@
 package cz.cvut.fel.omo.semestralka.factory;
 
+import cz.cvut.fel.omo.semestralka.decorator.ProductInterface;
 import cz.cvut.fel.omo.semestralka.model.Person;
 import cz.cvut.fel.omo.semestralka.model.Product;
 import cz.cvut.fel.omo.semestralka.model.Storage;
@@ -31,7 +32,7 @@ public class ProducerFactory extends AbstractFactory{
     }
 
     @Override
-    public void storeProduct(Product product) {
+    public void storeProduct(ProductInterface product) {
         getStorage().addProductToStorage(product, producer, Place.VAN, Place.WAREHOUSE_PRODUCER);
     }
 
@@ -41,7 +42,7 @@ public class ProducerFactory extends AbstractFactory{
     }
 
     @Override
-    public void returnProduct(Product product, Person distributor, Person salesman) {
+    public void returnProduct(ProductInterface product, Person distributor, Person salesman) {
         if (product == null) {
             throw new IllegalArgumentException("Product is null. Cannot return product.");
         }
@@ -74,48 +75,3 @@ public class ProducerFactory extends AbstractFactory{
         originStrategies.put(ProductsCatalogue.BUN, new BunOriginStrategy());
     }
 }
-
-//      switch (productName) {
-//            case "FLOUR":
-//                origins.add(ProductsCatalogue.WHEAT.name());
-//            case "YOGHURT", "HEAVY_CREAM", "CHEESE":
-//                origins.add(ProductsCatalogue.MILK.name());
-//                break;
-//            case "PIE":
-//                origins.add(ProductsCatalogue.FLOUR.name());
-//                origins.add(ProductsCatalogue.EGG.name());
-//                origins.add(ProductsCatalogue.APPLE.name());
-//                break;
-//            case "CHEESE_CAKE":
-//                origins.add(ProductsCatalogue.FLOUR.name());
-//                origins.add(ProductsCatalogue.EGG.name());
-//                origins.add(ProductsCatalogue.HEAVY_CREAM.name());
-//                break;
-//            case "PASTA":
-//                origins.add(ProductsCatalogue.FLOUR.name());
-//                break;
-//            case "PASTA_FRESH":
-//                origins.add(ProductsCatalogue.FLOUR.name());
-//                origins.add(ProductsCatalogue.EGG.name());
-//                break;
-//            case "FRIES":
-//                origins.add(ProductsCatalogue.POTATO.name());
-//                break;
-//            case "BURGER":
-//                origins.add(ProductsCatalogue.BUN.name());
-//                origins.add(ProductsCatalogue.BEEF.name());
-//                origins.add(ProductsCatalogue.TOMATO.name());
-//                break;
-//            case "CHICKEN_STRIPS":
-//                origins.add(ProductsCatalogue.FLOUR.name());
-//                origins.add(ProductsCatalogue.EGG.name());
-//                origins.add(ProductsCatalogue.CHICKEN_MEAT.name());
-//                break;
-//            case "BREAD", "BUN":
-//                origins.add(ProductsCatalogue.FLOUR.name());
-//                origins.add(ProductsCatalogue.EGG.name());
-//                origins.add(ProductsCatalogue.MILK.name());
-//                break;
-//            default:
-//                return null;
-//        }
