@@ -1,9 +1,8 @@
-package cz.cvut.fel.omo.semestralka.newFactory;
+package cz.cvut.fel.omo.semestralka.factory;
 
 import cz.cvut.fel.omo.semestralka.model.Person;
 import cz.cvut.fel.omo.semestralka.model.Product;
 import cz.cvut.fel.omo.semestralka.model.Storage;
-import cz.cvut.fel.omo.semestralka.enums.OperationType;
 import cz.cvut.fel.omo.semestralka.enums.Place;
 import cz.cvut.fel.omo.semestralka.model.roles.Customer;
 
@@ -61,12 +60,13 @@ public class CustomerFactory extends AbstractFactory {
         if (product == null) {
             throw new IllegalArgumentException("Product cannot be null.");
         }
-        if (!checkWallet(getPriceByName(product.getName()))) {
+        if (!checkWallet(product.getPrice())) {
             throw new IllegalArgumentException("Wallet has not enough money to purchase product.");
         }
-        getPerson().setWallet(getPerson().getWallet() - getPriceByName(product.getName()));
-        createNewTransaction(product, salesman, getPriceByName(product.getName()));
+        getPerson().setWallet(getPerson().getWallet() - product.getPrice());
+        createNewTransaction(product, salesman, product.getPrice());
         storeProduct(product);
+        createMoneyTransaction(product, salesman, product.getPrice());
     }
 
     @Override

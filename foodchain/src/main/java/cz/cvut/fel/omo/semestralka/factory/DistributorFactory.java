@@ -1,4 +1,4 @@
-package cz.cvut.fel.omo.semestralka.newFactory;
+package cz.cvut.fel.omo.semestralka.factory;
 
 import cz.cvut.fel.omo.semestralka.model.Person;
 import cz.cvut.fel.omo.semestralka.model.Product;

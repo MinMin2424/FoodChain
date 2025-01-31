@@ -1,4 +1,4 @@
-package cz.cvut.fel.omo.semestralka.newFactory;
+package cz.cvut.fel.omo.semestralka.factory;
 
 import cz.cvut.fel.omo.semestralka.model.Person;
 import cz.cvut.fel.omo.semestralka.model.Product;
@@ -18,6 +18,10 @@ public abstract class AbstractFactory {
 
     public abstract void storeProduct(Product product);
 
+    /**
+     * Creates specified product
+     * @param productName name of the product to be created
+     */
     public final void createProduct(String productName) {
         if (!canCreateProduct()) {
             throw new UnsupportedOperationException("Cannot create product " + productName);
@@ -41,18 +45,36 @@ public abstract class AbstractFactory {
         storeProduct(newProduct);
     }
 
-    public final Product sellProduct(Product product) {
+    /**
+     * Removes product from persons storage and puts it on sale
+     * @param product product to be sold
+     * @return sold product
+     */
+    public Product sellProduct(Product product) {
         if (!canSellProduct()) {
             throw new UnsupportedOperationException("Cannot sell product " + product.getName());
         }
         if (product == null) {
-            throw new IllegalArgumentException("Product " + product.getName() + " not found. Cannot create product " + product.getName());
+            throw new IllegalArgumentException("Product is null.");
         }
-        getStorage().removeProductFromStorage(product, getPerson(), Place.WAREHOUSE, Place.ON_SALE);
-        createNewTransaction(product, getPriceByName(product.getName()));
-        return product;
+        boolean found = getStorage().findProduct(product.getName());
+        if (found) {
+            if (getStorage().getProductByName(product.getName()).checkExpirationDateForSale()) {
+                throw new IllegalArgumentException("Product " + product.getName() + " is expired. Cannot sell product " + product.getName());
+            }
+            getStorage().removeProductFromStorage(product, getPerson(), Place.WAREHOUSE, Place.ON_SALE);
+            createNewTransaction(product, product.getPrice());
+            return product;
+        }
+        throw new IllegalArgumentException("Product " + product.getName() + " not found. Cannot sell product " + product.getName());
     }
 
+    /**
+     * moves product from one place to another
+     * @param product Product to be moved
+     * @param distributor Person who moves the product
+     * @param salesman Person who sells product
+     */
     public void transportProduct(Product product, Person distributor, Person salesman) {
         if (distributor instanceof Distributor) {
             distributor.setWallet(distributor.getWallet() + OperationType.TRANSPORT.getPrice());
@@ -62,6 +84,12 @@ public abstract class AbstractFactory {
         }
     }
 
+    /**
+     * Returns bought product back to seller
+     * @param productName name of the product
+     * @param distributor Person who moves the product
+     * @param salesman Person who sold the product
+     */
     public void returnProduct(String productName, Person distributor, Person salesman) {
         if (!canReturnProduct()) {
             throw new UnsupportedOperationException("Cannot return product " + productName);
@@ -72,6 +100,12 @@ public abstract class AbstractFactory {
         }
     }
 
+    /**
+     * Product gets moved to buyers storage and seller gets paid
+     * @param product Product to be bought
+     * @param distributor Person who moves the product
+     * @param salesman Person who sells the product
+     */
     public void purchaseProduct(Product product, Person distributor, Person salesman) {
         if (!canPurchaseProduct()) {
             throw new UnsupportedOperationException("Cannot purchase product " + product.getName());
@@ -79,16 +113,17 @@ public abstract class AbstractFactory {
         if (product == null) {
             throw new IllegalArgumentException("Product cannot be null.");
         }
-        if (!checkWallet(getPriceByName(product.getName()))) {
+        if (!checkWallet(product.getPrice())) {
             throw new IllegalArgumentException("Wallet has not enough money to purchase product.");
         }
-        salesman.setWallet(salesman.getWallet() + getPriceByName(product.getName()));
-        getPerson().setWallet(getPerson().getWallet() - getPriceByName(product.getName()));
-        createNewTransaction(product, salesman, getPriceByName(product.getName()));
+        salesman.setWallet(salesman.getWallet() + product.getPrice());
+        getPerson().setWallet(getPerson().getWallet() - product.getPrice());
+        createNewTransaction(product, salesman, product.getPrice());
         transportProduct(product, distributor, salesman);
         storeProduct(product);
-        createMoneyTransaction(product, salesman, getPriceByName(product.getName()));
+        createMoneyTransaction(product, salesman, product.getPrice());
     }
+
 
     protected boolean canCreateProduct() {
         return true;
@@ -110,6 +145,12 @@ public abstract class AbstractFactory {
     protected abstract Storage getStorage();
     protected abstract List<String> getProductOrigin(String productName);
 
+    /**
+     * Transfers money from one person to another
+     * @param product Product
+     * @param personFrom Person who pays
+     * @param price amount of money to be paid
+     */
     protected final void createMoneyTransaction(Product product, Person personFrom, double price) {
         MoneyTransaction transaction = new MoneyTransaction(
                 product,
@@ -190,6 +231,11 @@ public abstract class AbstractFactory {
         product.addTransaction(transaction);
     }
 
+    /**
+     * Checks if person has enough money for the payment
+     * @param productPrice price of the product
+     * @return Boolean Whether there is enough money for the payment
+     */
     protected boolean checkWallet(double productPrice) {
         return getPerson().getWallet() >= productPrice;
     }

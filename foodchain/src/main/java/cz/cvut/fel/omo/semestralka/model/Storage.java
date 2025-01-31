@@ -23,6 +23,13 @@ public class Storage {
         this.productList = new ArrayList<>();
     }
 
+    /**
+     * Adds product to persons storage and saves information about the transaction
+     * @param product product
+     * @param person person executing operation
+     * @param movedFrom where we are moving product from
+     * @param movedTo where we are moving product to
+     */
     public void addProductToStorage(Product product, Person person, Place movedFrom, Place movedTo) {
         addProduct(product);
         Transaction transaction = new Transaction(
@@ -38,6 +45,13 @@ public class Storage {
         product.addTransaction(transaction);
     }
 
+    /**
+     * Removes product from persons storage and saves information about the transaction
+     * @param product Product
+     * @param person Person executing operation
+     * @param movedFrom Place where we are moving product from
+     * @param movedTo Place where we are moving product to
+     */
     public void removeProductFromStorage(Product product, Person person, Place movedFrom, Place movedTo) {
         removeProduct(product);
         Transaction transaction = new Transaction(
@@ -62,21 +76,6 @@ public class Storage {
             throw new IllegalArgumentException("Product cannot be null");
         }
 
-//        for (Product p : productList) {
-//            if (p.getName().equals(product.getName())) {
-//
-//                if (checkTemperature(ProductsCatalogue.getTemperatureByName(product.getName()), getTemperature())) {
-//                    p.setQuantity(p.getQuantity() + product.getQuantity());
-//                    found = true;
-//                    System.out.println("ALREADY EXISTING PRODUCT: " + product.getName() + " has been added to the list");
-//                } else {
-//                    System.out.println("NOPE");
-//                    throw new IllegalArgumentException("Product cannot be added to the list because of temperature.");
-//                }
-//                break;
-//            }
-//        }
-
         if (checkTemperature(ProductsCatalogue.getTemperatureByName(product.getName()), getTemperature())) {
             productList.add(product);
             System.out.println("NEW PRODUCT " + product.getName() + " has been added to the list");
@@ -97,16 +96,6 @@ public class Storage {
         for (int i = 0; i < productList.size(); i++) {
             Product currentProduct = productList.get(i);
             if (currentProduct.getName().equals(product.getName())) {
-//                    if (currentProduct.getQuantity() > count) {
-//                        currentProduct.setQuantity(currentProduct.getQuantity() - count);
-//                        count = 0;
-//                    } else if (currentProduct.getQuantity() == count) {
-//                        productList.remove(i);
-//                        count = 0;
-//                    } else {
-//                        count -= currentProduct.getQuantity();
-//                        productList.remove(i);
-//                    }
                 productList.remove(i);
                 break;
             }
@@ -174,6 +163,11 @@ public class Storage {
         System.out.println(warehouseInventory);
     }
 
+    /**
+     * Finds product by name
+     * @param productName name of the searched product
+     * @return Product
+     */
     public Product getProductByName(String productName) {
         for (Product product : productList) {
             if (product.getName().equals(productName)) {

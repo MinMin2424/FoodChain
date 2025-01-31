@@ -1,7 +1,11 @@
 package cz.cvut.fel.omo.semestralka.model;
 
+import cz.cvut.fel.omo.semestralka.decorator.ProductInterface;
 import cz.cvut.fel.omo.semestralka.enums.OperationType;
 import cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue;
+import cz.cvut.fel.omo.semestralka.state.EatableProductState;
+import cz.cvut.fel.omo.semestralka.state.ExpiredProductState;
+import cz.cvut.fel.omo.semestralka.state.ProductState;
 import cz.cvut.fel.omo.semestralka.transaction.Transaction;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,46 +16,53 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
+import static cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue.getPriceByName;
+
 @Getter
 @Setter
-public class Product {
+public class Product implements ProductInterface {
 
     private String name;
-    //    private int quantity;
     private LocalDate producedOnDate;
     private List<Transaction> transactionHistory;
-
-//    public Product(String name, int quantity, LocalDate producedOnDate) {
-//        this.name = name;
-//        this.quantity = quantity;
-//        this.producedOnDate = producedOnDate;
-//        this.transactionHistory = new ArrayList<>();
-//    }
+    private LocalDate expirationDate;
+    private ProductState currentState;
+    private double price;
 
     public Product(String name, LocalDate producedOnDate) {
         this.name = name;
         this.producedOnDate = producedOnDate;
         this.transactionHistory = new ArrayList<>();
+        this.price = getPriceByName(name);
+        calcExpirationDate();
+        updateState();
     }
 
     /**
      * Counts the expiration date
-     * @return Products date of expiration
      */
-    public LocalDate getExpirationDate() {
+    public void calcExpirationDate() {
         int durationDays = ProductsCatalogue.getDurationByName(name);
 
         if (durationDays > 0) {
-            return producedOnDate.plusDays(durationDays);
+            this.expirationDate = producedOnDate.plusDays(durationDays);
         } else {
-            return null;
+            this.expirationDate = producedOnDate.plusDays(5*365);
         }
     }
 
+    /**
+     * Adds executed transaction to the history of transactions
+     * @param transaction type of executed transaction
+     */
     public void addTransaction(Transaction transaction) {
         transactionHistory.add(transaction);
     }
 
+    /**
+     *
+     * @return latest transaction in the history of executed transactions
+     */
     public Transaction getLastTransaction() {
         if (transactionHistory == null || transactionHistory.isEmpty()) {
             return null;
@@ -59,6 +70,40 @@ public class Product {
         return transactionHistory.getLast();
     }
 
+    public void updateState() {
+        if (LocalDate.now().isAfter(expirationDate)) {
+            currentState = new ExpiredProductState();
+        } else {
+            currentState = new EatableProductState();
+        }
+    }
+
+    public boolean eatable() {
+        return currentState.eatable();
+    }
+
+    public boolean expired() {
+        return currentState.expired();
+    }
+
+    public boolean checkExpirationDateForSale() {
+        updateState();
+        return expired();
+    }
+
+    @Override
+    public String getDescription() {
+        return name;
+    }
+
+    @Override
+    public double getPrice() {
+        return price;
+    }
+
+    /**
+     * Prints out history of products transactions
+     */
     public void generateFoodChainReport() {
         if (transactionHistory == null || transactionHistory.isEmpty()) {
             throw new IllegalArgumentException("No transactions for product: " + name);
@@ -82,6 +127,9 @@ public class Product {
         }
     }
 
+    /**
+     * Prints out history of persons transactions
+     */
     public void generatePartiesReport() {
         if (transactionHistory == null || transactionHistory.isEmpty()) {
             throw new IllegalArgumentException("No transactions for product: " + name);

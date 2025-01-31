@@ -1,15 +1,14 @@
 package cz.cvut.fel.omo.semestralka;
 
+import cz.cvut.fel.omo.semestralka.factory.CustomerFactory;
+import cz.cvut.fel.omo.semestralka.factory.ShopOwnerFactory;
 import cz.cvut.fel.omo.semestralka.model.Address;
 import cz.cvut.fel.omo.semestralka.model.Product;
 import cz.cvut.fel.omo.semestralka.enums.Place;
 import cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue;
-import cz.cvut.fel.omo.semestralka.model.roles.Distributor;
-import cz.cvut.fel.omo.semestralka.model.roles.Producer;
-import cz.cvut.fel.omo.semestralka.newFactory.DistributorFactory;
-import cz.cvut.fel.omo.semestralka.newFactory.FarmerFactory;
-import cz.cvut.fel.omo.semestralka.model.roles.Farmer;
-import cz.cvut.fel.omo.semestralka.newFactory.ProducerFactory;
+import cz.cvut.fel.omo.semestralka.model.roles.*;
+import cz.cvut.fel.omo.semestralka.factory.FarmerFactory;
+import cz.cvut.fel.omo.semestralka.factory.ProducerFactory;
 import cz.cvut.fel.omo.semestralka.transaction.Transaction_Report;
 
 import java.time.LocalDate;
@@ -43,7 +42,6 @@ public class Start {
         // CREATE NEW PRODUCTS BY EXISTING PRODUCTS IN STORAGE
         farmerFactory_VERCA.createProduct(ProductsCatalogue.MILK.name());
         farmerFactory_VERCA.createProduct(ProductsCatalogue.BEEF.name());
-//        farmerFactory_VERCA.createProduct(ProductsCatalogue.BEEF.name());
         farmerFactory_VERCA.createProduct(ProductsCatalogue.EGG.name());
 
         // CHECKING IF CERTAIN PRODUCTS ARE IN STORAGE
@@ -55,9 +53,12 @@ public class Start {
         Producer producer_MINA  = new Producer("Mina", "123456789", 10_000, places1, address);
         ProducerFactory producerFactory_MINA = new ProducerFactory(producer_MINA);
 
+        Product MILK = farmer_VERCA.getStorage().getProductByName(ProductsCatalogue.MILK.name());
+        Product BEEF = farmer_VERCA.getStorage().getProductByName(ProductsCatalogue.BEEF.name());
+
         // FARMER SELLS SOME PRODUCTS
-        Product MILK_SELL = farmerFactory_VERCA.sellProduct(farmer_VERCA.getStorage().getProductByName(ProductsCatalogue.MILK.name()));
-        Product BEEF_SELL = farmerFactory_VERCA.sellProduct(farmer_VERCA.getStorage().getProductByName(ProductsCatalogue.BEEF.name()));
+        farmerFactory_VERCA.sellProduct(MILK);
+        farmerFactory_VERCA.sellProduct(BEEF);
 
         // CREATE NEW DISTRIBUTOR
         List<Place> places2 = new ArrayList<>();
@@ -65,24 +66,32 @@ public class Start {
         Distributor distributor_TOM  = new Distributor("Tom", "123456789", 0, places2, address);
 
         // PRODUCER BUYS PRODUCTS
-        producerFactory_MINA.purchaseProduct(MILK_SELL, distributor_TOM, farmer_VERCA);
-        producerFactory_MINA.purchaseProduct(BEEF_SELL, distributor_TOM, farmer_VERCA);
+        producerFactory_MINA.purchaseProduct(MILK, distributor_TOM, farmer_VERCA);
+        producerFactory_MINA.purchaseProduct(BEEF, distributor_TOM, farmer_VERCA);
 
         farmer_VERCA.getStorage().getStorageInventory();
         producer_MINA.getStorage().getStorageInventory();
 
-        // PRODUCER RETURNS BEEF
-        producerFactory_MINA.returnProduct(BEEF_SELL.getName(), distributor_TOM, farmer_VERCA);
+        producerFactory_MINA.sellProduct(BEEF);
 
-//        MILK_SELL.generateFoodChainReport();
-        BEEF_SELL.generateFoodChainReport();
-        BEEF_SELL.generatePartiesReport();
+        ShopOwner shopOwner_Kaufland = new ShopOwner("Kaufland", "123456789", 800, places2, address);
+        ShopOwnerFactory shopOwnerFactory_Kaufland = new ShopOwnerFactory(shopOwner_Kaufland);
 
-//        System.out.println("Farmer's wallet: " + farmer_VERCA.getWallet());
-//        System.out.println("Producer's wallet: " + producer_MINA.getWallet());
-//        System.out.println("Distributor's wallet: " + distributor_TOM.getWallet());
+        shopOwnerFactory_Kaufland.purchaseProduct(BEEF, distributor_TOM, producer_MINA);
+//        DiscountedProductDecorator discount = new DiscountedProductDecorator(BEEF, 20);
 
+        Customer customer_Roxy = new Customer("Roxy", "123456789", 100_000, places2, address);
+        CustomerFactory customerFactory_Roxy = new CustomerFactory(customer_Roxy);
+
+        shopOwnerFactory_Kaufland.addSubscribedCustomer(customer_Roxy);
+
+        shopOwnerFactory_Kaufland.sellProduct(BEEF);
+        customerFactory_Roxy.purchaseProduct(BEEF, distributor_TOM, shopOwner_Kaufland);
+
+
+        BEEF.generateFoodChainReport();
         Transaction_Report.generateTransactionReport();
+
 
     }
 }

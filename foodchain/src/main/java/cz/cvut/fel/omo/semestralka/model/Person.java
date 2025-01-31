@@ -18,6 +18,4 @@ public abstract class Person {
     private List<Place> workplaces;
     private Address workAddress;
 
-    protected abstract Storage getStorage();
-
 }

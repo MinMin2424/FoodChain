@@ -1,119 +1,55 @@
 package cz.cvut.fel.omo.semestralka.factory;
 
+import cz.cvut.fel.omo.semestralka.model.Person;
 import cz.cvut.fel.omo.semestralka.model.Product;
-import cz.cvut.fel.omo.semestralka.enums.OperationType;
+import cz.cvut.fel.omo.semestralka.model.Storage;
+import cz.cvut.fel.omo.semestralka.enums.Place;
 import cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue;
 import cz.cvut.fel.omo.semestralka.model.roles.Producer;
-import cz.cvut.fel.omo.semestralka.transaction.Transaction;
 
-
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static cz.cvut.fel.omo.semestralka.enums.OperationType.*;
-import static cz.cvut.fel.omo.semestralka.enums.Place.*;
-import static cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue.getPriceByName;
+public class ProducerFactory extends AbstractFactory{
 
-public class ProducerFactory implements Factory {
     private final Producer producer;
-    public ProducerFactory(Producer producer){this.producer = producer;}
 
-    /**
-     * Executes specific function
-     * @param productName name of the product
-     * @param sellQuantity quantity of the product
-     * @param operationType name of the function to be executed
-     */
+    public ProducerFactory(Producer producer) {
+        this.producer = producer;
+    }
+
     @Override
-    public void executeOperation(String productName, int sellQuantity, OperationType operationType) {
-        switch (operationType) {
-            case CREATE:
-                createProduct(productName);
-                break;
-            case STORE:
-                storeProduct(productName);
-                break;
-            case SELL:
-                sellProduct(productName, sellQuantity);
-                break;
-            case RETURN:
-                //to do
-                break;
-        }
+    protected Person getPerson() {
+        return producer;
     }
 
-    /**
-     * Creates and adds new product out of already existing products in warehouse
-     * @param productName name of the product
-     */
-    private void createProduct(String productName) {
-        List<String> origins = getProductOrigin(productName);
-        if (origins == null) {
-            return;
-        }
-        for (String origin : origins) {
-            boolean found = producer.getStorage().findProduct(origin);
-            if (!found) {
-                return;
-            }
-        }
-        for (String origin : origins) {
-            Product productOrigin = producer.getStorage().getProductByName(origin);
-            producer.getStorage().removeProductFromStorage(productOrigin, producer, WAREHOUSE, MANUFACTORY);
-        }
-        Product newProduct = new Product(productName, LocalDate.now());
-        Transaction transaction = new Transaction(newProduct, producer, MUSHROOM_LAND, MUSHROOM_LAND, CREATE, LocalDate.now(), CREATE.getPrice(), null);
-        producer.getStorage().addProductToStorage(newProduct, producer, MANUFACTORY, WAREHOUSE);
-    }
-
-    /**
-     * Adds product to producers storage
-     * @param productName name of the product
-     */
     @Override
-    public void storeProduct(String productName) {
-        Product product = producer.getStorage().getProductByName(productName);
-        producer.getStorage().addProductToStorage(product, producer, VAN, WAREHOUSE);
+    public void storeProduct(Product product) {
+        getStorage().addProductToStorage(product, producer, Place.VAN, Place.WAREHOUSE_PRODUCER);
     }
 
-    /**
-     * Subtracts quantity of said product from producers storage and transfers it to van and then to shop oners warehouse
-     * @param productName name of the product
-     * @param sellQuantity quantity of the product to be sold
-     */
-    private void sellProduct(String productName, int sellQuantity) {
-        Product product = producer.getStorage().getProductByName(productName);
-        if (product == null) {
-            return;
+    @Override
+    protected Storage getStorage() {
+        return producer.getStorage();
+    }
+
+    @Override
+    public void returnProduct(String productName, Person distributor, Person salesman) {
+        if (!canReturnProduct()) {
+            throw new UnsupportedOperationException("Cannot return product " + productName);
         }
-        producer.getStorage().removeProductFromStorage(product, producer, WAREHOUSE, VAN);
-        Transaction sellTransaction = new Transaction(product, producer, ON_SALE, ON_SALE, SELL, LocalDate.now(), getPriceByName(productName), product.getLastTransaction());
-        product.addTransaction(sellTransaction);
-        Transaction transportTransaction = new Transaction(product, producer, VAN, WAREHOUSE, TRANSPORT, LocalDate.now(), TRANSPORT.getPrice(), product.getLastTransaction());
-        product.addTransaction(transportTransaction);
-    }
-
-    private void returnProduct(String productName) {
-        Product product = producer.getStorage().getProductByName(productName);
+        Product product = getStorage().getProductByName(productName);
         if (product == null) {
-            return;
+            throw new IllegalArgumentException("Product " + productName + " not found. Cannot return product " + productName);
         }
-        producer.getStorage().removeProductFromStorage(product, producer, WAREHOUSE, VAN);
-//        Transaction returnTransaction = new Transaction(product, , , RETURN, LocalDate.now(), 0, product.getLastTransaction());
-//        product.addTransaction(returnTransaction);
-        Transaction transportTransaction = new Transaction(product, producer, VAN, WAREHOUSE, TRANSPORT, LocalDate.now(), TRANSPORT.getPrice(), product.getLastTransaction());
+        createNewTransaction(product, Place.WAREHOUSE_PRODUCER, Place.VAN);
+        transportProduct(product, distributor, salesman);
     }
 
-    /**
-     * Assignes source products to the give product
-     * @param productName name of the products
-     * @return String listing out source products
-     */
-    public List<String> getProductOrigin(String productName) {
-
+    @Override
+    protected List<String> getProductOrigin(String productName) {
         List<String> origins = new ArrayList<>();
-        switch (productName){
+        switch (productName) {
             case "FLOUR":
                 origins.add(ProductsCatalogue.WHEAT.name());
             case "YOGHURT", "HEAVY_CREAM", "CHEESE":
@@ -154,11 +90,9 @@ public class ProducerFactory implements Factory {
                 origins.add(ProductsCatalogue.EGG.name());
                 origins.add(ProductsCatalogue.MILK.name());
                 break;
-            default: return null;
+            default:
+                return null;
         }
-
         return origins;
     }
-
-
 }
