@@ -8,6 +8,7 @@ import cz.cvut.fel.omo.semestralka.model.Storage;
 import cz.cvut.fel.omo.semestralka.enums.Place;
 import cz.cvut.fel.omo.semestralka.model.roles.Distributor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class DistributorFactory extends AbstractFactory{
@@ -19,8 +20,8 @@ public class DistributorFactory extends AbstractFactory{
     }
 
     @Override
-    public void storeProduct(ProductInterface product) {
-        getStorage().addProductToStorage(product, getPerson(), Place.WAREHOUSE, Place.VAN);
+    public void storeProduct(ProductInterface product, LocalDate date) {
+        getStorage().addProductToStorage(product, getPerson(), Place.WAREHOUSE, Place.VAN, date);
     }
 
     @Override

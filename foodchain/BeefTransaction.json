@@ -2,34 +2,51 @@
   "product" : {
     "name" : "BEEF"
   },
+  "operationType" : "CREATE",
+  "transactionDate" : [ 2024, 11, 15 ],
+  "price" : 0.0,
   "personFrom" : {
     "name" : "Verca",
     "warehouse_TEMPERATURE" : 5
   },
   "personTo" : null,
   "movedFrom" : null,
-  "movedTo" : null,
-  "operationType" : "CREATE",
-  "transactionDate" : [ 2024, 11, 28 ],
-  "price" : 0.0
+  "movedTo" : null
 }, {
   "product" : {
     "name" : "BEEF"
   },
+  "operationType" : "STORE",
+  "transactionDate" : [ 2024, 11, 15 ],
+  "price" : 0.0,
   "personFrom" : {
     "name" : "Verca",
     "warehouse_TEMPERATURE" : 5
   },
   "personTo" : null,
   "movedFrom" : "MANUFACTORY",
-  "movedTo" : "WAREHOUSE_FARMER",
-  "operationType" : "STORE",
-  "transactionDate" : [ 2024, 11, 28 ],
-  "price" : 0.0
+  "movedTo" : "WAREHOUSE_FARMER"
 }, {
   "product" : {
     "name" : "BEEF"
   },
+  "operationType" : "REMOVE",
+  "transactionDate" : [ 2024, 11, 20 ],
+  "price" : 0.0,
+  "personFrom" : {
+    "name" : "Verca",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "personTo" : null,
+  "movedFrom" : "WAREHOUSE",
+  "movedTo" : "ON_SALE"
+}, {
+  "product" : {
+    "name" : "BEEF"
+  },
+  "operationType" : "PURCHASE",
+  "transactionDate" : [ 2024, 11, 20 ],
+  "price" : 250.0,
   "personFrom" : {
     "name" : "Verca",
     "warehouse_TEMPERATURE" : 5
@@ -39,28 +56,14 @@
     "warehouse_TEMPERATURE" : 5
   },
   "movedFrom" : null,
-  "movedTo" : null,
-  "operationType" : "PURCHASE",
-  "transactionDate" : [ 2024, 11, 28 ],
-  "price" : 250.0
+  "movedTo" : null
 }, {
   "product" : {
     "name" : "BEEF"
   },
-  "personFrom" : {
-    "name" : "Verca",
-    "warehouse_TEMPERATURE" : 5
-  },
-  "personTo" : null,
-  "movedFrom" : "WAREHOUSE",
-  "movedTo" : "ON_SALE",
-  "operationType" : "REMOVE",
-  "transactionDate" : [ 2024, 11, 28 ],
-  "price" : 0.0
-}, {
-  "product" : {
-    "name" : "BEEF"
-  },
+  "operationType" : "TRANSPORT",
+  "transactionDate" : [ 2024, 11, 20 ],
+  "price" : 100.0,
   "personFrom" : {
     "name" : "Verca",
     "warehouse_TEMPERATURE" : 5
@@ -70,28 +73,42 @@
     "warehouse_TEMPERATURE" : 5
   },
   "movedFrom" : null,
-  "movedTo" : null,
-  "operationType" : "TRANSPORT",
-  "transactionDate" : [ 2024, 11, 28 ],
-  "price" : 100.0
+  "movedTo" : null
 }, {
   "product" : {
     "name" : "BEEF"
   },
+  "operationType" : "STORE",
+  "transactionDate" : [ 2024, 11, 20 ],
+  "price" : 0.0,
   "personFrom" : {
     "name" : "Mina",
     "warehouse_TEMPERATURE" : 5
   },
   "personTo" : null,
   "movedFrom" : "VAN",
-  "movedTo" : "WAREHOUSE_PRODUCER",
-  "operationType" : "STORE",
-  "transactionDate" : [ 2024, 11, 28 ],
-  "price" : 0.0
+  "movedTo" : "WAREHOUSE_PRODUCER"
 }, {
   "product" : {
     "name" : "BEEF"
   },
+  "operationType" : "REMOVE",
+  "transactionDate" : [ 2024, 11, 22 ],
+  "price" : 0.0,
+  "personFrom" : {
+    "name" : "Mina",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "personTo" : null,
+  "movedFrom" : "WAREHOUSE",
+  "movedTo" : "ON_SALE"
+}, {
+  "product" : {
+    "name" : "BEEF"
+  },
+  "operationType" : "PURCHASE",
+  "transactionDate" : [ 2024, 11, 22 ],
+  "price" : 250.0,
   "personFrom" : {
     "name" : "Mina",
     "warehouse_TEMPERATURE" : 5
@@ -101,28 +118,14 @@
     "warehouse_TEMPERATURE" : 5
   },
   "movedFrom" : null,
-  "movedTo" : null,
-  "operationType" : "PURCHASE",
-  "transactionDate" : [ 2024, 11, 28 ],
-  "price" : 250.0
+  "movedTo" : null
 }, {
   "product" : {
     "name" : "BEEF"
   },
-  "personFrom" : {
-    "name" : "Mina",
-    "warehouse_TEMPERATURE" : 5
-  },
-  "personTo" : null,
-  "movedFrom" : "WAREHOUSE",
-  "movedTo" : "ON_SALE",
-  "operationType" : "REMOVE",
-  "transactionDate" : [ 2024, 11, 28 ],
-  "price" : 0.0
-}, {
-  "product" : {
-    "name" : "BEEF"
-  },
+  "operationType" : "TRANSPORT",
+  "transactionDate" : [ 2024, 11, 22 ],
+  "price" : 100.0,
   "personFrom" : {
     "name" : "Mina",
     "warehouse_TEMPERATURE" : 5
@@ -132,28 +135,28 @@
     "warehouse_TEMPERATURE" : 5
   },
   "movedFrom" : null,
-  "movedTo" : null,
-  "operationType" : "TRANSPORT",
-  "transactionDate" : [ 2024, 11, 28 ],
-  "price" : 100.0
+  "movedTo" : null
 }, {
   "product" : {
     "name" : "BEEF"
   },
+  "operationType" : "STORE",
+  "transactionDate" : [ 2024, 11, 22 ],
+  "price" : 0.0,
   "personFrom" : {
     "name" : "Kaufland",
     "warehouse_TEMPERATURE" : 5
   },
   "personTo" : null,
   "movedFrom" : "VAN",
-  "movedTo" : "SHOP",
-  "operationType" : "STORE",
-  "transactionDate" : [ 2024, 11, 28 ],
-  "price" : 0.0
+  "movedTo" : "SHOP"
 }, {
   "product" : {
     "name" : "BEEF"
   },
+  "operationType" : "PURCHASE",
+  "transactionDate" : [ 2024, 11, 23 ],
+  "price" : 250.0,
   "personFrom" : {
     "name" : "Kaufland",
     "warehouse_TEMPERATURE" : 5
@@ -163,36 +166,33 @@
     "warehouse_TEMPERATURE" : -50
   },
   "movedFrom" : null,
-  "movedTo" : null,
-  "operationType" : "PURCHASE",
-  "transactionDate" : [ 2024, 11, 28 ],
-  "price" : 250.0
+  "movedTo" : null
 }, {
   "product" : {
     "name" : "BEEF"
   },
-  "personFrom" : {
-    "name" : "Roxy",
-    "warehouse_TEMPERATURE" : -50
-  },
-  "personTo" : null,
-  "movedFrom" : "SHOP",
-  "movedTo" : "BACKPACK",
   "operationType" : "STORE",
-  "transactionDate" : [ 2024, 11, 28 ],
-  "price" : 0.0
-}, {
-  "product" : {
-    "name" : "BEEF"
-  },
+  "transactionDate" : [ 2024, 11, 23 ],
+  "price" : 0.0,
   "personFrom" : {
     "name" : "Roxy",
     "warehouse_TEMPERATURE" : -50
   },
   "personTo" : null,
   "movedFrom" : "SHOP",
-  "movedTo" : "VAN",
+  "movedTo" : "BACKPACK"
+}, {
+  "product" : {
+    "name" : "BEEF"
+  },
   "operationType" : "RETURN",
-  "transactionDate" : [ 2024, 11, 28 ],
-  "price" : 0.0
+  "transactionDate" : [ 2024, 11, 24 ],
+  "price" : 0.0,
+  "personFrom" : {
+    "name" : "Roxy",
+    "warehouse_TEMPERATURE" : -50
+  },
+  "personTo" : null,
+  "movedFrom" : "SHOP",
+  "movedTo" : "VAN"
 } ]

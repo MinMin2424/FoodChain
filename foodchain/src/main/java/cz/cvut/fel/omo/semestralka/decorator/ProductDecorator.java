@@ -1,6 +1,6 @@
 package cz.cvut.fel.omo.semestralka.decorator;
 
-import cz.cvut.fel.omo.semestralka.model.Product;
+import cz.cvut.fel.omo.semestralka.enums.ProductStatus;
 import cz.cvut.fel.omo.semestralka.state.ProductState;
 import cz.cvut.fel.omo.semestralka.transaction.Transaction;
 import lombok.AllArgsConstructor;
@@ -45,6 +45,16 @@ public class ProductDecorator implements ProductInterface {
     @Override
     public int getTemperature() {
         return decoratedProduct.getTemperature();
+    }
+
+    @Override
+    public ProductStatus getProductStatus() {
+        return decoratedProduct.getProductStatus();
+    }
+
+    @Override
+    public void setProductStatus(ProductStatus productStatus) {
+        decoratedProduct.setProductStatus(productStatus);
     }
 
     @Override

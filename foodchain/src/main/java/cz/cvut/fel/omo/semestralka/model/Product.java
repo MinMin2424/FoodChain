@@ -3,9 +3,8 @@ package cz.cvut.fel.omo.semestralka.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import cz.cvut.fel.omo.semestralka.decorator.ProductInterface;
-import cz.cvut.fel.omo.semestralka.enums.OperationType;
+import cz.cvut.fel.omo.semestralka.enums.ProductStatus;
 import cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue;
 import cz.cvut.fel.omo.semestralka.state.EatableProductState;
 import cz.cvut.fel.omo.semestralka.state.ExpiredProductState;
@@ -14,7 +13,6 @@ import cz.cvut.fel.omo.semestralka.transaction.Transaction;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -25,7 +23,15 @@ import static cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue.getTemperature
 
 @Getter
 @Setter
-@JsonIgnoreProperties({"producedOnDate", "expirationDate", "currentState", "price", "temperature"})
+@JsonIgnoreProperties({
+        "producedOnDate",
+        "expirationDate",
+        "currentState",
+        "price",
+        "temperature",
+        "productStatus",
+        "foodChainTransactionHistory"
+})
 public class Product implements ProductInterface {
 
     private String name;
@@ -36,6 +42,7 @@ public class Product implements ProductInterface {
     private ProductState currentState;
     private double price;
     private int temperature;
+    private ProductStatus productStatus;
 
     public Product(String name, LocalDate producedOnDate) {
         this.name = name;
@@ -43,6 +50,7 @@ public class Product implements ProductInterface {
         this.transactionHistory = new ArrayList<>();
         this.price = getPriceByName(name);
         this.temperature = getTemperatureByName(name);
+        productStatus = ProductStatus.NOT_ON_SALE;
         calcExpirationDate();
         updateState();
     }
@@ -105,6 +113,11 @@ public class Product implements ProductInterface {
     @JsonIgnore
     public String getDescription() {
         return name;
+    }
+
+    @Override
+    public List<Transaction> getTransactionHistory() {
+        return transactionHistory;
     }
 
     @Override

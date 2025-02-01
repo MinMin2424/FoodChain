@@ -38,57 +38,66 @@ public class Start {
         Farmer farmer_VERCA = new Farmer("Verca", "123456789", 500_000, places, address);
         FarmerFactory farmerFactory_VERCA = new FarmerFactory(farmer_VERCA);
 
-        // CREATE NEW PRODUCTS AND ADD IN FARMER STORAGE
-        Product chicken = new Product(ProductsCatalogue.CHICKEN.name(), LocalDate.now());
-        Product cow = new Product(ProductsCatalogue.COW.name(), LocalDate.now());
-        Product cow1 = new Product(ProductsCatalogue.COW.name(), LocalDate.now());
-        farmerFactory_VERCA.storeProduct(chicken);
-        farmerFactory_VERCA.storeProduct(cow);
-        farmerFactory_VERCA.storeProduct(cow1);
-
-
-        // CREATE NEW PRODUCTS BY EXISTING PRODUCTS IN STORAGE
-        farmerFactory_VERCA.createProduct(ProductsCatalogue.MILK);
-        farmerFactory_VERCA.createProduct(ProductsCatalogue.BEEF);
-        farmerFactory_VERCA.createProduct(ProductsCatalogue.EGG);
-
-        // CHECKING IF CERTAIN PRODUCTS ARE IN STORAGE
-        farmer_VERCA.getStorage().getStorageInventory();
-
         // CREATE NEW PRODUCER
         List<Place> places1 = new ArrayList<>();
         places1.add(Place.MANUFACTORY);
         Producer producer_MINA  = new Producer("Mina", "123456789", 10_000, places1, address);
         ProducerFactory producerFactory_MINA = new ProducerFactory(producer_MINA);
 
-        ProductInterface MILK = farmer_VERCA.getStorage().getProduct(ProductsCatalogue.MILK);
-        ProductInterface BEEF = farmer_VERCA.getStorage().getProduct(ProductsCatalogue.BEEF);
+        Producer producer_JOSEF  = new Producer("Mina", "123456789", 10_000, places1, address);
+        ProducerFactory producerFactory_JOSEF = new ProducerFactory(producer_JOSEF);
 
-        // FARMER SELLS SOME PRODUCTS
-        farmerFactory_VERCA.sellProduct(MILK);
-        farmerFactory_VERCA.sellProduct(BEEF);
 
         // CREATE NEW DISTRIBUTOR
         List<Place> places2 = new ArrayList<>();
         places1.add(Place.MANUFACTORY);
         Distributor distributor_TOM  = new Distributor("Tom", "123456789", 0, places2, address);
 
-        // PRODUCER BUYS PRODUCTS
-        producerFactory_MINA.purchaseProduct(MILK, distributor_TOM, farmer_VERCA);
-        producerFactory_MINA.purchaseProduct(BEEF, distributor_TOM, farmer_VERCA);
+        // CREATE NEW PRODUCTS AND ADD IN FARMER STORAGE
+        Product chicken = new Product(ProductsCatalogue.CHICKEN.name(), LocalDate.now());
+        Product cow = new Product(ProductsCatalogue.COW.name(), LocalDate.now());
+        Product cow1 = new Product(ProductsCatalogue.COW.name(), LocalDate.now());
+        farmerFactory_VERCA.storeProduct(chicken, LocalDate.now().minusDays(20));
+        farmerFactory_VERCA.storeProduct(cow, LocalDate.now().minusDays(18));
+        farmerFactory_VERCA.storeProduct(cow1, LocalDate.now().minusDays(17));
 
-        producerFactory_MINA.returnProduct(MILK, distributor_TOM, farmer_VERCA);
-        plainTextReport.generateTransaction(MILK.getTransactionHistory());
 
+        // CREATE NEW PRODUCTS BY EXISTING PRODUCTS IN STORAGE
+        ProductInterface MILK = farmerFactory_VERCA.createProduct(ProductsCatalogue.MILK, LocalDate.now().minusDays(15));
+        ProductInterface BEEF = farmerFactory_VERCA.createProduct(ProductsCatalogue.BEEF, LocalDate.now().minusDays(15));
+        ProductInterface EGG = farmerFactory_VERCA.createProduct(ProductsCatalogue.EGG, LocalDate.now().minusDays(15));
+
+        // CHECKING IF CERTAIN PRODUCTS ARE IN STORAGE
         farmer_VERCA.getStorage().getStorageInventory();
+
+
+        // FARMER SELLS SOME PRODUCTS
+        farmerFactory_VERCA.sellProduct(MILK);
+        farmerFactory_VERCA.sellProduct(BEEF);
+
+        // PRODUCER BUYS PRODUCTS
+        producerFactory_MINA.purchaseProduct(MILK, distributor_TOM, farmer_VERCA, LocalDate.now().minusDays(10));
+        producerFactory_MINA.purchaseProduct(BEEF, distributor_TOM, farmer_VERCA, LocalDate.now().minusDays(10));
+
+        producerFactory_JOSEF.purchaseProduct(BEEF, distributor_TOM, farmer_VERCA, LocalDate.now().minusDays(10));
+
+        System.out.println("VERCA: ");
+        farmer_VERCA.getStorage().getStorageInventory();
+        System.out.println("MINA: ");
         producer_MINA.getStorage().getStorageInventory();
+        System.out.println("JOSEF: ");
+        producer_JOSEF.getStorage().getStorageInventory();
+
+        producerFactory_MINA.returnProduct(MILK, distributor_TOM, farmer_VERCA, LocalDate.now().minusDays(9));
+//        plainTextReport.generateTransaction(MILK.getTransactionHistory());
+
 
         producerFactory_MINA.sellProduct(BEEF);
 
         ShopOwner shopOwner_Kaufland = new ShopOwner("Kaufland", "123456789", 800, places2, address);
         ShopOwnerFactory shopOwnerFactory_Kaufland = new ShopOwnerFactory(shopOwner_Kaufland);
 
-        shopOwnerFactory_Kaufland.purchaseProduct(BEEF, distributor_TOM, producer_MINA);
+        shopOwnerFactory_Kaufland.purchaseProduct(BEEF, distributor_TOM, producer_MINA, LocalDate.now().minusDays(8));
 //        DiscountedProductDecorator discount = new DiscountedProductDecorator(BEEF, 20);
 
         Customer customer_Roxy = new Customer("Roxy", "123456789", 100_000, places2, address);
@@ -99,13 +108,20 @@ public class Start {
 //        ProductInterface BIO_BEEF = new BioProductDecorator(BEEF);
 
         shopOwnerFactory_Kaufland.sellProduct(BEEF);
-        customerFactory_Roxy.purchaseProduct(BEEF, distributor_TOM, shopOwner_Kaufland);
+        customerFactory_Roxy.purchaseProduct(BEEF, distributor_TOM, shopOwner_Kaufland, LocalDate.now().minusDays(7));
 
-        customerFactory_Roxy.returnProduct(BEEF, distributor_TOM, shopOwner_Kaufland);
+        customerFactory_Roxy.returnProduct(BEEF, distributor_TOM, shopOwner_Kaufland, LocalDate.now().minusDays(6));
 
         jsonTextReport.generateTransaction(BEEF.getTransactionHistory());
         jsonTextReport.generateMoneyTransaction(StorageMoneyTransaction.transactionHistory);
 
         ReportSaver.saveReportToJson(BEEF.getTransactionHistory(), "BeefTransaction.json");
+        ReportSaver.saveMoneyReportToJson(StorageMoneyTransaction.transactionHistory, "MoneyTransaction.json");
+
+        farmer_VERCA.getStorage().getStorageInventory();
+        producer_MINA.getStorage().getStorageInventory();
+        producer_JOSEF.getStorage().getStorageInventory();
+        shopOwner_Kaufland.getStorage().getStorageInventory();
+        customer_Roxy.getStorage().getStorageInventory();
     }
 }

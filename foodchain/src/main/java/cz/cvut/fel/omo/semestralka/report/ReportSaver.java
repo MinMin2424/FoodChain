@@ -2,6 +2,7 @@ package cz.cvut.fel.omo.semestralka.report;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import cz.cvut.fel.omo.semestralka.transaction.MoneyTransaction;
 import cz.cvut.fel.omo.semestralka.transaction.Transaction;
 
 import java.io.File;
@@ -15,6 +16,17 @@ public class ReportSaver {
         objectMapper.registerModule(new JavaTimeModule());
         try {
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(fileName), transactions);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void saveMoneyReportToJson(List<MoneyTransaction> moneyTransactions, String fileName) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        try {
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(fileName), moneyTransactions);
 
         } catch (IOException e) {
             e.printStackTrace();

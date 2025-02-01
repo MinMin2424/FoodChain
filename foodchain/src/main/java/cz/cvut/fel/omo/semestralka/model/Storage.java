@@ -31,19 +31,21 @@ public class Storage {
      * @param movedFrom where we are moving product from
      * @param movedTo where we are moving product to
      */
-    public void addProductToStorage(ProductInterface product, Person person, Place movedFrom, Place movedTo) {
-        addProduct(product);
-        Transaction transaction = new Transaction(
-                product,
-                person,
-                movedFrom,
-                movedTo,
-                OperationType.STORE,
-                LocalDate.now(),
-                0,
-                product.getLastTransaction()
-        );
-        product.addTransaction(transaction);
+    public void addProductToStorage(ProductInterface product, Person person, Place movedFrom, Place movedTo, LocalDate date) {
+        boolean isProductAdded = addProduct(product);
+        if (isProductAdded) {
+            Transaction transaction = new Transaction(
+                    product,
+                    person,
+                    movedFrom,
+                    movedTo,
+                    OperationType.STORE,
+                    date,
+                    0,
+                    product.getLastTransaction()
+            );
+            product.addTransaction(transaction);
+        }
     }
 
     /**
@@ -53,54 +55,62 @@ public class Storage {
      * @param movedFrom Place where we are moving product from
      * @param movedTo Place where we are moving product to
      */
-    public void removeProductFromStorage(ProductInterface product, Person person, Place movedFrom, Place movedTo) {
-        removeProduct(product);
-        Transaction transaction = new Transaction(
-                product,
-                person,
-                movedFrom,
-                movedTo,
-                OperationType.REMOVE,
-                LocalDate.now(),
-                0,
-                product.getLastTransaction()
-        );
-        product.addTransaction(transaction);
+    public boolean removeProductFromStorage(ProductInterface product, Person person, Place movedFrom, Place movedTo, LocalDate date) {
+        boolean isProductRemoved = removeProduct(product);
+        if (isProductRemoved) {
+            Transaction transaction = new Transaction(
+                    product,
+                    person,
+                    movedFrom,
+                    movedTo,
+                    OperationType.REMOVE,
+                    date,
+                    0,
+                    product.getLastTransaction()
+            );
+            product.addTransaction(transaction);
+        }
+        return isProductRemoved;
     }
 
     /**
      * Adds product to the warehouse
      * @param product product to be added
      */
-    private void addProduct(ProductInterface product) {
+    private boolean addProduct(ProductInterface product) {
         if (product == null) {
             throw new IllegalArgumentException("Product cannot be null");
         }
-
+        boolean isProductAdded = false;
         if (checkTemperature(product.getTemperature(), getTemperature())) {
             productList.add(product);
             System.out.println("NEW PRODUCT " + product.getName() + " has been added to the list");
+            isProductAdded = true;
         } else {
             System.out.println("NOPE");
             throw new IllegalArgumentException("Product cannot be added to the list because of temperature.");
         }
+        return isProductAdded;
     }
 
     /**
      * Removes product from the warehouse
      * @param product product to be removed
      */
-    private void removeProduct(ProductInterface product) {
+    public boolean removeProduct(ProductInterface product) {
+        boolean isRemoved = false;
         if (product == null) {
             throw new IllegalArgumentException("Product cannot be null");
         }
         for (int i = 0; i < productList.size(); i++) {
             ProductInterface currentProduct = productList.get(i);
-            if (currentProduct.getName().equals(product.getName())) {
+            if (currentProduct.equals(product)) {
                 productList.remove(i);
+                isRemoved = true;
                 break;
             }
         }
+        return isRemoved;
     }
 
     /**

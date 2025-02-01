@@ -8,6 +8,7 @@ import cz.cvut.fel.omo.semestralka.model.Storage;
 import cz.cvut.fel.omo.semestralka.enums.Place;
 import cz.cvut.fel.omo.semestralka.model.roles.Customer;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue.getPriceByName;
@@ -41,30 +42,23 @@ public class CustomerFactory extends AbstractFactory {
     }
 
     @Override
-    public void storeProduct(ProductInterface product) {
-        getStorage().addProductToStorage(product, getPerson(), Place.SHOP, Place.BACKPACK);
-    }
-
-//    @Override
-//    public void returnProduct(ProductInterface product, Person distributor, Person salesman) {
-//        if (product == null) {
-//            throw new IllegalArgumentException("Product is null. Cannot return product.");
-//        }
-//        createNewTransaction(product, Place.BACKPACK, Place.SHOP);
-//    }
-
-    @Override
-    protected void addReturnTransaction(ProductInterface product) {
-        createNewTransaction(product, Place.SHOP, Place.VAN);
+    public void storeProduct(ProductInterface product, LocalDate date) {
+        getStorage().addProductToStorage(product, getPerson(), Place.SHOP, Place.BACKPACK, date);
     }
 
     @Override
-    protected void addTransportTransaction(ProductInterface product, Person distributor, Person salesman) {
+    protected void addReturnTransaction(ProductInterface product, LocalDate date) {
+        createNewTransaction(product, Place.SHOP, Place.VAN, date);
+        getStorage().removeProduct(product);
+    }
+
+    @Override
+    protected void addTransportTransaction(ProductInterface product, Person distributor, Person salesman, LocalDate date) {
         // Do nothing
     }
 
     @Override
-    public void purchaseProduct(ProductInterface product, Person distributor, Person salesman) {
+    public void purchaseProduct(ProductInterface product, Person distributor, Person salesman, LocalDate date) {
         if (product == null) {
             throw new IllegalArgumentException("Product cannot be null.");
         }
@@ -73,9 +67,9 @@ public class CustomerFactory extends AbstractFactory {
         }
         salesman.setWallet(salesman.getWallet() + product.getPrice());
         getPerson().setWallet(getPerson().getWallet() - product.getPrice());
-        createNewTransaction(product, salesman, product.getPrice());
-        storeProduct(product);
-        createMoneyTransaction(product, salesman, product.getPrice());
+        createNewTransaction(product, salesman, product.getPrice(), date);
+        storeProduct(product, date);
+        createMoneyTransaction(product, salesman, product.getPrice(), date);
     }
 
     @Override

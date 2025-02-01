@@ -10,6 +10,7 @@ import cz.cvut.fel.omo.semestralka.model.roles.Farmer;
 import cz.cvut.fel.omo.semestralka.strategy.ProductOriginStrategy;
 import cz.cvut.fel.omo.semestralka.strategy.farmerStrategy.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,8 +28,8 @@ public class FarmerFactory extends AbstractFactory{
     }
 
     @Override
-    public void storeProduct(ProductInterface product) {
-        getStorage().addProductToStorage(product, getPerson(), Place.MANUFACTORY, Place.WAREHOUSE_FARMER);
+    public void storeProduct(ProductInterface product, LocalDate date) {
+        getStorage().addProductToStorage(product, getPerson(), Place.MANUFACTORY, Place.WAREHOUSE_FARMER, date);
     }
 
     @Override

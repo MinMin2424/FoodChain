@@ -1,6 +1,7 @@
 package cz.cvut.fel.omo.semestralka.factory;
 
 import cz.cvut.fel.omo.semestralka.decorator.ProductInterface;
+import cz.cvut.fel.omo.semestralka.enums.ProductStatus;
 import cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue;
 import cz.cvut.fel.omo.semestralka.model.Message;
 import cz.cvut.fel.omo.semestralka.model.Person;
@@ -11,6 +12,7 @@ import cz.cvut.fel.omo.semestralka.model.roles.Customer;
 import cz.cvut.fel.omo.semestralka.model.roles.ShopOwner;
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,22 +29,20 @@ public class ShopOwnerFactory extends AbstractFactory{
     }
 
     @Override
-    public void storeProduct(ProductInterface product) {
-        getStorage().addProductToStorage(product, shopOwner, Place.VAN, Place.SHOP);
+    public void storeProduct(ProductInterface product, LocalDate date) {
+        getStorage().addProductToStorage(product, shopOwner, Place.VAN, Place.SHOP, date);
     }
 
-//    @Override
-//    public void returnProduct(ProductInterface product, Person distributor, Person salesman) {
-//        if (product == null) {
-//            throw new IllegalArgumentException("Product is null. Cannot return product.");
-//        }
-//        createNewTransaction(product, Place.SHOP, Place.VAN);
-//        transportProduct(product, distributor, salesman);
-//    }
+    @Override
+    protected void addReturnTransaction(ProductInterface product, LocalDate date) {
+        createNewTransaction(product, Place.SHOP, Place.VAN, date);
+        getStorage().removeProduct(product);
+    }
 
     @Override
-    protected void addReturnTransaction(ProductInterface product) {
-        createNewTransaction(product, Place.SHOP, Place.VAN);
+    protected void addTransportTransaction(ProductInterface product, Person distributor, Person salesman, LocalDate date) {
+        transportProduct(product, distributor, salesman, date);
+        salesman.getStorage().addProductToStorage(product, salesman, Place.VAN, Place.WAREHOUSE_PRODUCER, date);
     }
 
     /**
@@ -50,21 +50,18 @@ public class ShopOwnerFactory extends AbstractFactory{
      * @param product product to be sold
      * @return sold product
      */
-    public Product sellProduct(Product product) {
-        if (product == null) {
-            throw new IllegalArgumentException("Product is null.");
-        }
+    @Override
+    public void sellProduct(ProductInterface product) {
+        checkIfProductInNotNull(product);
         boolean found = getStorage().findProduct(product);
         if (found) {
             if (product.checkExpirationDateForSale()) {
                 throw new IllegalArgumentException("Product " + product.getName() + " is expired. Cannot sell product " + product.getName());
             }
-            getStorage().removeProductFromStorage(product, getPerson(), Place.WAREHOUSE, Place.ON_SALE);
-            createNewTransaction(product, product.getPrice());
-            informCustomers(product);
-            return product;
+            product.setProductStatus(ProductStatus.ON_SALE);
+        } else {
+            throw new IllegalArgumentException("Product " + product.getName() + " not found. Cannot sell product " + product.getName());
         }
-        throw new IllegalArgumentException("Product " + product.getName() + " not found. Cannot sell product " + product.getName());
     }
 
     private void informCustomers(Product product) {

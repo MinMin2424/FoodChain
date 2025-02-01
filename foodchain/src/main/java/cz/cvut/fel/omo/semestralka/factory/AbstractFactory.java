@@ -1,6 +1,7 @@
 package cz.cvut.fel.omo.semestralka.factory;
 
 import cz.cvut.fel.omo.semestralka.decorator.ProductInterface;
+import cz.cvut.fel.omo.semestralka.enums.ProductStatus;
 import cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue;
 import cz.cvut.fel.omo.semestralka.model.Person;
 import cz.cvut.fel.omo.semestralka.model.Product;
@@ -8,22 +9,20 @@ import cz.cvut.fel.omo.semestralka.model.Storage;
 import cz.cvut.fel.omo.semestralka.enums.OperationType;
 import cz.cvut.fel.omo.semestralka.enums.Place;
 import cz.cvut.fel.omo.semestralka.model.roles.Distributor;
-import cz.cvut.fel.omo.semestralka.transaction.MoneyTransaction;
-import cz.cvut.fel.omo.semestralka.transaction.Transaction;
-import cz.cvut.fel.omo.semestralka.transaction.StorageMoneyTransaction;
+import cz.cvut.fel.omo.semestralka.transaction.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public abstract class AbstractFactory {
 
-    public abstract void storeProduct(ProductInterface product);
+    public abstract void storeProduct(ProductInterface product, LocalDate date);
 
     /**
      * Creates specified product
      * @param product the product to be created
      */
-    public final void createProduct(ProductsCatalogue product) {
+    public final ProductInterface createProduct(ProductsCatalogue product, LocalDate date) {
         if (!canCreateProduct()) {
             throw new UnsupportedOperationException("Cannot create product " + product.name());
         }
@@ -39,11 +38,12 @@ public abstract class AbstractFactory {
         }
         for (ProductsCatalogue origin : origins) {
             ProductInterface productOrigin = getStorage().getProduct(origin);
-            getStorage().removeProductFromStorage(productOrigin, getPerson(), Place.WAREHOUSE, Place.MANUFACTORY);
+            getStorage().removeProductFromStorage(productOrigin, getPerson(), Place.WAREHOUSE, Place.MANUFACTORY, date);
         }
         ProductInterface newProduct = new Product(product.name(), LocalDate.now());
-        createNewTransaction(newProduct);
-        storeProduct(newProduct);
+        createNewTransaction(newProduct, date);
+        storeProduct(newProduct, date);
+        return newProduct;
     }
 
     /**
@@ -51,23 +51,20 @@ public abstract class AbstractFactory {
      * @param product product to be sold
      * @return sold product
      */
-    public ProductInterface sellProduct(ProductInterface product) {
+    public void sellProduct(ProductInterface product) {
         if (!canSellProduct()) {
             throw new UnsupportedOperationException("Cannot sell product " + product.getName());
         }
-        if (product == null) {
-            throw new IllegalArgumentException("Product is null.");
-        }
+        checkIfProductInNotNull(product);
         boolean found = getStorage().findProduct(product);
         if (found) {
             if (product.checkExpirationDateForSale()) {
                 throw new IllegalArgumentException("Product " + product.getName() + " is expired. Cannot sell product " + product.getName());
             }
-//            getStorage().removeProductFromStorage(product, getPerson(), Place.WAREHOUSE, Place.ON_SALE);
-//            createNewTransaction(product, product.getPrice());
-            return product;
+            product.setProductStatus(ProductStatus.ON_SALE);
+        } else {
+            throw new IllegalArgumentException("Product " + product.getName() + " not found. Cannot sell product " + product.getName());
         }
-        throw new IllegalArgumentException("Product " + product.getName() + " not found. Cannot sell product " + product.getName());
     }
 
     /**
@@ -76,10 +73,10 @@ public abstract class AbstractFactory {
      * @param distributor Person who moves the product
      * @param salesman Person who sells product
      */
-    public void transportProduct(ProductInterface product, Person distributor, Person salesman) {
+    public void transportProduct(ProductInterface product, Person distributor, Person salesman, LocalDate date) {
         if (distributor instanceof Distributor) {
             distributor.setWallet(distributor.getWallet() + OperationType.TRANSPORT.getPrice());
-            createNewTransaction(product, salesman, distributor);
+            createNewTransaction(product, salesman, distributor, date);
         } else {
             throw new UnsupportedOperationException("Cannot transport product " + product.getName());
         }
@@ -91,11 +88,11 @@ public abstract class AbstractFactory {
      * @param distributor Person who moves the product
      * @param salesman Person who sold the product
      */
-    public void returnProduct(ProductInterface product, Person distributor, Person salesman) {
+    public void returnProduct(ProductInterface product, Person distributor, Person salesman, LocalDate date) {
         checkIfPersonCanReturnProduct(product);
         checkIfProductInNotNull(product);
-        addReturnTransaction(product);
-        addTransportTransaction(product, distributor, salesman);
+        addReturnTransaction(product, date);
+        addTransportTransaction(product, distributor, salesman, date);
     }
 
     protected void checkIfPersonCanReturnProduct(ProductInterface product) {
@@ -110,12 +107,14 @@ public abstract class AbstractFactory {
         }
     }
 
-    protected void addReturnTransaction(ProductInterface product) {
-        createNewTransaction(product, Place.WAREHOUSE_PRODUCER, Place.VAN);
+    protected void addReturnTransaction(ProductInterface product, LocalDate date) {
+        createNewTransaction(product, Place.WAREHOUSE_PRODUCER, Place.VAN, date);
+        getStorage().removeProduct(product);
     }
 
-    protected void addTransportTransaction(ProductInterface product, Person distributor, Person salesman) {
-        transportProduct(product, distributor, salesman);
+    protected void addTransportTransaction(ProductInterface product, Person distributor, Person salesman, LocalDate date) {
+        transportProduct(product, distributor, salesman, date);
+        salesman.getStorage().addProductToStorage(product, salesman, Place.VAN, Place.WAREHOUSE_FARMER, date);
     }
 
     /**
@@ -124,23 +123,59 @@ public abstract class AbstractFactory {
      * @param distributor Person who moves the product
      * @param salesman Person who sells the product
      */
-    public void purchaseProduct(ProductInterface product, Person distributor, Person salesman) {
+    public void purchaseProduct(ProductInterface product, Person distributor, Person salesman, LocalDate date) {
+        checkIfPersonCanPurchaseProduct(product);
+        checkIfProductInNotNull(product);
+        checkProductStatusForSale(product, salesman, date);
+        checkIfPersonHasEnoughMoney(product);
+        if (salesman.getStorage().removeProductFromStorage(product, salesman, Place.WAREHOUSE, Place.ON_SALE, date)) {
+            salesman.setWallet(salesman.getWallet() + product.getPrice());
+            getPerson().setWallet(getPerson().getWallet() - product.getPrice());
+            createNewTransaction(product, salesman, product.getPrice(), date);
+            transportProduct(product, distributor, salesman, date);
+            storeProduct(product, date);
+            createMoneyTransaction(product, salesman, product.getPrice(), date);
+            product.setProductStatus(ProductStatus.IS_ALREADY_PURCHASED);
+        }
+    }
+
+    private void checkIfPersonCanPurchaseProduct(ProductInterface product) {
         if (!canPurchaseProduct()) {
             throw new UnsupportedOperationException("Cannot purchase product " + product.getName());
         }
-        if (product == null) {
-            throw new IllegalArgumentException("Product cannot be null.");
+    }
+
+    private void checkProductStatusForSale(ProductInterface product, Person salesman, LocalDate date) {
+        if (product.getProductStatus() == ProductStatus.NOT_ON_SALE) {
+            throw new IllegalArgumentException("Product " + product.getName() + " is not on sale.");
         }
+        if (product.getProductStatus() == ProductStatus.IS_ALREADY_PURCHASED) {
+            SecurityTransaction securityTransaction = findSecurityTransaction(product, salesman);
+            if (securityTransaction == null) {
+                securityTransaction = new SecurityTransaction(product, getPerson(), salesman);
+                StorageSecurityTransaction.securityTransactions.add(securityTransaction);
+            } else {
+                securityTransaction.increaseAttemptCount(date);
+            }
+//            throw new IllegalArgumentException("Product " + product.getName() + " is already purchased.");
+        }
+    }
+
+    private SecurityTransaction findSecurityTransaction(ProductInterface product, Person salesman) {
+        for (SecurityTransaction securityTransaction : StorageSecurityTransaction.securityTransactions) {
+            if (securityTransaction.getProduct().equals(product) &&
+                    securityTransaction.getAttemptedBuyer().equals(getPerson()) &&
+                    securityTransaction.getOriginOwner().equals(salesman)) {
+                return securityTransaction;
+            }
+        }
+        return null;
+    }
+
+    private void checkIfPersonHasEnoughMoney(ProductInterface product) {
         if (!checkWallet(product.getPrice())) {
             throw new IllegalArgumentException("Wallet has not enough money to purchase product.");
         }
-        salesman.setWallet(salesman.getWallet() + product.getPrice());
-        getPerson().setWallet(getPerson().getWallet() - product.getPrice());
-        createNewTransaction(product, salesman, product.getPrice());
-        getStorage().removeProductFromStorage(product, salesman, Place.WAREHOUSE, Place.ON_SALE);
-        transportProduct(product, distributor, salesman);
-        storeProduct(product);
-        createMoneyTransaction(product, salesman, product.getPrice());
     }
 
 
@@ -170,14 +205,14 @@ public abstract class AbstractFactory {
      * @param personFrom Person who pays
      * @param price amount of money to be paid
      */
-    protected final void createMoneyTransaction(ProductInterface product, Person personFrom, double price) {
+    protected final void createMoneyTransaction(ProductInterface product, Person personFrom, double price, LocalDate date) {
         MoneyTransaction transaction = new MoneyTransaction(
                 product,
                 price,
                 personFrom,
                 getPerson(),
                 OperationType.PURCHASE,
-                LocalDate.now(),
+                date,
                 personFrom.getWallet() - price,
                 getPerson().getWallet() + price,
                 personFrom.getWallet(),
@@ -186,64 +221,64 @@ public abstract class AbstractFactory {
         StorageMoneyTransaction.transactionHistory.add(transaction);
     }
 
-    protected final void createNewTransaction(ProductInterface product, Place movedFrom, Place moveTo) {
+    protected final void createNewTransaction(ProductInterface product, Place movedFrom, Place moveTo, LocalDate date) {
         Transaction transaction = new Transaction(
                 product,
                 getPerson(),
                 movedFrom,
                 moveTo,
                 OperationType.RETURN,
-                LocalDate.now(),
+                date,
                 0,
                 product.getLastTransaction()
         );
         product.addTransaction(transaction);
     }
 
-    protected final void createNewTransaction(ProductInterface product, double price) {
+    protected final void createNewTransaction(ProductInterface product, double price, LocalDate date) {
         Transaction transaction = new Transaction(
                 product,
                 getPerson(),
                 OperationType.SELL,
-                LocalDate.now(),
+                date,
                 price,
                 product.getLastTransaction()
         );
         product.addTransaction(transaction);
     }
 
-    protected final void createNewTransaction(ProductInterface product, Person personFrom, double price) {
+    protected final void createNewTransaction(ProductInterface product, Person personFrom, double price, LocalDate date) {
         Transaction transaction = new Transaction(
                 product,
                 personFrom,
                 getPerson(),
                 OperationType.PURCHASE,
-                LocalDate.now(),
+                date,
                 price,
                 product.getLastTransaction()
         );
         product.addTransaction(transaction);
     }
 
-    protected final void createNewTransaction(ProductInterface product, Person personFrom, Person personTo) {
+    protected final void createNewTransaction(ProductInterface product, Person personFrom, Person personTo, LocalDate date) {
         Transaction transaction = new Transaction(
                 product,
                 personFrom,
                 personTo,
                 OperationType.TRANSPORT,
-                LocalDate.now(),
+                date,
                 OperationType.TRANSPORT.getPrice(),
                 product.getLastTransaction()
         );
         product.addTransaction(transaction);
     }
 
-    protected final void createNewTransaction(ProductInterface product) {
+    protected final void createNewTransaction(ProductInterface product, LocalDate date) {
         Transaction transaction = new Transaction(
                 product,
                 getPerson(),
                 OperationType.CREATE,
-                LocalDate.now(),
+                date,
                 0,
                 null
         );

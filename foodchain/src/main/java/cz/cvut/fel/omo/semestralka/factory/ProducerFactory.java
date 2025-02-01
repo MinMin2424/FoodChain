@@ -10,6 +10,7 @@ import cz.cvut.fel.omo.semestralka.model.roles.Producer;
 import cz.cvut.fel.omo.semestralka.strategy.ProductOriginStrategy;
 import cz.cvut.fel.omo.semestralka.strategy.producerStrategy.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,23 +33,14 @@ public class ProducerFactory extends AbstractFactory{
     }
 
     @Override
-    public void storeProduct(ProductInterface product) {
-        getStorage().addProductToStorage(product, producer, Place.VAN, Place.WAREHOUSE_PRODUCER);
+    public void storeProduct(ProductInterface product, LocalDate date) {
+        getStorage().addProductToStorage(product, producer, Place.VAN, Place.WAREHOUSE_PRODUCER, date);
     }
 
     @Override
     protected Storage getStorage() {
         return producer.getStorage();
     }
-
-//    @Override
-//    public void returnProduct(ProductInterface product, Person distributor, Person salesman) {
-//        if (product == null) {
-//            throw new IllegalArgumentException("Product is null. Cannot return product.");
-//        }
-//        createNewTransaction(product, Place.WAREHOUSE_PRODUCER, Place.VAN);
-//        transportProduct(product, distributor, salesman);
-//    }
 
     @Override
     protected List<ProductsCatalogue> getProductOrigin(ProductsCatalogue product) {
