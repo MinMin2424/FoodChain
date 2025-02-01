@@ -25,18 +25,18 @@ import java.time.LocalDate;
 public class Transaction {
 
     @JsonManagedReference
-    private final ProductInterface product;
-    private final OperationType operationType;
+    private ProductInterface product;
+    private OperationType operationType;
     @JsonManagedReference
-    private final Person personFrom;
+    private Person personFrom;
     @JsonManagedReference
-    private final Person personTo;
-    private final Place movedFrom;
-    private final Place movedTo;
-    private final LocalDate transactionDate;
-    private final double price;
+    private Person personTo;
+    private Place movedFrom;
+    private Place movedTo;
+    private LocalDate transactionDate;
+    private double price;
     @JsonIgnore
-    private final Transaction previousTransaction;
+    private Transaction previousTransaction;
 
     // Transaction for STORE, REMOVE, RETURN
     public Transaction(ProductInterface product,
@@ -96,5 +96,41 @@ public class Transaction {
         this.transactionDate = transactionDate;
         this.price = price;
         this.previousTransaction = previousTransaction;
+    }
+
+    public void setProduct(ProductInterface product) {
+        throw new UnsupportedOperationException("Modification of product is not allowed.");
+    }
+
+    public void setOperationType(OperationType operationType) {
+        throw new UnsupportedOperationException("Modification of operation type is not allowed.");
+    }
+
+    public void setPersonFrom(Person personFrom) {
+        throw new UnsupportedOperationException("Modification of person from is not allowed.");
+    }
+
+    public void setPersonTo(Person personTo) {
+        throw new UnsupportedOperationException("Modification of person to is not allowed.");
+    }
+
+    public void setMovedFrom(Place movedFrom) {
+        throw new UnsupportedOperationException("Modification of moved from is not allowed.");
+    }
+
+    public void setMovedTo(Place movedTo) {
+        throw new UnsupportedOperationException("Modification of moved to is not allowed.");
+    }
+
+    public void setTransactionDate(LocalDate transactionDate) {
+        throw new UnsupportedOperationException("Modification of transaction date is not allowed.");
+    }
+
+    public void setPrice(double price) {
+        throw new UnsupportedOperationException("Modification of price is not allowed.");
+    }
+
+    public void setPreviousTransaction(Transaction previousTransaction) {
+        throw new UnsupportedOperationException("Modification of previous transaction is not allowed.");
     }
 }

@@ -30,7 +30,6 @@ public class SecurityTransaction {
         this.originOwner = originOwner;
         this.attemptCount = 1;
         this.transactionDates = new ArrayList<>();
-        this.transactionDates.add(LocalDate.now());
     }
 
     public void increaseAttemptCount(LocalDate transactionDate) {

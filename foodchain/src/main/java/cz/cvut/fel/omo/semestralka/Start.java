@@ -15,6 +15,7 @@ import cz.cvut.fel.omo.semestralka.factory.FarmerFactory;
 import cz.cvut.fel.omo.semestralka.factory.ProducerFactory;
 import cz.cvut.fel.omo.semestralka.report.ReportSaver;
 import cz.cvut.fel.omo.semestralka.transaction.StorageMoneyTransaction;
+import cz.cvut.fel.omo.semestralka.transaction.StorageSecurityTransaction;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ public class Start {
         Producer producer_MINA  = new Producer("Mina", "123456789", 10_000, places1, address);
         ProducerFactory producerFactory_MINA = new ProducerFactory(producer_MINA);
 
-        Producer producer_JOSEF  = new Producer("Mina", "123456789", 10_000, places1, address);
+        Producer producer_JOSEF  = new Producer("Josef", "123456789", 10_000, places1, address);
         ProducerFactory producerFactory_JOSEF = new ProducerFactory(producer_JOSEF);
 
 
@@ -80,6 +81,7 @@ public class Start {
         producerFactory_MINA.purchaseProduct(BEEF, distributor_TOM, farmer_VERCA, LocalDate.now().minusDays(10));
 
         producerFactory_JOSEF.purchaseProduct(BEEF, distributor_TOM, farmer_VERCA, LocalDate.now().minusDays(10));
+        producerFactory_JOSEF.purchaseProduct(BEEF, distributor_TOM, farmer_VERCA, LocalDate.now().minusDays(9));
 
         System.out.println("VERCA: ");
         farmer_VERCA.getStorage().getStorageInventory();
@@ -117,6 +119,7 @@ public class Start {
 
         ReportSaver.saveReportToJson(BEEF.getTransactionHistory(), "BeefTransaction.json");
         ReportSaver.saveMoneyReportToJson(StorageMoneyTransaction.transactionHistory, "MoneyTransaction.json");
+        ReportSaver.saveSaveSecurityToJson(StorageSecurityTransaction.securityTransactions, "SecurityTransaction.json");
 
         farmer_VERCA.getStorage().getStorageInventory();
         producer_MINA.getStorage().getStorageInventory();

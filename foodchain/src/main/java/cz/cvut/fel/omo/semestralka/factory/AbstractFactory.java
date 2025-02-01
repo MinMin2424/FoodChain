@@ -153,6 +153,7 @@ public abstract class AbstractFactory {
             SecurityTransaction securityTransaction = findSecurityTransaction(product, salesman);
             if (securityTransaction == null) {
                 securityTransaction = new SecurityTransaction(product, getPerson(), salesman);
+                securityTransaction.getTransactionDates().add(date);
                 StorageSecurityTransaction.securityTransactions.add(securityTransaction);
             } else {
                 securityTransaction.increaseAttemptCount(date);
