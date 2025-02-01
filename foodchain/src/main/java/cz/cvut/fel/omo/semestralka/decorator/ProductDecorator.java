@@ -68,11 +68,6 @@ public class ProductDecorator implements ProductInterface {
     }
 
     @Override
-    public void generateFoodChainReport() {
-        decoratedProduct.generateFoodChainReport();
-    }
-
-    @Override
     public void generatePartiesReport() {
         decoratedProduct.generatePartiesReport();
     }

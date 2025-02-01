@@ -41,14 +41,14 @@ public class ProducerFactory extends AbstractFactory{
         return producer.getStorage();
     }
 
-    @Override
-    public void returnProduct(ProductInterface product, Person distributor, Person salesman) {
-        if (product == null) {
-            throw new IllegalArgumentException("Product is null. Cannot return product.");
-        }
-        createNewTransaction(product, Place.WAREHOUSE_PRODUCER, Place.VAN);
-        transportProduct(product, distributor, salesman);
-    }
+//    @Override
+//    public void returnProduct(ProductInterface product, Person distributor, Person salesman) {
+//        if (product == null) {
+//            throw new IllegalArgumentException("Product is null. Cannot return product.");
+//        }
+//        createNewTransaction(product, Place.WAREHOUSE_PRODUCER, Place.VAN);
+//        transportProduct(product, distributor, salesman);
+//    }
 
     @Override
     protected List<ProductsCatalogue> getProductOrigin(ProductsCatalogue product) {

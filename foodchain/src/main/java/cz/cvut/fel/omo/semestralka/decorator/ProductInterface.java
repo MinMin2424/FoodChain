@@ -19,7 +19,7 @@ public interface ProductInterface {
     Transaction getLastTransaction();
     boolean checkExpirationDateForSale();
     String getDescription();
-    void generateFoodChainReport();
+    //    void generateFoodChainReport();
     void generatePartiesReport();
 
 }

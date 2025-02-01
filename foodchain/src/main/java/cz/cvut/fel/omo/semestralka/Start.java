@@ -1,11 +1,11 @@
 package cz.cvut.fel.omo.semestralka;
 
-import cz.cvut.fel.omo.semestralka.decorator.BioProductDecorator;
-import cz.cvut.fel.omo.semestralka.decorator.DiscountedProductDecorator;
-import cz.cvut.fel.omo.semestralka.decorator.ProductDecorator;
 import cz.cvut.fel.omo.semestralka.decorator.ProductInterface;
 import cz.cvut.fel.omo.semestralka.factory.CustomerFactory;
 import cz.cvut.fel.omo.semestralka.factory.ShopOwnerFactory;
+import cz.cvut.fel.omo.semestralka.formatter.JsonFormatterAdapter;
+import cz.cvut.fel.omo.semestralka.formatter.PlainTextFormatter;
+import cz.cvut.fel.omo.semestralka.formatter.ReportGenerator;
 import cz.cvut.fel.omo.semestralka.model.Address;
 import cz.cvut.fel.omo.semestralka.model.Product;
 import cz.cvut.fel.omo.semestralka.enums.Place;
@@ -13,9 +13,7 @@ import cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue;
 import cz.cvut.fel.omo.semestralka.model.roles.*;
 import cz.cvut.fel.omo.semestralka.factory.FarmerFactory;
 import cz.cvut.fel.omo.semestralka.factory.ProducerFactory;
-import cz.cvut.fel.omo.semestralka.state.ProductState;
-import cz.cvut.fel.omo.semestralka.transaction.Transaction;
-import cz.cvut.fel.omo.semestralka.transaction.Transaction_Report;
+import cz.cvut.fel.omo.semestralka.transaction.StorageMoneyTransaction;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -28,6 +26,9 @@ public class Start {
     }
 
     public static void main(String[] args) {
+
+        ReportGenerator plainTextReport = new ReportGenerator(new PlainTextFormatter());
+        ReportGenerator jsonTextReport = new ReportGenerator(new JsonFormatterAdapter());
 
         // CREATE NEW ADDRESS AND NEW FARMER
         List<Place> places = new ArrayList<>();
@@ -75,6 +76,9 @@ public class Start {
         producerFactory_MINA.purchaseProduct(MILK, distributor_TOM, farmer_VERCA);
         producerFactory_MINA.purchaseProduct(BEEF, distributor_TOM, farmer_VERCA);
 
+        producerFactory_MINA.returnProduct(MILK, distributor_TOM, farmer_VERCA);
+        plainTextReport.generateTransaction(MILK.getTransactionHistory());
+
         farmer_VERCA.getStorage().getStorageInventory();
         producer_MINA.getStorage().getStorageInventory();
 
@@ -91,12 +95,15 @@ public class Start {
 
         shopOwnerFactory_Kaufland.addSubscribedCustomer(customer_Roxy);
 
-        ProductInterface BIO_BEEF = new BioProductDecorator(BEEF);
+//        ProductInterface BIO_BEEF = new BioProductDecorator(BEEF);
 
         shopOwnerFactory_Kaufland.sellProduct(BEEF);
         customerFactory_Roxy.purchaseProduct(BEEF, distributor_TOM, shopOwner_Kaufland);
 
-        BEEF.generateFoodChainReport();
-        Transaction_Report.generateTransactionReport();
+        customerFactory_Roxy.returnProduct(BEEF, distributor_TOM, shopOwner_Kaufland);
+
+
+        jsonTextReport.generateTransaction(BEEF.getTransactionHistory());
+        jsonTextReport.generateMoneyTransaction(StorageMoneyTransaction.transactionHistory);
     }
 }

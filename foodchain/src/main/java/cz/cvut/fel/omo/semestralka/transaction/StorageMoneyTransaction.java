@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class Transaction_Report {
+public class StorageMoneyTransaction {
 
     public static List<MoneyTransaction> transactionHistory = new ArrayList<>();
 

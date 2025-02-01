@@ -105,32 +105,6 @@ public class Product implements ProductInterface {
     }
 
     /**
-     * Prints out history of products transactions
-     */
-    public void generateFoodChainReport() {
-        if (transactionHistory == null || transactionHistory.isEmpty()) {
-            throw new IllegalArgumentException("No transactions for product: " + name);
-        }
-
-        for (Transaction transaction : transactionHistory) {
-            if (transaction.getOperationType() == OperationType.PURCHASE || transaction.getOperationType() == OperationType.TRANSPORT) {
-                System.out.println("Product: " + name);
-                System.out.println("Person: " + transaction.getPersonTo().getName());
-            } else {
-                System.out.println("Product: " + name);
-                System.out.println("Person: " + transaction.getPersonFrom().getName());
-            }
-            System.out.println("Transaction Type: " + transaction.getOperationType());
-            System.out.println("Moved from: " + transaction.getMovedFrom());
-            System.out.println("Moved to: " + transaction.getMovedTo());
-            System.out.println("Transaction Date: " + transaction.getTransactionDate());
-            System.out.println("Price: " + transaction.getPrice());
-            System.out.println("-----------------------------------");
-
-        }
-    }
-
-    /**
      * Prints out history of persons transactions
      */
     public void generatePartiesReport() {

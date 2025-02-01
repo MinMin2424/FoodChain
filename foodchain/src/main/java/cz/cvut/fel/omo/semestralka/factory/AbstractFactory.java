@@ -10,7 +10,7 @@ import cz.cvut.fel.omo.semestralka.enums.Place;
 import cz.cvut.fel.omo.semestralka.model.roles.Distributor;
 import cz.cvut.fel.omo.semestralka.transaction.MoneyTransaction;
 import cz.cvut.fel.omo.semestralka.transaction.Transaction;
-import cz.cvut.fel.omo.semestralka.transaction.Transaction_Report;
+import cz.cvut.fel.omo.semestralka.transaction.StorageMoneyTransaction;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -63,8 +63,8 @@ public abstract class AbstractFactory {
             if (product.checkExpirationDateForSale()) {
                 throw new IllegalArgumentException("Product " + product.getName() + " is expired. Cannot sell product " + product.getName());
             }
-            getStorage().removeProductFromStorage(product, getPerson(), Place.WAREHOUSE, Place.ON_SALE);
-            createNewTransaction(product, product.getPrice());
+//            getStorage().removeProductFromStorage(product, getPerson(), Place.WAREHOUSE, Place.ON_SALE);
+//            createNewTransaction(product, product.getPrice());
             return product;
         }
         throw new IllegalArgumentException("Product " + product.getName() + " not found. Cannot sell product " + product.getName());
@@ -92,9 +92,30 @@ public abstract class AbstractFactory {
      * @param salesman Person who sold the product
      */
     public void returnProduct(ProductInterface product, Person distributor, Person salesman) {
+        checkIfPersonCanReturnProduct(product);
+        checkIfProductInNotNull(product);
+        addReturnTransaction(product);
+        addTransportTransaction(product, distributor, salesman);
+    }
+
+    protected void checkIfPersonCanReturnProduct(ProductInterface product) {
         if (!canReturnProduct()) {
             throw new UnsupportedOperationException("Cannot return product " + product.getName());
         }
+    }
+
+    protected void checkIfProductInNotNull(ProductInterface product) {
+        if (product == null) {
+            throw new IllegalArgumentException("Product is null. Cannot return product.");
+        }
+    }
+
+    protected void addReturnTransaction(ProductInterface product) {
+        createNewTransaction(product, Place.WAREHOUSE_PRODUCER, Place.VAN);
+    }
+
+    protected void addTransportTransaction(ProductInterface product, Person distributor, Person salesman) {
+        transportProduct(product, distributor, salesman);
     }
 
     /**
@@ -116,6 +137,7 @@ public abstract class AbstractFactory {
         salesman.setWallet(salesman.getWallet() + product.getPrice());
         getPerson().setWallet(getPerson().getWallet() - product.getPrice());
         createNewTransaction(product, salesman, product.getPrice());
+        getStorage().removeProductFromStorage(product, salesman, Place.WAREHOUSE, Place.ON_SALE);
         transportProduct(product, distributor, salesman);
         storeProduct(product);
         createMoneyTransaction(product, salesman, product.getPrice());
@@ -161,7 +183,7 @@ public abstract class AbstractFactory {
                 personFrom.getWallet(),
                 getPerson().getWallet()
         );
-        Transaction_Report.transactionHistory.add(transaction);
+        StorageMoneyTransaction.transactionHistory.add(transaction);
     }
 
     protected final void createNewTransaction(ProductInterface product, Place movedFrom, Place moveTo) {

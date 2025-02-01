@@ -45,12 +45,22 @@ public class CustomerFactory extends AbstractFactory {
         getStorage().addProductToStorage(product, getPerson(), Place.SHOP, Place.BACKPACK);
     }
 
+//    @Override
+//    public void returnProduct(ProductInterface product, Person distributor, Person salesman) {
+//        if (product == null) {
+//            throw new IllegalArgumentException("Product is null. Cannot return product.");
+//        }
+//        createNewTransaction(product, Place.BACKPACK, Place.SHOP);
+//    }
+
     @Override
-    public void returnProduct(ProductInterface product, Person distributor, Person salesman) {
-        if (product == null) {
-            throw new IllegalArgumentException("Product is null. Cannot return product.");
-        }
-        createNewTransaction(product, Place.BACKPACK, Place.SHOP);
+    protected void addReturnTransaction(ProductInterface product) {
+        createNewTransaction(product, Place.SHOP, Place.VAN);
+    }
+
+    @Override
+    protected void addTransportTransaction(ProductInterface product, Person distributor, Person salesman) {
+        // Do nothing
     }
 
     @Override

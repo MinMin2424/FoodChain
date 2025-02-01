@@ -31,13 +31,18 @@ public class ShopOwnerFactory extends AbstractFactory{
         getStorage().addProductToStorage(product, shopOwner, Place.VAN, Place.SHOP);
     }
 
+//    @Override
+//    public void returnProduct(ProductInterface product, Person distributor, Person salesman) {
+//        if (product == null) {
+//            throw new IllegalArgumentException("Product is null. Cannot return product.");
+//        }
+//        createNewTransaction(product, Place.SHOP, Place.VAN);
+//        transportProduct(product, distributor, salesman);
+//    }
+
     @Override
-    public void returnProduct(ProductInterface product, Person distributor, Person salesman) {
-        if (product == null) {
-            throw new IllegalArgumentException("Product is null. Cannot return product.");
-        }
+    protected void addReturnTransaction(ProductInterface product) {
         createNewTransaction(product, Place.SHOP, Place.VAN);
-        transportProduct(product, distributor, salesman);
     }
 
     /**
