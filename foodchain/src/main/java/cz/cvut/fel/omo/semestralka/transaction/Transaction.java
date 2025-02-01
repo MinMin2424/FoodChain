@@ -1,5 +1,8 @@
 package cz.cvut.fel.omo.semestralka.transaction;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import cz.cvut.fel.omo.semestralka.decorator.ProductInterface;
 import cz.cvut.fel.omo.semestralka.model.Person;
 import cz.cvut.fel.omo.semestralka.model.Product;
@@ -12,14 +15,18 @@ import java.time.LocalDate;
 @Getter
 public class Transaction {
 
+    @JsonManagedReference
     private final ProductInterface product;
+    @JsonManagedReference
     private final Person personFrom;
+    @JsonManagedReference
     private final Person personTo;
     private final Place movedFrom;
     private final Place movedTo;
     private final OperationType operationType;
     private final LocalDate transactionDate;
     private final double price;
+    @JsonIgnore
     private final Transaction previousTransaction;
 
     // Transaction for STORE, REMOVE, RETURN

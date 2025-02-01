@@ -1,0 +1,198 @@
+[ {
+  "product" : {
+    "name" : "BEEF"
+  },
+  "personFrom" : {
+    "name" : "Verca",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "personTo" : null,
+  "movedFrom" : null,
+  "movedTo" : null,
+  "operationType" : "CREATE",
+  "transactionDate" : [ 2024, 11, 28 ],
+  "price" : 0.0
+}, {
+  "product" : {
+    "name" : "BEEF"
+  },
+  "personFrom" : {
+    "name" : "Verca",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "personTo" : null,
+  "movedFrom" : "MANUFACTORY",
+  "movedTo" : "WAREHOUSE_FARMER",
+  "operationType" : "STORE",
+  "transactionDate" : [ 2024, 11, 28 ],
+  "price" : 0.0
+}, {
+  "product" : {
+    "name" : "BEEF"
+  },
+  "personFrom" : {
+    "name" : "Verca",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "personTo" : {
+    "name" : "Mina",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "movedFrom" : null,
+  "movedTo" : null,
+  "operationType" : "PURCHASE",
+  "transactionDate" : [ 2024, 11, 28 ],
+  "price" : 250.0
+}, {
+  "product" : {
+    "name" : "BEEF"
+  },
+  "personFrom" : {
+    "name" : "Verca",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "personTo" : null,
+  "movedFrom" : "WAREHOUSE",
+  "movedTo" : "ON_SALE",
+  "operationType" : "REMOVE",
+  "transactionDate" : [ 2024, 11, 28 ],
+  "price" : 0.0
+}, {
+  "product" : {
+    "name" : "BEEF"
+  },
+  "personFrom" : {
+    "name" : "Verca",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "personTo" : {
+    "name" : "Tom",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "movedFrom" : null,
+  "movedTo" : null,
+  "operationType" : "TRANSPORT",
+  "transactionDate" : [ 2024, 11, 28 ],
+  "price" : 100.0
+}, {
+  "product" : {
+    "name" : "BEEF"
+  },
+  "personFrom" : {
+    "name" : "Mina",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "personTo" : null,
+  "movedFrom" : "VAN",
+  "movedTo" : "WAREHOUSE_PRODUCER",
+  "operationType" : "STORE",
+  "transactionDate" : [ 2024, 11, 28 ],
+  "price" : 0.0
+}, {
+  "product" : {
+    "name" : "BEEF"
+  },
+  "personFrom" : {
+    "name" : "Mina",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "personTo" : {
+    "name" : "Kaufland",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "movedFrom" : null,
+  "movedTo" : null,
+  "operationType" : "PURCHASE",
+  "transactionDate" : [ 2024, 11, 28 ],
+  "price" : 250.0
+}, {
+  "product" : {
+    "name" : "BEEF"
+  },
+  "personFrom" : {
+    "name" : "Mina",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "personTo" : null,
+  "movedFrom" : "WAREHOUSE",
+  "movedTo" : "ON_SALE",
+  "operationType" : "REMOVE",
+  "transactionDate" : [ 2024, 11, 28 ],
+  "price" : 0.0
+}, {
+  "product" : {
+    "name" : "BEEF"
+  },
+  "personFrom" : {
+    "name" : "Mina",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "personTo" : {
+    "name" : "Tom",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "movedFrom" : null,
+  "movedTo" : null,
+  "operationType" : "TRANSPORT",
+  "transactionDate" : [ 2024, 11, 28 ],
+  "price" : 100.0
+}, {
+  "product" : {
+    "name" : "BEEF"
+  },
+  "personFrom" : {
+    "name" : "Kaufland",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "personTo" : null,
+  "movedFrom" : "VAN",
+  "movedTo" : "SHOP",
+  "operationType" : "STORE",
+  "transactionDate" : [ 2024, 11, 28 ],
+  "price" : 0.0
+}, {
+  "product" : {
+    "name" : "BEEF"
+  },
+  "personFrom" : {
+    "name" : "Kaufland",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "personTo" : {
+    "name" : "Roxy",
+    "warehouse_TEMPERATURE" : -50
+  },
+  "movedFrom" : null,
+  "movedTo" : null,
+  "operationType" : "PURCHASE",
+  "transactionDate" : [ 2024, 11, 28 ],
+  "price" : 250.0
+}, {
+  "product" : {
+    "name" : "BEEF"
+  },
+  "personFrom" : {
+    "name" : "Roxy",
+    "warehouse_TEMPERATURE" : -50
+  },
+  "personTo" : null,
+  "movedFrom" : "SHOP",
+  "movedTo" : "BACKPACK",
+  "operationType" : "STORE",
+  "transactionDate" : [ 2024, 11, 28 ],
+  "price" : 0.0
+}, {
+  "product" : {
+    "name" : "BEEF"
+  },
+  "personFrom" : {
+    "name" : "Roxy",
+    "warehouse_TEMPERATURE" : -50
+  },
+  "personTo" : null,
+  "movedFrom" : "SHOP",
+  "movedTo" : "VAN",
+  "operationType" : "RETURN",
+  "transactionDate" : [ 2024, 11, 28 ],
+  "price" : 0.0
+} ]

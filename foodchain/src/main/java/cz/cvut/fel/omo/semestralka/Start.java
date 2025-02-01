@@ -3,9 +3,9 @@ package cz.cvut.fel.omo.semestralka;
 import cz.cvut.fel.omo.semestralka.decorator.ProductInterface;
 import cz.cvut.fel.omo.semestralka.factory.CustomerFactory;
 import cz.cvut.fel.omo.semestralka.factory.ShopOwnerFactory;
-import cz.cvut.fel.omo.semestralka.formatter.JsonFormatterAdapter;
-import cz.cvut.fel.omo.semestralka.formatter.PlainTextFormatter;
-import cz.cvut.fel.omo.semestralka.formatter.ReportGenerator;
+import cz.cvut.fel.omo.semestralka.report.JsonFormatterAdapter;
+import cz.cvut.fel.omo.semestralka.report.PlainTextFormatter;
+import cz.cvut.fel.omo.semestralka.report.ReportGenerator;
 import cz.cvut.fel.omo.semestralka.model.Address;
 import cz.cvut.fel.omo.semestralka.model.Product;
 import cz.cvut.fel.omo.semestralka.enums.Place;
@@ -13,6 +13,7 @@ import cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue;
 import cz.cvut.fel.omo.semestralka.model.roles.*;
 import cz.cvut.fel.omo.semestralka.factory.FarmerFactory;
 import cz.cvut.fel.omo.semestralka.factory.ProducerFactory;
+import cz.cvut.fel.omo.semestralka.report.ReportSaver;
 import cz.cvut.fel.omo.semestralka.transaction.StorageMoneyTransaction;
 
 import java.time.LocalDate;
@@ -102,8 +103,9 @@ public class Start {
 
         customerFactory_Roxy.returnProduct(BEEF, distributor_TOM, shopOwner_Kaufland);
 
-
         jsonTextReport.generateTransaction(BEEF.getTransactionHistory());
         jsonTextReport.generateMoneyTransaction(StorageMoneyTransaction.transactionHistory);
+
+        ReportSaver.saveReportToJson(BEEF.getTransactionHistory(), "BeefTransaction.json");
     }
 }

@@ -1,5 +1,9 @@
 package cz.cvut.fel.omo.semestralka.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import cz.cvut.fel.omo.semestralka.decorator.ProductInterface;
 import cz.cvut.fel.omo.semestralka.enums.OperationType;
 import cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue;
@@ -21,10 +25,12 @@ import static cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue.getTemperature
 
 @Getter
 @Setter
+@JsonIgnoreProperties({"producedOnDate", "expirationDate", "currentState", "price", "temperature"})
 public class Product implements ProductInterface {
 
     private String name;
     private LocalDate producedOnDate;
+    @JsonBackReference
     private List<Transaction> transactionHistory;
     private LocalDate expirationDate;
     private ProductState currentState;
@@ -66,6 +72,7 @@ public class Product implements ProductInterface {
      *
      * @return latest transaction in the history of executed transactions
      */
+    @JsonIgnore
     public Transaction getLastTransaction() {
         if (transactionHistory == null || transactionHistory.isEmpty()) {
             return null;
@@ -95,6 +102,7 @@ public class Product implements ProductInterface {
     }
 
     @Override
+    @JsonIgnore
     public String getDescription() {
         return name;
     }

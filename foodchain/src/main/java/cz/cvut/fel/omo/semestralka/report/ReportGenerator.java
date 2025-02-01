@@ -1,4 +1,4 @@
-package cz.cvut.fel.omo.semestralka.formatter;
+package cz.cvut.fel.omo.semestralka.report;
 
 import cz.cvut.fel.omo.semestralka.transaction.MoneyTransaction;
 import cz.cvut.fel.omo.semestralka.transaction.Transaction;

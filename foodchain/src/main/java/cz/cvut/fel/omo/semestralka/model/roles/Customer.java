@@ -1,5 +1,7 @@
 package cz.cvut.fel.omo.semestralka.model.roles;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import cz.cvut.fel.omo.semestralka.model.Address;
 import cz.cvut.fel.omo.semestralka.model.Message;
 import cz.cvut.fel.omo.semestralka.model.Person;
@@ -12,6 +14,7 @@ import java.util.List;
 @Getter
 public class Customer extends Person {
 
+    @JsonBackReference
     private final Storage storage;
     private final int WAREHOUSE_TEMPERATURE = -50;
 
