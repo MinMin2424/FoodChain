@@ -1,5 +1,7 @@
 package cz.cvut.fel.omo.semestralka.decorator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import cz.cvut.fel.omo.semestralka.enums.ProductStatus;
 import cz.cvut.fel.omo.semestralka.state.ProductState;
 import cz.cvut.fel.omo.semestralka.transaction.Transaction;
@@ -13,29 +15,33 @@ public class ProductDecorator implements ProductInterface {
     protected ProductInterface decoratedProduct;
 
     @Override
+    @JsonIgnore
     public String getName() {
         return decoratedProduct.getName();
     }
 
     @Override
+    @JsonIgnore
     public LocalDate getProducedOnDate() {
         return decoratedProduct.getProducedOnDate();
     }
 
     @Override
+    @JsonIgnore
     public List<Transaction> getTransactionHistory() {
         return decoratedProduct.getTransactionHistory();
     }
 
     @Override
+    @JsonIgnore
     public LocalDate getExpirationDate() {
         return decoratedProduct.getExpirationDate();
     }
 
-    @Override
-    public ProductState getCurrentState() {
-        return decoratedProduct.getCurrentState();
-    }
+//    @Override
+//    public boolean getCurrentState() {
+//        return decoratedProduct.getCurrentState();
+//    }
 
     @Override
     public double getPrice() {
@@ -43,11 +49,13 @@ public class ProductDecorator implements ProductInterface {
     }
 
     @Override
+    @JsonIgnore
     public int getTemperature() {
         return decoratedProduct.getTemperature();
     }
 
     @Override
+    @JsonIgnore
     public ProductStatus getProductStatus() {
         return decoratedProduct.getProductStatus();
     }
@@ -63,6 +71,7 @@ public class ProductDecorator implements ProductInterface {
     }
 
     @Override
+    @JsonIgnore
     public Transaction getLastTransaction() {
         return decoratedProduct.getLastTransaction();
     }
@@ -73,6 +82,7 @@ public class ProductDecorator implements ProductInterface {
     }
 
     @Override
+//    @JsonIgnore
     public String getDescription() {
         return decoratedProduct.getDescription();
     }

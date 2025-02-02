@@ -69,6 +69,7 @@ public class CustomerFactory extends AbstractFactory {
         salesman.setWallet(salesman.getWallet() + product.getPrice());
         getPerson().setWallet(getPerson().getWallet() - product.getPrice());
         createNewTransaction(product, salesman, product.getPrice(), date);
+        salesman.getStorage().removeProductFromStorage(product, salesman, Place.WAREHOUSE, Place.ON_SALE, date);
         storeProduct(product, date);
         createMoneyTransaction(product, salesman, product.getPrice(), date);
     }

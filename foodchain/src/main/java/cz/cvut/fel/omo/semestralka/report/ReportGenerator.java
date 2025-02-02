@@ -8,7 +8,7 @@ import java.util.List;
 
 @AllArgsConstructor
 public class ReportGenerator {
-    private ReportFormatter formatter;
+    private PlainTextFormatterAdapter formatter;
 
     public void generateTransaction(List<Transaction> transactions) {
         for (Transaction transaction : transactions) {

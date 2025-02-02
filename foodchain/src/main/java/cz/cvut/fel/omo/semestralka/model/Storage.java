@@ -84,7 +84,7 @@ public class Storage {
         boolean isProductAdded = false;
         if (checkTemperature(product.getTemperature(), getTemperature())) {
             productList.add(product);
-            System.out.println("NEW PRODUCT " + product.getName() + " has been added to the list");
+//            System.out.println("NEW PRODUCT " + product.getName() + " has been added to the list");
             isProductAdded = true;
         } else {
             System.out.println("NOPE");
@@ -179,7 +179,7 @@ public class Storage {
         StringBuilder warehouseInventory = new StringBuilder();
         warehouseInventory.append("This storage contains: \n");
         for (ProductInterface product : productList) {
-            warehouseInventory.append(product.getName()).append("\n");
+            warehouseInventory.append(product.getDescription()).append("\n");
 
         }
         System.out.println(warehouseInventory);

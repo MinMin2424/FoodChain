@@ -3,10 +3,12 @@ package cz.cvut.fel.omo.semestralka.report;
 import cz.cvut.fel.omo.semestralka.enums.OperationType;
 import cz.cvut.fel.omo.semestralka.transaction.MoneyTransaction;
 import cz.cvut.fel.omo.semestralka.transaction.Transaction;
+import lombok.AllArgsConstructor;
 
-public class JsonFormatterAdapter implements ReportFormatter{
-    @Override
-    public String formatReport(Transaction transaction) {
+@AllArgsConstructor
+public class JsonFormatter {
+
+    public String jsonFormatReport(Transaction transaction) {
         if (transaction == null) {
             throw new IllegalArgumentException("Transaction cannot be null");
         }
@@ -24,14 +26,13 @@ public class JsonFormatterAdapter implements ReportFormatter{
         report.append("  \"Transaction Type\": \"").append(transaction.getOperationType()).append("\",\n")
                 .append("  \"Moved from\": \"").append(transaction.getMovedFrom()).append("\",\n")
                 .append("  \"Moved to\": \"").append(transaction.getMovedTo()).append("\"\n")
-                .append("  \"Transaction date\": \"").append(transaction.getMovedTo()).append("\"\n")
-                .append("  \"Price\": \"").append(transaction.getMovedTo()).append("\"\n")
+                .append("  \"Transaction date\": \"").append(transaction.getTransactionDate()).append("\"\n")
+                .append("  \"Price\": \"").append(transaction.getPrice()).append("\"\n")
                 .append("}");
         return report.toString();
     }
 
-    @Override
-    public String formatReport(MoneyTransaction moneyTransaction) {
+    public String jsonFormatReport(MoneyTransaction moneyTransaction) {
         if (moneyTransaction == null) {
             throw new IllegalArgumentException("Transaction cannot be null");
         }

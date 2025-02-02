@@ -13,7 +13,7 @@ public interface ProductInterface {
     LocalDate getProducedOnDate();
     List<Transaction> getTransactionHistory();
     LocalDate getExpirationDate();
-    ProductState getCurrentState();
+    //    boolean getCurrentState();
     double getPrice();
     int getTemperature();
     ProductStatus getProductStatus();

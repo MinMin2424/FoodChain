@@ -20,7 +20,8 @@ import java.time.LocalDate;
         "personFrom",
         "personTo",
         "movedFrom",
-        "movedTo"
+        "movedTo",
+        "previousTransaction"
 })
 public class Transaction {
 

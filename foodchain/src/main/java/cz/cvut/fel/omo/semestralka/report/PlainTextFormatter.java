@@ -3,9 +3,11 @@ package cz.cvut.fel.omo.semestralka.report;
 import cz.cvut.fel.omo.semestralka.enums.OperationType;
 import cz.cvut.fel.omo.semestralka.transaction.MoneyTransaction;
 import cz.cvut.fel.omo.semestralka.transaction.Transaction;
+import lombok.AllArgsConstructor;
 
-public class PlainTextFormatter implements ReportFormatter{
-    @Override
+@AllArgsConstructor
+public class PlainTextFormatter{
+
     public String formatReport(Transaction transaction) {
         if (transaction == null) {
             throw new IllegalArgumentException("Transaction cannot be null");
@@ -26,7 +28,7 @@ public class PlainTextFormatter implements ReportFormatter{
         return report.toString();
     }
 
-    @Override
+
     public String formatReport(MoneyTransaction moneyTransaction) {
         if (moneyTransaction == null) {
             throw new IllegalArgumentException("Transaction history is empty");

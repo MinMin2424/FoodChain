@@ -1,11 +1,11 @@
 package cz.cvut.fel.omo.semestralka;
 
+import cz.cvut.fel.omo.semestralka.decorator.BioProductDecorator;
+import cz.cvut.fel.omo.semestralka.decorator.DiscountedProductDecorator;
 import cz.cvut.fel.omo.semestralka.decorator.ProductInterface;
 import cz.cvut.fel.omo.semestralka.factory.CustomerFactory;
 import cz.cvut.fel.omo.semestralka.factory.ShopOwnerFactory;
-import cz.cvut.fel.omo.semestralka.report.JsonFormatterAdapter;
-import cz.cvut.fel.omo.semestralka.report.PlainTextFormatter;
-import cz.cvut.fel.omo.semestralka.report.ReportGenerator;
+import cz.cvut.fel.omo.semestralka.report.*;
 import cz.cvut.fel.omo.semestralka.model.Address;
 import cz.cvut.fel.omo.semestralka.model.Product;
 import cz.cvut.fel.omo.semestralka.enums.Place;
@@ -13,7 +13,6 @@ import cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue;
 import cz.cvut.fel.omo.semestralka.model.roles.*;
 import cz.cvut.fel.omo.semestralka.factory.FarmerFactory;
 import cz.cvut.fel.omo.semestralka.factory.ProducerFactory;
-import cz.cvut.fel.omo.semestralka.report.ReportSaver;
 import cz.cvut.fel.omo.semestralka.transaction.StorageMoneyTransaction;
 import cz.cvut.fel.omo.semestralka.transaction.StorageSecurityTransaction;
 
@@ -29,8 +28,8 @@ public class Start {
 
     public static void main(String[] args) {
 
-        ReportGenerator plainTextReport = new ReportGenerator(new PlainTextFormatter());
-        ReportGenerator jsonTextReport = new ReportGenerator(new JsonFormatterAdapter());
+        PlainTextFormatterAdapter formatterAdapter = new PlainTextFormatterAdapter(new JsonFormatter());
+        ReportGenerator jsonTextReport = new ReportGenerator(formatterAdapter);
 
         // CREATE NEW ADDRESS AND NEW FARMER
         List<Place> places = new ArrayList<>();
@@ -107,14 +106,20 @@ public class Start {
 
         shopOwnerFactory_Kaufland.addSubscribedCustomer(customer_Roxy);
 
-//        ProductInterface BIO_BEEF = new BioProductDecorator(BEEF);
+        ProductInterface BIO_BEEF = new BioProductDecorator(BEEF);
+        shopOwnerFactory_Kaufland.storeProduct(BIO_BEEF, LocalDate.now().minusDays(8));
 
-        shopOwnerFactory_Kaufland.sellProduct(BEEF);
-        customerFactory_Roxy.purchaseProduct(BEEF, distributor_TOM, shopOwner_Kaufland, LocalDate.now().minusDays(7));
+        ProductInterface DISCOUNT_BEEF = new DiscountedProductDecorator(BEEF, 20);
+        shopOwnerFactory_Kaufland.storeProduct(DISCOUNT_BEEF, LocalDate.now().minusDays(8));
 
-        customerFactory_Roxy.returnProduct(BEEF, distributor_TOM, shopOwner_Kaufland, LocalDate.now().minusDays(6));
+        shopOwnerFactory_Kaufland.sellProduct(DISCOUNT_BEEF);
+        customerFactory_Roxy.purchaseProduct(DISCOUNT_BEEF, distributor_TOM, shopOwner_Kaufland, LocalDate.now().minusDays(7));
 
+        customerFactory_Roxy.returnProduct(DISCOUNT_BEEF, distributor_TOM, shopOwner_Kaufland, LocalDate.now().minusDays(6));
+
+        System.out.println("-----------------BEEF------------------");
         jsonTextReport.generateTransaction(BEEF.getTransactionHistory());
+        System.out.println("-----------------MONEY TRANSACTION------------------");
         jsonTextReport.generateMoneyTransaction(StorageMoneyTransaction.transactionHistory);
 
         ReportSaver.saveReportToJson(BEEF.getTransactionHistory(), "BeefTransaction.json");

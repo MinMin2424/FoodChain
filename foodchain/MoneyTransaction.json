@@ -1,6 +1,6 @@
 [ {
   "product" : {
-    "name" : "MILK"
+    "description" : "MILK"
   },
   "productPrice" : 15.0,
   "personFrom" : {
@@ -12,14 +12,14 @@
     "warehouse_TEMPERATURE" : 5
   },
   "operationType" : "PURCHASE",
-  "transactionDate" : [ 2024, 11, 25 ],
+  "transactionDate" : [ 2024, 11, 29 ],
   "wallet_PersonFrom_BeforeTransaction" : 500000.0,
   "wallet_PersonTo_BeforeTransaction" : 10000.0,
   "wallet_PersonFrom_AfterTransaction" : 500015.0,
   "wallet_PersonTo_AfterTransaction" : 9985.0
 }, {
   "product" : {
-    "name" : "BEEF"
+    "description" : "BEEF"
   },
   "productPrice" : 250.0,
   "personFrom" : {
@@ -31,14 +31,14 @@
     "warehouse_TEMPERATURE" : 5
   },
   "operationType" : "PURCHASE",
-  "transactionDate" : [ 2024, 11, 25 ],
+  "transactionDate" : [ 2024, 11, 29 ],
   "wallet_PersonFrom_BeforeTransaction" : 500015.0,
   "wallet_PersonTo_BeforeTransaction" : 9985.0,
   "wallet_PersonFrom_AfterTransaction" : 500265.0,
   "wallet_PersonTo_AfterTransaction" : 9735.0
 }, {
   "product" : {
-    "name" : "BEEF"
+    "description" : "BEEF"
   },
   "productPrice" : 250.0,
   "personFrom" : {
@@ -50,16 +50,17 @@
     "warehouse_TEMPERATURE" : 5
   },
   "operationType" : "PURCHASE",
-  "transactionDate" : [ 2024, 11, 27 ],
+  "transactionDate" : [ 2024, 12, 1 ],
   "wallet_PersonFrom_BeforeTransaction" : 9735.0,
   "wallet_PersonTo_BeforeTransaction" : 800.0,
   "wallet_PersonFrom_AfterTransaction" : 9985.0,
   "wallet_PersonTo_AfterTransaction" : 550.0
 }, {
   "product" : {
-    "name" : "BEEF"
+    "description" : "BEEF(Discount 20.0%)",
+    "price" : 200.0
   },
-  "productPrice" : 250.0,
+  "productPrice" : 200.0,
   "personFrom" : {
     "name" : "Kaufland",
     "warehouse_TEMPERATURE" : 5
@@ -69,9 +70,9 @@
     "warehouse_TEMPERATURE" : -50
   },
   "operationType" : "PURCHASE",
-  "transactionDate" : [ 2024, 11, 28 ],
+  "transactionDate" : [ 2024, 12, 2 ],
   "wallet_PersonFrom_BeforeTransaction" : 550.0,
   "wallet_PersonTo_BeforeTransaction" : 100000.0,
-  "wallet_PersonFrom_AfterTransaction" : 800.0,
-  "wallet_PersonTo_AfterTransaction" : 99750.0
+  "wallet_PersonFrom_AfterTransaction" : 750.0,
+  "wallet_PersonTo_AfterTransaction" : 99800.0
 } ]

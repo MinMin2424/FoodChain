@@ -27,6 +27,7 @@ import static cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue.getTemperature
 @Getter
 @Setter
 @JsonIgnoreProperties({
+        "name",
         "producedOnDate",
         "expirationDate",
         "currentState",
@@ -42,7 +43,7 @@ public class Product implements ProductInterface {
     @JsonBackReference
     private List<Transaction> transactionHistory;
     private LocalDate expirationDate;
-    private ProductState currentState;
+    private boolean currentState;
     private double price;
     private int temperature;
     private ProductStatus productStatus;
@@ -93,27 +94,27 @@ public class Product implements ProductInterface {
 
     private void updateState() {
         if (LocalDate.now().isAfter(expirationDate)) {
-            currentState = new ExpiredProductState();
+            currentState = new ExpiredProductState().expired();
         } else {
-            currentState = new EatableProductState();
+            currentState = new EatableProductState().expired();
         }
     }
 
-    private boolean eatable() {
-        return currentState.eatable();
-    }
-
-    private boolean expired() {
-        return currentState.expired();
-    }
+//    private boolean eatable() {
+//        return currentState;
+//    }
+//
+//    private boolean expired() {
+//        return currentState;
+//    }
 
     public boolean checkExpirationDateForSale() {
         updateState();
-        return expired();
+        return currentState;
     }
 
     @Override
-    @JsonIgnore
+//    @JsonIgnore
     public String getDescription() {
         return name;
     }

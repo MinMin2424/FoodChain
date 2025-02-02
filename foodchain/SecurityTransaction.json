@@ -1,6 +1,6 @@
 [ {
   "product" : {
-    "name" : "BEEF"
+    "description" : "BEEF"
   },
   "operationType" : "PURCHASE",
   "attemptedBuyer" : {
@@ -12,5 +12,5 @@
     "warehouse_TEMPERATURE" : 5
   },
   "attemptCount" : 2,
-  "transactionDates" : [ [ 2024, 11, 25 ], [ 2024, 11, 26 ] ]
+  "transactionDates" : [ [ 2024, 11, 29 ], [ 2024, 11, 30 ] ]
 } ]
