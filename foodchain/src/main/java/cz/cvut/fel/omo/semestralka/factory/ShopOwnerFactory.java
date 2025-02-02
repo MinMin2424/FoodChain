@@ -30,13 +30,17 @@ public class ShopOwnerFactory extends AbstractFactory{
 
     @Override
     public void storeProduct(ProductInterface product, LocalDate date) {
-        getStorage().addProductToStorage(product, shopOwner, Place.VAN, Place.SHOP, date);
+        try {
+            getStorage().addProductToStorage(product, shopOwner, Place.VAN, Place.SHOP, date);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     @Override
     protected void addReturnTransaction(ProductInterface product, LocalDate date) {
         createNewTransaction(product, Place.SHOP, Place.VAN, date);
-        getStorage().removeProduct(product);
+//        getStorage().removeProduct(product);
     }
 
     @Override
@@ -52,16 +56,21 @@ public class ShopOwnerFactory extends AbstractFactory{
      */
     @Override
     public void sellProduct(ProductInterface product) {
-        checkIfProductInNotNull(product);
-        boolean found = getStorage().findProduct(product);
-        if (found) {
-            if (product.checkExpirationDateForSale()) {
-                throw new IllegalArgumentException("Product " + product.getName() + " is expired. Cannot sell product " + product.getName());
+        try {
+            checkIfProductInNotNull(product);
+            boolean found = getStorage().findProduct(product);
+            if (found) {
+                if (product.checkExpirationDateForSale()) {
+                    throw new IllegalArgumentException("Product " + product.getName() + " is expired. Cannot sell product " + product.getName());
+                }
+                product.setProductStatus(ProductStatus.ON_SALE);
+            } else {
+                throw new IllegalArgumentException("Product " + product.getName() + " not found. Cannot sell product " + product.getName());
             }
-            product.setProductStatus(ProductStatus.ON_SALE);
-        } else {
-            throw new IllegalArgumentException("Product " + product.getName() + " not found. Cannot sell product " + product.getName());
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
+
     }
 
     private void informCustomers(Product product) {

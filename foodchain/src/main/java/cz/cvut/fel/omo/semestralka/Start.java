@@ -60,7 +60,7 @@ public class Start {
         farmerFactory_VERCA.storeProduct(chicken, LocalDate.now().minusDays(20));
         farmerFactory_VERCA.storeProduct(cow, LocalDate.now().minusDays(18));
         farmerFactory_VERCA.storeProduct(cow1, LocalDate.now().minusDays(17));
-
+        farmerFactory_VERCA.storeProduct(null, LocalDate.now());
 
         // CREATE NEW PRODUCTS BY EXISTING PRODUCTS IN STORAGE
         ProductInterface MILK = farmerFactory_VERCA.createProduct(ProductsCatalogue.MILK, LocalDate.now().minusDays(15));
@@ -89,7 +89,7 @@ public class Start {
         System.out.println("JOSEF: ");
         producer_JOSEF.getStorage().getStorageInventory();
 
-        producerFactory_MINA.returnProduct(MILK, distributor_TOM, farmer_VERCA, LocalDate.now().minusDays(9));
+        producerFactory_MINA.returnProduct(MILK, farmer_VERCA, farmer_VERCA, LocalDate.now().minusDays(9));
 //        plainTextReport.generateTransaction(MILK.getTransactionHistory());
 
 

@@ -137,7 +137,7 @@ public class Product implements ProductInterface {
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(filePath), createListPartiesTransaction());
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
     }
 

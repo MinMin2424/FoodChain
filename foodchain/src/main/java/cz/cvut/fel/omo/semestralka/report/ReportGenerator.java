@@ -11,14 +11,22 @@ public class ReportGenerator {
     private PlainTextFormatterAdapter formatter;
 
     public void generateTransaction(List<Transaction> transactions) {
-        for (Transaction transaction : transactions) {
-            System.out.println(formatter.formatReport(transaction));
+        try {
+            for (Transaction transaction : transactions) {
+                System.out.println(formatter.formatReport(transaction));
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
     }
 
     public void generateMoneyTransaction(List<MoneyTransaction> transactions) {
-        for (MoneyTransaction transaction : transactions) {
-            System.out.println(formatter.formatReport(transaction));
+        try {
+            for (MoneyTransaction transaction : transactions) {
+                System.out.println(formatter.formatReport(transaction));
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
     }
 }

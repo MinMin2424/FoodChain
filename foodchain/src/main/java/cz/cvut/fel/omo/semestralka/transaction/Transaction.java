@@ -100,38 +100,38 @@ public class Transaction {
     }
 
     public void setProduct(ProductInterface product) {
-        throw new UnsupportedOperationException("Modification of product is not allowed.");
+        System.err.println("Modification of product is not allowed.");
     }
 
     public void setOperationType(OperationType operationType) {
-        throw new UnsupportedOperationException("Modification of operation type is not allowed.");
+        System.err.println("Modification of operation type is not allowed.");
     }
 
     public void setPersonFrom(Person personFrom) {
-        throw new UnsupportedOperationException("Modification of person from is not allowed.");
+        System.err.println("Modification of person from is not allowed.");
     }
 
     public void setPersonTo(Person personTo) {
-        throw new UnsupportedOperationException("Modification of person to is not allowed.");
+        System.err.println("Modification of person to is not allowed.");
     }
 
     public void setMovedFrom(Place movedFrom) {
-        throw new UnsupportedOperationException("Modification of moved from is not allowed.");
+        System.err.println("Modification of moved from is not allowed.");
     }
 
     public void setMovedTo(Place movedTo) {
-        throw new UnsupportedOperationException("Modification of moved to is not allowed.");
+        System.err.println("Modification of moved to is not allowed.");
     }
 
     public void setTransactionDate(LocalDate transactionDate) {
-        throw new UnsupportedOperationException("Modification of transaction date is not allowed.");
+        System.err.println("Modification of transaction date is not allowed.");
     }
 
     public void setPrice(double price) {
-        throw new UnsupportedOperationException("Modification of price is not allowed.");
+        System.err.println("Modification of price is not allowed.");
     }
 
     public void setPreviousTransaction(Transaction previousTransaction) {
-        throw new UnsupportedOperationException("Modification of previous transaction is not allowed.");
+        System.err.println("Modification of previous transaction is not allowed.");
     }
 }

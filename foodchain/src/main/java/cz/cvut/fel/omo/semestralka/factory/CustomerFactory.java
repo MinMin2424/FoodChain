@@ -43,7 +43,11 @@ public class CustomerFactory extends AbstractFactory {
 
     @Override
     public void storeProduct(ProductInterface product, LocalDate date) {
-        getStorage().addProductToStorage(product, getPerson(), Place.SHOP, Place.BACKPACK, date);
+        try {
+            getStorage().addProductToStorage(product, getPerson(), Place.SHOP, Place.BACKPACK, date);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     @Override
@@ -60,18 +64,19 @@ public class CustomerFactory extends AbstractFactory {
 
     @Override
     public void purchaseProduct(ProductInterface product, Person distributor, Person salesman, LocalDate date) {
-        if (product == null) {
-            throw new IllegalArgumentException("Product cannot be null.");
+        try {
+            checkIfProductInNotNull(product);
+            checkIfPersonHasEnoughMoney(product);
+            salesman.setWallet(salesman.getWallet() + product.getPrice());
+            getPerson().setWallet(getPerson().getWallet() - product.getPrice());
+            createNewTransaction(product, salesman, product.getPrice(), date);
+            salesman.getStorage().removeProductFromStorage(product, salesman, Place.WAREHOUSE, Place.ON_SALE, date);
+            storeProduct(product, date);
+            createMoneyTransaction(product, salesman, product.getPrice(), date);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
-        if (!checkWallet(product.getPrice())) {
-            throw new IllegalArgumentException("Wallet has not enough money to purchase product.");
-        }
-        salesman.setWallet(salesman.getWallet() + product.getPrice());
-        getPerson().setWallet(getPerson().getWallet() - product.getPrice());
-        createNewTransaction(product, salesman, product.getPrice(), date);
-        salesman.getStorage().removeProductFromStorage(product, salesman, Place.WAREHOUSE, Place.ON_SALE, date);
-        storeProduct(product, date);
-        createMoneyTransaction(product, salesman, product.getPrice(), date);
+
     }
 
     @Override

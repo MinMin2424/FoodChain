@@ -87,7 +87,7 @@ public class Storage {
 //            System.out.println("NEW PRODUCT " + product.getName() + " has been added to the list");
             isProductAdded = true;
         } else {
-            System.out.println("NOPE");
+//            System.out.println("NOPE");
             throw new IllegalArgumentException("Product cannot be added to the list because of temperature.");
         }
         return isProductAdded;

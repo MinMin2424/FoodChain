@@ -34,7 +34,11 @@ public class ProducerFactory extends AbstractFactory{
 
     @Override
     public void storeProduct(ProductInterface product, LocalDate date) {
-        getStorage().addProductToStorage(product, producer, Place.VAN, Place.WAREHOUSE_PRODUCER, date);
+        try {
+            getStorage().addProductToStorage(product, producer, Place.VAN, Place.WAREHOUSE_PRODUCER, date);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     @Override

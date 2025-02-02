@@ -21,7 +21,11 @@ public class DistributorFactory extends AbstractFactory{
 
     @Override
     public void storeProduct(ProductInterface product, LocalDate date) {
-        getStorage().addProductToStorage(product, getPerson(), Place.WAREHOUSE, Place.VAN, date);
+        try {
+            getStorage().addProductToStorage(product, getPerson(), Place.WAREHOUSE, Place.VAN, date);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     @Override

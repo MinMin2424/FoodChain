@@ -21,7 +21,7 @@ public class ReportSaver {
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(fileName), transactions);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
     }
 
@@ -33,7 +33,7 @@ public class ReportSaver {
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(fileName), moneyTransactions);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
     }
 
@@ -45,7 +45,7 @@ public class ReportSaver {
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(fileName), securityTransactions);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
     }
 
