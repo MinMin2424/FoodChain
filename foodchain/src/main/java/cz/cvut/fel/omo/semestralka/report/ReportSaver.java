@@ -37,7 +37,7 @@ public class ReportSaver {
         }
     }
 
-    public static void saveSaveSecurityToJson(List<SecurityTransaction> securityTransactions, String fileName) {
+    public static void saveSecurityReportToJson(List<SecurityTransaction> securityTransactions, String fileName) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);

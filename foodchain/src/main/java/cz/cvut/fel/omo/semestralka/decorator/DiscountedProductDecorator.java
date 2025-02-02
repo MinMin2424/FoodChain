@@ -12,7 +12,7 @@ public class DiscountedProductDecorator extends ProductDecorator{
 
     @Override
     public String getDescription() {
-        return decoratedProduct.getDescription() + "(Discount " + discount + "%)";
+        return decoratedProduct.getDescription() + "(Discount_" + discount + "%)";
     }
 
     @Override
