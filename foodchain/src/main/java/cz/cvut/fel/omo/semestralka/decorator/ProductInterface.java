@@ -22,6 +22,6 @@ public interface ProductInterface {
     Transaction getLastTransaction();
     boolean checkExpirationDateForSale();
     String getDescription();
-    void generatePartiesReport();
+    void generatePartiesReport(String filePath);
 
 }

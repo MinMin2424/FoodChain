@@ -1,0 +1,21 @@
+[ {
+  "productName" : "BEEF",
+  "personName" : "Verca",
+  "duration" : 5
+}, {
+  "productName" : "BEEF",
+  "personName" : "Mina",
+  "duration" : 2
+}, {
+  "productName" : "BEEF",
+  "personName" : "Kaufland",
+  "duration" : 1
+}, {
+  "productName" : "BEEF",
+  "personName" : "Roxy",
+  "duration" : 1
+}, {
+  "productName" : "BEEF",
+  "personName" : "Kaufland",
+  "duration" : 6
+} ]

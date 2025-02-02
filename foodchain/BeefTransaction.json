@@ -3,7 +3,7 @@
     "name" : "BEEF"
   },
   "operationType" : "CREATE",
-  "transactionDate" : [ 2024, 11, 16 ],
+  "transactionDate" : [ 2024, 11, 20 ],
   "price" : 0.0,
   "personFrom" : {
     "name" : "Verca",
@@ -17,7 +17,7 @@
     "name" : "BEEF"
   },
   "operationType" : "STORE",
-  "transactionDate" : [ 2024, 11, 16 ],
+  "transactionDate" : [ 2024, 11, 20 ],
   "price" : 0.0,
   "personFrom" : {
     "name" : "Verca",
@@ -31,7 +31,7 @@
     "name" : "BEEF"
   },
   "operationType" : "REMOVE",
-  "transactionDate" : [ 2024, 11, 21 ],
+  "transactionDate" : [ 2024, 11, 25 ],
   "price" : 0.0,
   "personFrom" : {
     "name" : "Verca",
@@ -45,7 +45,7 @@
     "name" : "BEEF"
   },
   "operationType" : "PURCHASE",
-  "transactionDate" : [ 2024, 11, 21 ],
+  "transactionDate" : [ 2024, 11, 25 ],
   "price" : 250.0,
   "personFrom" : {
     "name" : "Verca",
@@ -62,7 +62,7 @@
     "name" : "BEEF"
   },
   "operationType" : "TRANSPORT",
-  "transactionDate" : [ 2024, 11, 21 ],
+  "transactionDate" : [ 2024, 11, 25 ],
   "price" : 100.0,
   "personFrom" : {
     "name" : "Verca",
@@ -79,7 +79,7 @@
     "name" : "BEEF"
   },
   "operationType" : "STORE",
-  "transactionDate" : [ 2024, 11, 21 ],
+  "transactionDate" : [ 2024, 11, 25 ],
   "price" : 0.0,
   "personFrom" : {
     "name" : "Mina",
@@ -93,7 +93,7 @@
     "name" : "BEEF"
   },
   "operationType" : "REMOVE",
-  "transactionDate" : [ 2024, 11, 23 ],
+  "transactionDate" : [ 2024, 11, 27 ],
   "price" : 0.0,
   "personFrom" : {
     "name" : "Mina",
@@ -107,7 +107,7 @@
     "name" : "BEEF"
   },
   "operationType" : "PURCHASE",
-  "transactionDate" : [ 2024, 11, 23 ],
+  "transactionDate" : [ 2024, 11, 27 ],
   "price" : 250.0,
   "personFrom" : {
     "name" : "Mina",
@@ -124,7 +124,7 @@
     "name" : "BEEF"
   },
   "operationType" : "TRANSPORT",
-  "transactionDate" : [ 2024, 11, 23 ],
+  "transactionDate" : [ 2024, 11, 27 ],
   "price" : 100.0,
   "personFrom" : {
     "name" : "Mina",
@@ -141,7 +141,7 @@
     "name" : "BEEF"
   },
   "operationType" : "STORE",
-  "transactionDate" : [ 2024, 11, 23 ],
+  "transactionDate" : [ 2024, 11, 27 ],
   "price" : 0.0,
   "personFrom" : {
     "name" : "Kaufland",
@@ -155,7 +155,7 @@
     "name" : "BEEF"
   },
   "operationType" : "PURCHASE",
-  "transactionDate" : [ 2024, 11, 24 ],
+  "transactionDate" : [ 2024, 11, 28 ],
   "price" : 250.0,
   "personFrom" : {
     "name" : "Kaufland",
@@ -172,7 +172,7 @@
     "name" : "BEEF"
   },
   "operationType" : "STORE",
-  "transactionDate" : [ 2024, 11, 24 ],
+  "transactionDate" : [ 2024, 11, 28 ],
   "price" : 0.0,
   "personFrom" : {
     "name" : "Roxy",
@@ -186,7 +186,7 @@
     "name" : "BEEF"
   },
   "operationType" : "RETURN",
-  "transactionDate" : [ 2024, 11, 25 ],
+  "transactionDate" : [ 2024, 11, 29 ],
   "price" : 0.0,
   "personFrom" : {
     "name" : "Roxy",
@@ -195,4 +195,18 @@
   "personTo" : null,
   "movedFrom" : "SHOP",
   "movedTo" : "VAN"
+}, {
+  "product" : {
+    "name" : "BEEF"
+  },
+  "operationType" : "STORE",
+  "transactionDate" : [ 2024, 11, 29 ],
+  "price" : 0.0,
+  "personFrom" : {
+    "name" : "Kaufland",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "personTo" : null,
+  "movedFrom" : "BACKPACK",
+  "movedTo" : "SHOP"
 } ]

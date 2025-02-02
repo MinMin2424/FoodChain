@@ -126,5 +126,7 @@ public class Start {
         producer_JOSEF.getStorage().getStorageInventory();
         shopOwner_Kaufland.getStorage().getStorageInventory();
         customer_Roxy.getStorage().getStorageInventory();
+
+        BEEF.generatePartiesReport("PartiesTransaction.json");
     }
 }

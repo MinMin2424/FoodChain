@@ -54,7 +54,8 @@ public class CustomerFactory extends AbstractFactory {
 
     @Override
     protected void addTransportTransaction(ProductInterface product, Person distributor, Person salesman, LocalDate date) {
-        // Do nothing
+        // no transport
+        salesman.getStorage().addProductToStorage(product, salesman, Place.BACKPACK, Place.SHOP, date);
     }
 
     @Override

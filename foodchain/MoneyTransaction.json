@@ -12,7 +12,7 @@
     "warehouse_TEMPERATURE" : 5
   },
   "operationType" : "PURCHASE",
-  "transactionDate" : [ 2024, 11, 21 ],
+  "transactionDate" : [ 2024, 11, 25 ],
   "wallet_PersonFrom_BeforeTransaction" : 500000.0,
   "wallet_PersonTo_BeforeTransaction" : 10000.0,
   "wallet_PersonFrom_AfterTransaction" : 500015.0,
@@ -31,7 +31,7 @@
     "warehouse_TEMPERATURE" : 5
   },
   "operationType" : "PURCHASE",
-  "transactionDate" : [ 2024, 11, 21 ],
+  "transactionDate" : [ 2024, 11, 25 ],
   "wallet_PersonFrom_BeforeTransaction" : 500015.0,
   "wallet_PersonTo_BeforeTransaction" : 9985.0,
   "wallet_PersonFrom_AfterTransaction" : 500265.0,
@@ -50,7 +50,7 @@
     "warehouse_TEMPERATURE" : 5
   },
   "operationType" : "PURCHASE",
-  "transactionDate" : [ 2024, 11, 23 ],
+  "transactionDate" : [ 2024, 11, 27 ],
   "wallet_PersonFrom_BeforeTransaction" : 9735.0,
   "wallet_PersonTo_BeforeTransaction" : 800.0,
   "wallet_PersonFrom_AfterTransaction" : 9985.0,
@@ -69,7 +69,7 @@
     "warehouse_TEMPERATURE" : -50
   },
   "operationType" : "PURCHASE",
-  "transactionDate" : [ 2024, 11, 24 ],
+  "transactionDate" : [ 2024, 11, 28 ],
   "wallet_PersonFrom_BeforeTransaction" : 550.0,
   "wallet_PersonTo_BeforeTransaction" : 100000.0,
   "wallet_PersonFrom_AfterTransaction" : 800.0,

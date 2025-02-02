@@ -78,7 +78,7 @@ public class ProductDecorator implements ProductInterface {
     }
 
     @Override
-    public void generatePartiesReport() {
-        decoratedProduct.generatePartiesReport();
+    public void generatePartiesReport(String filePath) {
+        decoratedProduct.generatePartiesReport(filePath);
     }
 }

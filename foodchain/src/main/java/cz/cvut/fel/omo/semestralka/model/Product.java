@@ -3,16 +3,19 @@ package cz.cvut.fel.omo.semestralka.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import cz.cvut.fel.omo.semestralka.decorator.ProductInterface;
 import cz.cvut.fel.omo.semestralka.enums.ProductStatus;
 import cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue;
 import cz.cvut.fel.omo.semestralka.state.EatableProductState;
 import cz.cvut.fel.omo.semestralka.state.ExpiredProductState;
 import cz.cvut.fel.omo.semestralka.state.ProductState;
+import cz.cvut.fel.omo.semestralka.transaction.PartiesTransaction;
 import cz.cvut.fel.omo.semestralka.transaction.Transaction;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -128,10 +131,22 @@ public class Product implements ProductInterface {
     /**
      * Prints out history of persons transactions
      */
-    public void generatePartiesReport() {
+    public void generatePartiesReport(String filePath) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(filePath), createListPartiesTransaction());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private List<PartiesTransaction> createListPartiesTransaction() {
+
         if (transactionHistory == null || transactionHistory.isEmpty()) {
             throw new IllegalArgumentException("No transactions for product: " + name);
         }
+
+        List<PartiesTransaction> transactions = new ArrayList<>();
 
         Person currentPerson = null;
         LocalDate startDate = null;
@@ -139,16 +154,11 @@ public class Product implements ProductInterface {
         for (Transaction transaction : transactionHistory) {
             if (currentPerson == null) {
                 currentPerson = transaction.getPersonFrom();
-                //TODO
                 startDate = transaction.getTransactionDate();
             }
             if (!currentPerson.equals(transaction.getPersonFrom())) {
                 long duration = ChronoUnit.DAYS.between(startDate, transaction.getTransactionDate());
-                System.out.println("Product: " + name);
-                System.out.println("Person: " + currentPerson.getName());
-                System.out.println("Transaction Type: " + duration + " days");
-                System.out.println("Margin applied: ");
-                System.out.println("-----------------------------------");
+                transactions.add(new PartiesTransaction(name, currentPerson.getName(), duration));
 
                 currentPerson = transaction.getPersonFrom();
                 startDate = transaction.getTransactionDate();
@@ -157,12 +167,10 @@ public class Product implements ProductInterface {
 
         if (currentPerson != null && startDate != null) {
             long duration = ChronoUnit.DAYS.between(startDate, LocalDate.now());
-            System.out.println("Product: " + name);
-            System.out.println("Person: " + currentPerson.getName());
-            System.out.println("Transaction Type: " + duration + " days");
-            System.out.println("Margin applied: ");
-            System.out.println("-----------------------------------");
+            transactions.add(new PartiesTransaction(name, currentPerson.getName(), duration));
         }
+
+        return transactions;
     }
 
 }
