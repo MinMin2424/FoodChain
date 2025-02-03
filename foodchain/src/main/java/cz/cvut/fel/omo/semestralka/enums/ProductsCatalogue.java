@@ -12,7 +12,7 @@ public enum ProductsCatalogue {
     SHEEP (3000, 0, 25),
     CHICKEN (250, 0, 25),
     FISH (500, 0, 15),
-    WHEAT (20, 900, 10), //obili
+    WHEAT (20, 10, 10), //obili
     APPLE (10, 7, 12),
     WALNUT (120, 100, 12),
     POTATO (10, 14, 12),

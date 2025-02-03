@@ -1,6 +1,7 @@
 package cz.cvut.fel.omo.semestralka.factory;
 
 import cz.cvut.fel.omo.semestralka.decorator.ProductInterface;
+import cz.cvut.fel.omo.semestralka.enums.ProductStatus;
 import cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue;
 import cz.cvut.fel.omo.semestralka.model.Person;
 import cz.cvut.fel.omo.semestralka.model.Storage;
@@ -63,18 +64,22 @@ public class CustomerFactory extends AbstractFactory {
     public void purchaseProduct(ProductInterface product, Person distributor, Person salesman, LocalDate date) {
         try {
             checkIfProductInNotNull(product);
+            checkProductStatusForSale(product, salesman, date);
             checkIfPersonHasEnoughMoney(product);
-            salesman.setWallet(salesman.getWallet() + product.getPrice());
-            getPerson().setWallet(getPerson().getWallet() - product.getPrice());
-            createNewTransaction(product, salesman, product.getPrice(), date);
-            salesman.getStorage().removeProductFromStorage(product, salesman, Place.WAREHOUSE, Place.ON_SALE, date);
-            storeProduct(product, date);
-            createMoneyTransaction(product, salesman, product.getPrice(), date);
-            System.out.println(getPerson().getName() + " successfully purchased product " + product.getName() + ".");
+
+            if (salesman.getStorage().removeProductFromStorage(product, salesman, Place.WAREHOUSE, Place.ON_SALE, date)) {
+                createNewTransaction(product, salesman, product.getPrice(), date);
+                salesman.setWallet(salesman.getWallet() + product.getPrice());
+                getPerson().setWallet(getPerson().getWallet() - product.getPrice());
+                storeProduct(product, date);
+                createMoneyTransaction(product, salesman, product.getPrice(), date);
+                product.setProductStatus(ProductStatus.IS_ALREADY_PURCHASED);
+                System.out.println(getPerson().getName() + " successfully purchased product " + product.getName() + ".");
+            }
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
     }
 
     @Override

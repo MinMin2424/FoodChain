@@ -150,16 +150,6 @@ public class Storage {
         return found;
     }
 
-    public List<ProductInterface> getAllProducts(ProductInterface product) {
-        List<ProductInterface> products = new ArrayList<>();
-        for (ProductInterface productInStorage : productList) {
-            if (productInStorage.getName().equals(product.getName())) {
-                products.add(product);
-            }
-        }
-        return products;
-    }
-
     /**
      * Counts and adds number of quantities of each product in warehouse
      * @return the number of all items in warehouse
@@ -170,19 +160,6 @@ public class Storage {
             fullness += 1;
         }
         return fullness;
-    }
-
-    /**
-     * Writes out each product and its quantity in warehouse
-     */
-    public void getStorageInventory(){
-        StringBuilder warehouseInventory = new StringBuilder();
-        warehouseInventory.append("This storage contains: \n");
-        for (ProductInterface product : productList) {
-            warehouseInventory.append(product.getDescription()).append("\n");
-
-        }
-        System.out.println(warehouseInventory);
     }
 
     /**

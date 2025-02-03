@@ -1,5 +1,6 @@
 package cz.cvut.fel.omo.semestralka.configuration;
 
+import cz.cvut.fel.omo.semestralka.decorator.BioProductDecorator;
 import cz.cvut.fel.omo.semestralka.decorator.ProductInterface;
 import cz.cvut.fel.omo.semestralka.enums.Place;
 import cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue;
@@ -94,11 +95,12 @@ public class BasicConfiguration extends Configuration {
         // Producers sell all their products
         producerFactory_MINA.sellProduct(STRAWBERRY); producerFactory_MINA.sellProduct(CHEESECAKE);
         producerFactory_MINA.sellProduct(CHICKEN_MEAT);
-        producerFactory_JOSEF.sellProduct(PASTA_FRESH);
+        ProductInterface PASTA_FRESH_BIO = producerFactory_JOSEF.createProduct(new BioProductDecorator(PASTA_FRESH), LocalDate.now().minusDays(9));
+        producerFactory_JOSEF.sellProduct(PASTA_FRESH_BIO);
 
         // Shop owners purchase products from producers and then sell some products
         shopOwnerFactory_MERIDIAN.purchaseProduct(STRAWBERRY, distributor_POSTA, producer_MINA, LocalDate.now().minusDays(9));
-        shopOwnerFactory_MERIDIAN.purchaseProduct(PASTA_FRESH, distributor_POSTA, producer_JOSEF, LocalDate.now().minusDays(9));
+        shopOwnerFactory_MERIDIAN.purchaseProduct(PASTA_FRESH_BIO, distributor_POSTA, producer_JOSEF, LocalDate.now().minusDays(9));
         shopOwnerFactory_KAUFLAND.purchaseProduct(CHEESECAKE, distributor_POSTA, producer_MINA, LocalDate.now().minusDays(7));
         shopOwnerFactory_KAUFLAND.purchaseProduct(CHICKEN_MEAT, distributor_POSTA, producer_MINA, LocalDate.now().minusDays(8));
 
@@ -108,23 +110,23 @@ public class BasicConfiguration extends Configuration {
         shopOwnerFactory_KAUFLAND.addSubscribedCustomer(customer_THIRD);
         shopOwnerFactory_KAUFLAND.addSubscribedCustomer(customer_FOURTH);
 
-        shopOwnerFactory_MERIDIAN.sellProduct(PASTA_FRESH);
+        shopOwnerFactory_MERIDIAN.sellProduct(PASTA_FRESH_BIO);
         shopOwnerFactory_KAUFLAND.sellProduct(CHEESECAKE);
 
         // customers purchase products
-        customerFactory_FIRST.purchaseProduct(PASTA_FRESH, distributor_POSTA, shopOwner_MERIDIAN, LocalDate.now().minusDays(7));
+        customerFactory_FIRST.purchaseProduct(PASTA_FRESH_BIO, distributor_POSTA, shopOwner_MERIDIAN, LocalDate.now().minusDays(7));
         customerFactory_FOURTH.purchaseProduct(CHEESECAKE, distributor_POSTA, shopOwner_KAUFLAND, LocalDate.now().minusDays(6));
 
         // customers return products
-        customerFactory_FIRST.returnProduct(PASTA_FRESH, distributor_POSTA, shopOwner_MERIDIAN, LocalDate.now().minusDays(7));
+        customerFactory_FIRST.returnProduct(PASTA_FRESH_BIO, distributor_POSTA, shopOwner_MERIDIAN, LocalDate.now().minusDays(7));
         customerFactory_FOURTH.returnProduct(CHEESECAKE, distributor_POSTA, shopOwner_KAUFLAND, LocalDate.now().minusDays(6));
 
         // shop owners sell products again
-        shopOwnerFactory_MERIDIAN.sellProduct(PASTA_FRESH);
+        shopOwnerFactory_MERIDIAN.sellProduct(PASTA_FRESH_BIO);
         shopOwnerFactory_KAUFLAND.sellProduct(CHEESECAKE);
 
         // other customers purchase products
-        customerFactory_SECOND.returnProduct(PASTA_FRESH, distributor_POSTA, shopOwner_MERIDIAN, LocalDate.now().minusDays(4));
+        customerFactory_SECOND.returnProduct(PASTA_FRESH_BIO, distributor_POSTA, shopOwner_MERIDIAN, LocalDate.now().minusDays(4));
         customerFactory_THIRD.returnProduct(CHEESECAKE, distributor_POSTA, shopOwner_KAUFLAND, LocalDate.now().minusDays(5));
 
     }

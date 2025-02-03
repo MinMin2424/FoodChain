@@ -1,5 +1,8 @@
 package cz.cvut.fel.omo.semestralka.factory;
 
+import cz.cvut.fel.omo.semestralka.decorator.BioProductDecorator;
+import cz.cvut.fel.omo.semestralka.decorator.DiscountedProductDecorator;
+import cz.cvut.fel.omo.semestralka.decorator.ProductDecorator;
 import cz.cvut.fel.omo.semestralka.decorator.ProductInterface;
 import cz.cvut.fel.omo.semestralka.enums.ProductStatus;
 import cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue;
@@ -50,6 +53,42 @@ public abstract class AbstractFactory {
             storeProduct(newProduct, date);
             System.out.println(getPerson().getName() + " successfully created product " + newProduct.getName() + ".");
             return newProduct;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    public ProductInterface createProduct(BioProductDecorator product, LocalDate date) {
+        try {
+            if (!canCreateProduct()) {
+                throw new UnsupportedOperationException(getPerson().getName() + " cannot create product " + product.getName() + ".");
+            }
+            if (product == null) {
+                throw new IllegalArgumentException(getPerson().getName() + " cannot create product " + product.getName() + ", because product is null");
+            }
+            createNewTransaction(product, date);
+            storeProduct(product, date);
+            System.out.println(getPerson().getName() + " successfully created bio product " + product.getName() + ".");
+            return product;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    public ProductInterface createProduct(DiscountedProductDecorator product, LocalDate date) {
+        try {
+            if (!canCreateProduct()) {
+                throw new UnsupportedOperationException(getPerson().getName() + " cannot create product " + product.getName() + ".");
+            }
+            if (product == null) {
+                throw new IllegalArgumentException(getPerson().getName() + " cannot create product " + product.getName() + ", because product is null");
+            }
+            createNewTransaction(product, date);
+            storeProduct(product, date);
+            System.out.println(getPerson().getName() + " successfully created bio product " + product.getName() + ".");
+            return product;
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
@@ -186,7 +225,7 @@ public abstract class AbstractFactory {
         }
     }
 
-    private void checkProductStatusForSale(ProductInterface product, Person salesman, LocalDate date) {
+    protected void checkProductStatusForSale(ProductInterface product, Person salesman, LocalDate date) {
         if (product.getProductStatus() == ProductStatus.NOT_ON_SALE) {
             throw new IllegalArgumentException("Product " + product.getName() + " is not on sale.");
         }

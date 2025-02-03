@@ -99,21 +99,12 @@ public class Product implements ProductInterface {
         }
     }
 
-//    private boolean eatable() {
-//        return currentState;
-//    }
-//
-//    private boolean expired() {
-//        return currentState;
-//    }
-
     public boolean checkExpirationDateForSale() {
         updateState();
         return currentState;
     }
 
     @Override
-//    @JsonIgnore
     public String getDescription() {
         return name;
     }
