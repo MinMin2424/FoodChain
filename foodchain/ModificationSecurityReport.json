@@ -1,0 +1,21 @@
+[ {
+  "product" : {
+    "description" : "CHICKEN"
+  },
+  "operationType" : "MODIFICATION_DATA_TRANSACTION",
+  "person" : {
+    "name" : "Farmer Azul",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "dataType" : "Set operation type"
+}, {
+  "product" : {
+    "description" : "CHEESECAKE"
+  },
+  "operationType" : "MODIFICATION_DATA_TRANSACTION",
+  "person" : {
+    "name" : "ShopOwner Meridian",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "dataType" : "Set price"
+} ]

@@ -1,0 +1,17 @@
+[ {
+  "productName" : "CHEESECAKE",
+  "personName" : "Producer Mina",
+  "duration" : 1
+}, {
+  "productName" : "CHEESECAKE",
+  "personName" : "ShopOwner Kaufland",
+  "duration" : 1
+}, {
+  "productName" : "CHEESECAKE",
+  "personName" : "Customer Fourth",
+  "duration" : 0
+}, {
+  "productName" : "CHEESECAKE",
+  "personName" : "ShopOwner Kaufland",
+  "duration" : 6
+} ]

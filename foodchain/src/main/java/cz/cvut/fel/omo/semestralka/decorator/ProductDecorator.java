@@ -36,11 +36,6 @@ public class ProductDecorator implements ProductInterface {
         return decoratedProduct.getExpirationDate();
     }
 
-//    @Override
-//    public boolean getCurrentState() {
-//        return decoratedProduct.getCurrentState();
-//    }
-
     @Override
     public double getPrice() {
         return decoratedProduct.getPrice();

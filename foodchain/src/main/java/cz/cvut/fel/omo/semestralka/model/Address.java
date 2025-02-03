@@ -20,6 +20,12 @@ public class Address {
 
     private static Faker faker = new Faker(new Random(Constants.RANDOM_SEED));
 
+    /**
+     * Generates a random address using the Faker library.
+     * The generated address includes a random street, city, ZIP code,
+     * and a fixed country value ("Czechia").
+     * @return a randomly generated Address object.
+     */
     public static Address generateRandomAddress() {
         com.github.javafaker.Address randomAddress = faker.address();
         String street = randomAddress.streetAddress();

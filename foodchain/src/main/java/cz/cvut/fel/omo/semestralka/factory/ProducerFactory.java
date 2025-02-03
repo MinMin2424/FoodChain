@@ -25,11 +25,21 @@ public class ProducerFactory extends AbstractFactory{
         putOriginsToStrategy();
     }
 
+    /**
+     * Returns the associated producer as a Person.
+     * @return the producer as a Person object
+     */
     @Override
     protected Person getPerson() {
         return producer;
     }
 
+    /**
+     * Stores a product in the producer's storage.
+     * The product is transferred from the van to the warehouse specific to the producer.
+     * @param product The product to be stored.
+     * @param date    The date when the product is stored.
+     */
     @Override
     public void storeProduct(ProductInterface product, LocalDate date) {
         try {
@@ -39,11 +49,20 @@ public class ProducerFactory extends AbstractFactory{
         }
     }
 
+    /**
+     * Returns the storage associated with the producer.
+     * @return the producer's storage
+     */
     @Override
     protected Storage getStorage() {
         return producer.getStorage();
     }
 
+    /**
+     * Retrieves the origin of a specific product using a defined strategy.
+     * @param product The product whose origin is to be retrieved.
+     * @return A list of products representing the origin, or null if no strategy exists.
+     */
     @Override
     protected List<ProductsCatalogue> getProductOrigin(ProductsCatalogue product) {
         ProductOriginStrategy strategy = originStrategies.get(product);
@@ -53,6 +72,10 @@ public class ProducerFactory extends AbstractFactory{
         return null;
     }
 
+    /**
+     * Initializes the product origin strategies for specific products.
+     * Each product in the catalogue is mapped to its corresponding strategy.
+     */
     private void putOriginsToStrategy() {
         originStrategies.put(ProductsCatalogue.FLOUR, new FlourOriginStrategy());
         originStrategies.put(ProductsCatalogue.YOGHURT, new YoghurtOriginStrategy());

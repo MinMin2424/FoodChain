@@ -25,6 +25,12 @@ public class FarmerFactory extends AbstractFactory{
         putOriginsToStrategy();
     }
 
+    /**
+     * Stores a product in the farmer's storage.
+     * The product is transferred from the manufactory to the warehouse specific to the farmer.
+     * @param product The product to be stored.
+     * @param date    The date when the product is stored.
+     */
     @Override
     public void storeProduct(ProductInterface product, LocalDate date) {
         try {
@@ -34,26 +40,47 @@ public class FarmerFactory extends AbstractFactory{
         }
     }
 
+    /**
+     * Returns the associated farmer as a Person.
+     * @return the farmer as a Person object
+     */
     @Override
     protected Person getPerson() {
         return farmer;
     }
 
+    /**
+     * Returns the storage associated with the farmer.
+     * @return the farmer's storage
+     */
     @Override
     protected Storage getStorage() {
         return farmer.getStorage();
     }
 
+    /**
+     * Determines whether the farmer can return products.
+     * @return false, as farmer cannot return products
+     */
     @Override
     protected boolean canReturnProduct() {
         return false;
     }
 
+    /**
+     * Determines whether the farmer can purchase products.
+     * @return false, as farmer cannot purchase products
+     */
     @Override
     protected boolean canPurchaseProduct() {
         return false;
     }
 
+    /**
+     * Retrieves the origin of a specific product using a defined strategy.
+     * @param product The product whose origin is to be retrieved.
+     * @return A list of products representing the origin, or null if no strategy exists.
+     */
     @Override
     protected List<ProductsCatalogue> getProductOrigin(ProductsCatalogue product) {
         ProductOriginStrategy strategy = originStrategies.get(product);
@@ -63,6 +90,10 @@ public class FarmerFactory extends AbstractFactory{
         return null;
     }
 
+    /**
+     * Initializes the product origin strategies for specific products.
+     * Each product in the catalogue is mapped to its corresponding strategy.
+     */
     private void putOriginsToStrategy() {
         originStrategies.put(ProductsCatalogue.BEEF, new BeefOriginStrategy());
         originStrategies.put(ProductsCatalogue.MILK, new MilkOriginStrategy());

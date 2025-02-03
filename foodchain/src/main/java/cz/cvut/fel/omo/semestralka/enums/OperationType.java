@@ -3,6 +3,10 @@ package cz.cvut.fel.omo.semestralka.enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * Enum representing different types of operations performed on products or transactions.
+ * Each operation has an associated price that may influence the cost of the operation.
+ */
 @AllArgsConstructor
 @Getter
 public enum OperationType {

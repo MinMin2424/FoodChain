@@ -25,11 +25,12 @@ public class Storage {
     }
 
     /**
-     * Adds product to persons storage and saves information about the transaction
-     * @param product product
-     * @param person person executing operation
-     * @param movedFrom where we are moving product from
-     * @param movedTo where we are moving product to
+     * Adds a product to the storage and records the transaction history.
+     * @param product   Product to be added
+     * @param person    Person executing the operation
+     * @param movedFrom Place from where the product is moved
+     * @param movedTo   Place where the product is being stored
+     * @param date      Date of the transaction
      */
     public void addProductToStorage(ProductInterface product, Person person, Place movedFrom, Place movedTo, LocalDate date) {
         boolean isProductAdded = addProduct(product);
@@ -49,11 +50,13 @@ public class Storage {
     }
 
     /**
-     * Removes product from persons storage and saves information about the transaction
-     * @param product Product
-     * @param person Person executing operation
-     * @param movedFrom Place where we are moving product from
-     * @param movedTo Place where we are moving product to
+     * Removes a product from the storage and records the transaction history.
+     * @param product   Product to be removed
+     * @param person    Person executing the operation
+     * @param movedFrom Place from where the product is removed
+     * @param movedTo   Place where the product is moved to
+     * @param date      Date of the transaction
+     * @return True if the product was successfully removed, false otherwise
      */
     public boolean removeProductFromStorage(ProductInterface product, Person person, Place movedFrom, Place movedTo, LocalDate date) {
         boolean isProductRemoved = removeProduct(product);
@@ -74,8 +77,9 @@ public class Storage {
     }
 
     /**
-     * Adds product to the warehouse
-     * @param product product to be added
+     * Adds a product to the storage if the temperature requirements are met.
+     * @param product Product to be added
+     * @return True if the product was added successfully, otherwise throws an exception
      */
     private boolean addProduct(ProductInterface product) {
         if (product == null) {
@@ -84,18 +88,17 @@ public class Storage {
         boolean isProductAdded = false;
         if (checkTemperature(product.getTemperature(), getTemperature())) {
             productList.add(product);
-//            System.out.println("NEW PRODUCT " + product.getName() + " has been added to the list");
             isProductAdded = true;
         } else {
-//            System.out.println("NOPE");
             throw new IllegalArgumentException("Product cannot be added to the list because of temperature.");
         }
         return isProductAdded;
     }
 
     /**
-     * Removes product from the warehouse
-     * @param product product to be removed
+     * Removes a product from the storage if it exists.
+     * @param product Product to be removed
+     * @return True if the product was removed successfully, false otherwise
      */
     public boolean removeProduct(ProductInterface product) {
         boolean isRemoved = false;
@@ -114,19 +117,19 @@ public class Storage {
     }
 
     /**
-     * Compares warehouse temperature with products storing temperature
-     * @param productTemperature payment information separated by semicolon
-     * @param warehouseTemperature IP address of the sender
-     * @return if product temperature is higher than temperature in warehouse
+     * Checks if the product's required temperature is compatible with the storage temperature.
+     * @param productTemperature    Product's required storage temperature
+     * @param warehouseTemperature  Storage's current temperature
+     * @return True if the product temperature is greater than or equal to storage temperature
      */
     private boolean checkTemperature(int productTemperature, int warehouseTemperature) {
         return productTemperature >= warehouseTemperature;
     }
 
     /**
-     * Checks for product in the warehouse
-     * @param product the searched product
-     * @return whether is the product in the warehouse
+     * Finds a product in the storage by its catalogue name.
+     * @param product Product to find
+     * @return True if the product exists in the storage, false otherwise
      */
     public boolean findProduct(ProductsCatalogue product) {
         boolean found = false;
@@ -139,6 +142,11 @@ public class Storage {
         return found;
     }
 
+    /**
+     * Finds a product in the storage by its object reference.
+     * @param product Product to find
+     * @return True if the product exists in the storage, false otherwise
+     */
     public boolean findProduct(ProductInterface product) {
         boolean found = false;
         for (ProductInterface productInStorage : productList) {
@@ -151,8 +159,8 @@ public class Storage {
     }
 
     /**
-     * Counts and adds number of quantities of each product in warehouse
-     * @return the number of all items in warehouse
+     * Counts the total number of products currently stored.
+     * @return Total number of products in the storage
      */
     public int countFullness() {
         int fullness = 0;
@@ -163,9 +171,9 @@ public class Storage {
     }
 
     /**
-     * Finds product by name
-     * @param product the searched product
-     * @return Product
+     * Retrieves a product from the storage based on its catalogue name.
+     * @param product Product catalogue reference
+     * @return The product if found, otherwise null
      */
     public ProductInterface getProduct(ProductsCatalogue product) {
         for (ProductInterface productInStorage : productList) {
@@ -176,6 +184,11 @@ public class Storage {
         return null;
     }
 
+    /**
+     * Retrieves a product from the storage based on its object reference.
+     * @param product Product object reference
+     * @return The product if found, otherwise null
+     */
     public ProductInterface getProduct(ProductInterface product) {
         for (ProductInterface productInStorage : productList) {
             if (productInStorage.equals(product)) {

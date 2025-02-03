@@ -1,0 +1,17 @@
+[ {
+  "productName" : "PASTA_FRESH",
+  "personName" : "Producer Josef",
+  "duration" : 1
+}, {
+  "productName" : "PASTA_FRESH",
+  "personName" : "ShopOwner Meridian",
+  "duration" : 2
+}, {
+  "productName" : "PASTA_FRESH",
+  "personName" : "Customer First",
+  "duration" : 0
+}, {
+  "productName" : "PASTA_FRESH",
+  "personName" : "ShopOwner Meridian",
+  "duration" : 7
+} ]

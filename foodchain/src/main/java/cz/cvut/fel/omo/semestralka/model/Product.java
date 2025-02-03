@@ -59,7 +59,7 @@ public class Product implements ProductInterface {
     }
 
     /**
-     * Counts the expiration date
+     * Calculates the expiration date for the product based on its catalog duration.
      */
     private void calcExpirationDate() {
         int durationDays = ProductsCatalogue.getDurationByName(name);
@@ -72,16 +72,16 @@ public class Product implements ProductInterface {
     }
 
     /**
-     * Adds executed transaction to the history of transactions
-     * @param transaction type of executed transaction
+     * Adds a transaction to the history of executed transactions.
+     * @param transaction The transaction to be added.
      */
     public void addTransaction(Transaction transaction) {
         transactionHistory.add(transaction);
     }
 
     /**
-     *
-     * @return latest transaction in the history of executed transactions
+     * Retrieves the latest transaction in the product's transaction history.
+     * @return The most recent Transaction, or null if no transactions exist.
      */
     @JsonIgnore
     public Transaction getLastTransaction() {
@@ -91,6 +91,10 @@ public class Product implements ProductInterface {
         return transactionHistory.getLast();
     }
 
+    /**
+     * Updates the state of the product based on the expiration date.
+     * If the product is expired, the state is set to expired; otherwise, it's eatable.
+     */
     private void updateState() {
         if (LocalDate.now().isAfter(expirationDate)) {
             currentState = new ExpiredProductState().expired();
@@ -99,28 +103,45 @@ public class Product implements ProductInterface {
         }
     }
 
+    /**
+     * Checks if the product is still valid for sale based on its state.
+     * @return True if the product is eatable (not expired), false otherwise.
+     */
     public boolean checkExpirationDateForSale() {
         updateState();
         return currentState;
     }
 
+    /**
+     * Returns the product's description, which is its name.
+     * @return The name of the product.
+     */
     @Override
     public String getDescription() {
         return name;
     }
 
+    /**
+     * Retrieves the transaction history for the product.
+     * @return A list of Transaction objects representing the transaction history.
+     */
     @Override
     public List<Transaction> getTransactionHistory() {
         return transactionHistory;
     }
 
+    /**
+     * Retrieves the price of the product.
+     * @return The price of the product.
+     */
     @Override
     public double getPrice() {
         return price;
     }
 
     /**
-     * Prints out history of persons transactions
+     * Generates a report of transaction parties related to this product and writes it to a file.
+     * @param filePath The path to the file where the report will be saved.
      */
     public void generatePartiesReport(String filePath) {
         try {
@@ -131,6 +152,10 @@ public class Product implements ProductInterface {
         }
     }
 
+    /**
+     * Creates a list of transactions for the report, including durations each person held the product.
+     * @return A list of PartiesTransaction objects representing transaction data.
+     */
     private List<PartiesTransaction> createListPartiesTransaction() {
 
         if (transactionHistory == null || transactionHistory.isEmpty()) {

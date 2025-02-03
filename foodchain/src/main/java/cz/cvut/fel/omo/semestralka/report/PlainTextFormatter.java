@@ -8,6 +8,11 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class PlainTextFormatter{
 
+    /**
+     * Formats a general transaction into a plain-text report.
+     * @param transaction The transaction object containing details to be formatted.
+     * @return A string containing the transaction details in plain text.
+     */
     public String formatReport(Transaction transaction) {
         if (transaction == null) {
             throw new IllegalArgumentException("Transaction cannot be null");
@@ -28,7 +33,11 @@ public class PlainTextFormatter{
         return report.toString();
     }
 
-
+    /**
+     * Formats a money transaction into a plain-text report.
+     * @param moneyTransaction The money transaction object containing details to be formatted.
+     * @return A string containing the money transaction details in plain text.
+     */
     public String formatReport(MoneyTransaction moneyTransaction) {
         if (moneyTransaction == null) {
             throw new IllegalArgumentException("Transaction history is empty");

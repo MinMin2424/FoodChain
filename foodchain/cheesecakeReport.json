@@ -1,0 +1,150 @@
+[ {
+  "product" : {
+    "description" : "CHEESECAKE"
+  },
+  "operationType" : "STORE",
+  "transactionDate" : "2024-12-09",
+  "price" : 0.0,
+  "personFrom" : {
+    "name" : "Producer Mina",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "personTo" : null,
+  "movedFrom" : "VAN",
+  "movedTo" : "WAREHOUSE_PRODUCER"
+}, {
+  "product" : {
+    "description" : "CHEESECAKE"
+  },
+  "operationType" : "REMOVE",
+  "transactionDate" : "2024-12-10",
+  "price" : 0.0,
+  "personFrom" : {
+    "name" : "Producer Mina",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "personTo" : null,
+  "movedFrom" : "WAREHOUSE",
+  "movedTo" : "ON_SALE"
+}, {
+  "product" : {
+    "description" : "CHEESECAKE"
+  },
+  "operationType" : "PURCHASE",
+  "transactionDate" : "2024-12-10",
+  "price" : 230.0,
+  "personFrom" : {
+    "name" : "Producer Mina",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "personTo" : {
+    "name" : "ShopOwner Kaufland",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "movedFrom" : null,
+  "movedTo" : null
+}, {
+  "product" : {
+    "description" : "CHEESECAKE"
+  },
+  "operationType" : "TRANSPORT",
+  "transactionDate" : "2024-12-10",
+  "price" : 100.0,
+  "personFrom" : {
+    "name" : "Producer Mina",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "personTo" : {
+    "name" : "Distributor Posta",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "movedFrom" : null,
+  "movedTo" : null
+}, {
+  "product" : {
+    "description" : "CHEESECAKE"
+  },
+  "operationType" : "STORE",
+  "transactionDate" : "2024-12-10",
+  "price" : 0.0,
+  "personFrom" : {
+    "name" : "ShopOwner Kaufland",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "personTo" : null,
+  "movedFrom" : "VAN",
+  "movedTo" : "SHOP"
+}, {
+  "product" : {
+    "description" : "CHEESECAKE"
+  },
+  "operationType" : "REMOVE",
+  "transactionDate" : "2024-12-11",
+  "price" : 0.0,
+  "personFrom" : {
+    "name" : "ShopOwner Kaufland",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "personTo" : null,
+  "movedFrom" : "WAREHOUSE",
+  "movedTo" : "ON_SALE"
+}, {
+  "product" : {
+    "description" : "CHEESECAKE"
+  },
+  "operationType" : "PURCHASE",
+  "transactionDate" : "2024-12-11",
+  "price" : 230.0,
+  "personFrom" : {
+    "name" : "ShopOwner Kaufland",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "personTo" : {
+    "name" : "Customer Fourth",
+    "warehouse_TEMPERATURE" : -50
+  },
+  "movedFrom" : null,
+  "movedTo" : null
+}, {
+  "product" : {
+    "description" : "CHEESECAKE"
+  },
+  "operationType" : "STORE",
+  "transactionDate" : "2024-12-11",
+  "price" : 0.0,
+  "personFrom" : {
+    "name" : "Customer Fourth",
+    "warehouse_TEMPERATURE" : -50
+  },
+  "personTo" : null,
+  "movedFrom" : "SHOP",
+  "movedTo" : "BACKPACK"
+}, {
+  "product" : {
+    "description" : "CHEESECAKE"
+  },
+  "operationType" : "RETURN",
+  "transactionDate" : "2024-12-11",
+  "price" : 0.0,
+  "personFrom" : {
+    "name" : "Customer Fourth",
+    "warehouse_TEMPERATURE" : -50
+  },
+  "personTo" : null,
+  "movedFrom" : "BACKPACK",
+  "movedTo" : "SHOP"
+}, {
+  "product" : {
+    "description" : "CHEESECAKE"
+  },
+  "operationType" : "STORE",
+  "transactionDate" : "2024-12-11",
+  "price" : 0.0,
+  "personFrom" : {
+    "name" : "ShopOwner Kaufland",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "personTo" : null,
+  "movedFrom" : "BACKPACK",
+  "movedTo" : "SHOP"
+} ]

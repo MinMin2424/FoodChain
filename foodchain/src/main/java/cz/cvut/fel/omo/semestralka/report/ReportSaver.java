@@ -14,6 +14,12 @@ import java.util.List;
 
 public class ReportSaver {
 
+    /**
+     * Saves a list of Transaction objects to a JSON file.
+     * The file is written in a pretty-printed format with Java date/time serialization handled appropriately.
+     * @param transactions A list of Transaction objects to be saved to the JSON file.
+     * @param fileName The name of the file to save the transactions in.
+     */
     public static void saveReportToJson(List<Transaction> transactions, String fileName) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
@@ -26,6 +32,12 @@ public class ReportSaver {
         }
     }
 
+    /**
+     * Saves a list of MoneyTransaction objects to a JSON file.
+     * The file is written in a pretty-printed format with Java date/time serialization handled appropriately.
+     * @param moneyTransactions A list of MoneyTransaction objects to be saved to the JSON file.
+     * @param fileName The name of the file to save the transactions in.
+     */
     public static void saveMoneyReportToJson(List<MoneyTransaction> moneyTransactions, String fileName) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
@@ -38,6 +50,12 @@ public class ReportSaver {
         }
     }
 
+    /**
+     * Saves a list of SecurityTransaction objects to a JSON file.
+     * The file is written in a pretty-printed format with Java date/time serialization handled appropriately.
+     * @param securityTransactions A list of SecurityTransaction objects to be saved to the JSON file.
+     * @param fileName The name of the file to save the transactions in.
+     */
     public static void saveSecurityReportToJson(List<SecurityTransaction> securityTransactions, String fileName) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
@@ -50,6 +68,12 @@ public class ReportSaver {
         }
     }
 
+    /**
+     * Saves a list of ModificationSecurityTransaction objects to a JSON file.
+     * The file is written in a pretty-printed format with Java date/time serialization handled appropriately.
+     * @param securityTransactions A list of ModificationSecurityTransaction objects to be saved to the JSON file.
+     * @param fileName The name of the file to save the transactions in.
+     */
     public static void saveModificationSecurityToJson(List<ModificationSecurityTransaction> securityTransactions, String fileName) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());

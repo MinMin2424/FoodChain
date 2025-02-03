@@ -15,6 +15,7 @@ import cz.cvut.fel.omo.semestralka.model.roles.Producer;
 import cz.cvut.fel.omo.semestralka.model.roles.ShopOwner;
 import cz.cvut.fel.omo.semestralka.model.roles.Distributor;
 import cz.cvut.fel.omo.semestralka.model.roles.Customer;
+import cz.cvut.fel.omo.semestralka.report.ReportSaver;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -50,6 +51,14 @@ public class BasicConfiguration extends Configuration {
     ProductInterface STRAWBERRY = new Product(ProductsCatalogue.STRAWBERRY.name(), LocalDate.now().minusDays(9));
     ProductInterface CHEESECAKE = new Product(ProductsCatalogue.CHEESECAKE.name(), LocalDate.now().minusDays(8));
     ProductInterface PASTA_FRESH = new Product(ProductsCatalogue.PASTA_FRESH.name(), LocalDate.now().minusDays(10));
+
+    @Override
+    protected void saveProductReport() {
+        for (ProductInterface product : products) {
+            ReportSaver.saveReportToJson(product.getTransactionHistory(), product.getDescription().toLowerCase() + "Report.json");
+            product.generatePartiesReport(product.getDescription().toLowerCase() + "PartiesReport.json");
+        }
+    }
 
     @Override
     protected void saveSecurityReport() {
@@ -131,6 +140,9 @@ public class BasicConfiguration extends Configuration {
 
     }
 
+    /**
+     * Initializes the parties.
+     */
     private void initializeParties() {
         String PHONE_NUMBER = "123 456 789";
         farmer_VERCA = new Farmer(
@@ -157,6 +169,9 @@ public class BasicConfiguration extends Configuration {
                 "Distributor Posta", PHONE_NUMBER, 0, getDistributorPlaces(), Address.generateRandomAddress());
     }
 
+    /**
+     * Initializes the factories for each party.
+     */
     private void initializeFactories() {
         farmerFactory_VERCA = new FarmerFactory(farmer_VERCA);
         farmerFactory_AZUL = new FarmerFactory(farmer_AZUL);
@@ -170,6 +185,9 @@ public class BasicConfiguration extends Configuration {
         customerFactory_FOURTH = new CustomerFactory(customer_FOURTH);
     }
 
+    /**
+     * Adds products to the list for generating reports.
+     */
     private void addProductsToList() {
         products.add(COW);
         products.add(CHICKEN);
@@ -178,6 +196,9 @@ public class BasicConfiguration extends Configuration {
         products.add(PASTA_FRESH);
     }
 
+    /**
+     * @return List of places for farmers.
+     */
     private List<Place> getFarmerPlaces() {
         List<Place> farmerPlaces = new ArrayList<>();
         farmerPlaces.add(Place.FARM);
@@ -186,6 +207,9 @@ public class BasicConfiguration extends Configuration {
         return farmerPlaces;
     }
 
+    /**
+     * @return List of places for producers.
+     */
     private List<Place> getProducerPlaces() {
         List<Place> producerPlaces = new ArrayList<>();
         producerPlaces.add(Place.WAREHOUSE_PRODUCER);
@@ -193,6 +217,9 @@ public class BasicConfiguration extends Configuration {
         return producerPlaces;
     }
 
+    /**
+     * @return List of places for shop owners.
+     */
     private List<Place> getShopOwnerPlaces() {
         List<Place> shopOwnerPlaces = new ArrayList<>();
         shopOwnerPlaces.add(Place.SHOP);
@@ -200,12 +227,18 @@ public class BasicConfiguration extends Configuration {
         return shopOwnerPlaces;
     }
 
+    /**
+     * @return List of places for customers.
+     */
     private List<Place> getCustomerPlaces() {
         List<Place> customerPlaces = new ArrayList<>();
         customerPlaces.add(null);
         return customerPlaces;
     }
 
+    /**
+     * @return List of places for distributors.
+     */
     private List<Place> getDistributorPlaces() {
         List<Place> distributorPlaces = new ArrayList<>();
         distributorPlaces.add(Place.VAN);

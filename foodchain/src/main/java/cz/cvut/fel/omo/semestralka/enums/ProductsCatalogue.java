@@ -3,6 +3,10 @@ package cz.cvut.fel.omo.semestralka.enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * Enum representing various products in the catalogue.
+ * Each product has a price, duration in days, and the optimal temperature to store it.
+ */
 @AllArgsConstructor
 @Getter
 public enum ProductsCatalogue {
@@ -65,7 +69,7 @@ public enum ProductsCatalogue {
     }
 
     /**
-     * Finds product in ProductCatalogue by its name and
+     * Finds product in ProductCatalogue by its name and returns its highest keep-in temperature.
      * @param name name of the product
      * @return Highest temperature the product can be kept in
      */

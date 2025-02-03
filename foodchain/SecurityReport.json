@@ -1,1 +1,16 @@
-[ ]
+[ {
+  "product" : {
+    "description" : "CHICKEN"
+  },
+  "operationType" : "PURCHASE",
+  "attemptedBuyer" : {
+    "name" : "Producer Josef",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "originOwner" : {
+    "name" : "Farmer Azul",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "attemptCount" : 2,
+  "transactionDates" : [ "2024-12-10", "2024-12-11" ]
+} ]

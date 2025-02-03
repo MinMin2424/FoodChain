@@ -47,13 +47,18 @@ public class ErrorHandlingConfiguration extends Configuration {
     ProductInterface PASTA_FRESH = new Product(ProductsCatalogue.PASTA_FRESH.name(), LocalDate.now().minusDays(50));
 
     @Override
+    protected void saveProductReport() {
+        // do nothing
+    }
+
+    @Override
     protected void saveSecurityReport() {
         ReportSaver.saveSecurityReportToJson(StorageSecurityTransaction.securityTransactions, "SecurityReport.json");
     }
 
     @Override
     protected void saveModificationSecurityReport() {
-        ReportSaver.saveModificationSecurityToJson(StorageModificationSecurityTransaction.securityTransactions, "ModificationSecurityReport");
+        ReportSaver.saveModificationSecurityToJson(StorageModificationSecurityTransaction.securityTransactions, "ModificationSecurityReport.json");
     }
 
     @Override
@@ -110,6 +115,9 @@ public class ErrorHandlingConfiguration extends Configuration {
 
     }
 
+    /**
+     * Initializes the parties.
+     */
     private void initializeParties() {
         String PHONE_NUMBER = "123 123 123";
         farmer_AZUL = new Farmer(
@@ -128,6 +136,9 @@ public class ErrorHandlingConfiguration extends Configuration {
                 "Distributor Posta", PHONE_NUMBER, 0, getDistributorPlaces(), Address.generateRandomAddress());
     }
 
+    /**
+     * Initializes the factories for each party.
+     */
     private void initializeFactories() {
         farmerFactory_VERCA = new FarmerFactory(farmer_VERCA);
         farmerFactory_AZUL = new FarmerFactory(farmer_AZUL);
@@ -137,6 +148,9 @@ public class ErrorHandlingConfiguration extends Configuration {
         customerFactory_FIRST = new CustomerFactory(customer_FIRST);
     }
 
+    /**
+     * Adds products to the list for generating reports.
+     */
     private void addProductsToList() {
         products.add(COW);
         products.add(CHICKEN);
@@ -145,6 +159,9 @@ public class ErrorHandlingConfiguration extends Configuration {
         products.add(PASTA_FRESH);
     }
 
+    /**
+     * @return List of places for farmers.
+     */
     private List<Place> getFarmerPlaces() {
         List<Place> farmerPlaces = new ArrayList<>();
         farmerPlaces.add(Place.FARM);
@@ -153,6 +170,9 @@ public class ErrorHandlingConfiguration extends Configuration {
         return farmerPlaces;
     }
 
+    /**
+     * @return List of places for producers.
+     */
     private List<Place> getProducerPlaces() {
         List<Place> producerPlaces = new ArrayList<>();
         producerPlaces.add(Place.WAREHOUSE_PRODUCER);
@@ -160,6 +180,9 @@ public class ErrorHandlingConfiguration extends Configuration {
         return producerPlaces;
     }
 
+    /**
+     * @return List of places for shop owners.
+     */
     private List<Place> getShopOwnerPlaces() {
         List<Place> shopOwnerPlaces = new ArrayList<>();
         shopOwnerPlaces.add(Place.SHOP);
@@ -167,12 +190,18 @@ public class ErrorHandlingConfiguration extends Configuration {
         return shopOwnerPlaces;
     }
 
+    /**
+     * @return List of places for customers.
+     */
     private List<Place> getCustomerPlaces() {
         List<Place> customerPlaces = new ArrayList<>();
         customerPlaces.add(null);
         return customerPlaces;
     }
 
+    /**
+     * @return List of places for distributors.
+     */
     private List<Place> getDistributorPlaces() {
         List<Place> distributorPlaces = new ArrayList<>();
         distributorPlaces.add(Place.VAN);

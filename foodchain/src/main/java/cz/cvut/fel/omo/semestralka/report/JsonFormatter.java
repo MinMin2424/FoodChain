@@ -8,6 +8,11 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class JsonFormatter {
 
+    /**
+     * Generates a JSON-formatted report for a general transaction.
+     * @param transaction The transaction object containing details to be formatted.
+     * @return A string containing the transaction details in JSON format.
+     */
     public String jsonFormatReport(Transaction transaction) {
         if (transaction == null) {
             throw new IllegalArgumentException("Transaction cannot be null");
@@ -32,6 +37,11 @@ public class JsonFormatter {
         return report.toString();
     }
 
+    /**
+     * Generates a JSON-formatted report for a money transaction.
+     * @param moneyTransaction The money transaction object containing details to be formatted.
+     * @return A string containing the money transaction details in JSON format.
+     */
     public String jsonFormatReport(MoneyTransaction moneyTransaction) {
         if (moneyTransaction == null) {
             throw new IllegalArgumentException("Transaction cannot be null");

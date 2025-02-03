@@ -1,0 +1,77 @@
+[ {
+  "product" : {
+    "description" : "STRAWBERRY"
+  },
+  "operationType" : "STORE",
+  "transactionDate" : "2024-12-08",
+  "price" : 0.0,
+  "personFrom" : {
+    "name" : "Producer Mina",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "personTo" : null,
+  "movedFrom" : "VAN",
+  "movedTo" : "WAREHOUSE_PRODUCER"
+}, {
+  "product" : {
+    "description" : "STRAWBERRY"
+  },
+  "operationType" : "REMOVE",
+  "transactionDate" : "2024-12-08",
+  "price" : 0.0,
+  "personFrom" : {
+    "name" : "Producer Mina",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "personTo" : null,
+  "movedFrom" : "WAREHOUSE",
+  "movedTo" : "ON_SALE"
+}, {
+  "product" : {
+    "description" : "STRAWBERRY"
+  },
+  "operationType" : "PURCHASE",
+  "transactionDate" : "2024-12-08",
+  "price" : 90.0,
+  "personFrom" : {
+    "name" : "Producer Mina",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "personTo" : {
+    "name" : "ShopOwner Meridian",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "movedFrom" : null,
+  "movedTo" : null
+}, {
+  "product" : {
+    "description" : "STRAWBERRY"
+  },
+  "operationType" : "TRANSPORT",
+  "transactionDate" : "2024-12-08",
+  "price" : 100.0,
+  "personFrom" : {
+    "name" : "Producer Mina",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "personTo" : {
+    "name" : "Distributor Posta",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "movedFrom" : null,
+  "movedTo" : null
+}, {
+  "product" : {
+    "description" : "STRAWBERRY"
+  },
+  "operationType" : "STORE",
+  "transactionDate" : "2024-12-08",
+  "price" : 0.0,
+  "personFrom" : {
+    "name" : "ShopOwner Meridian",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "personTo" : null,
+  "movedFrom" : "VAN",
+  "movedTo" : "SHOP"
+} ]

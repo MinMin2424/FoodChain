@@ -22,16 +22,23 @@ public abstract class Configuration {
 
     public void run() {
         initialize();
-//        generateProductReport();
-//        generateMoneyReport();
-//        saveProductReport();
-//        saveMoneyReport();
-//        saveSecurityReport();
-//        saveModificationSecurityReport();
+        generateProductReport();
+        generateMoneyReport();
+        saveProductReport();
+        saveMoneyReport();
+        saveSecurityReport();
+        saveModificationSecurityReport();
     }
 
+    /**
+     * Initializes the configuration.
+     */
     protected abstract void initialize();
 
+    /**
+     * Generates a report for each product in the list by processing their transaction
+     * history and printing the results to the console.
+     */
     protected void generateProductReport() {
         for (ProductInterface product : products) {
             System.out.println("-----" + product.getName() + "-----");
@@ -40,23 +47,35 @@ public abstract class Configuration {
         }
     }
 
-    protected void saveProductReport() {
-        for (ProductInterface product : products) {
-            ReportSaver.saveReportToJson(product.getTransactionHistory(), product.getDescription().toLowerCase() + "Report.json");
-            product.generatePartiesReport(product.getDescription().toLowerCase() + "PartiesReport.json");
-        }
-    }
+    /**
+     * Saves transaction reports and parties reports for each product in JSON format.
+     * Each report file is named based on the product's description.
+     */
+    protected abstract void saveProductReport();
 
+    /**
+     * Generates a money report.
+     */
     protected void generateMoneyReport() {
         System.out.println("-----" + "Money report" + "-----");
         jsonTextReport.generateMoneyTransaction(StorageMoneyTransaction.transactionHistory);
         System.out.println(" ");
     }
 
+    /**
+     * Saves the money transaction report to a JSON file.
+     */
     protected void saveMoneyReport() {
         ReportSaver.saveMoneyReportToJson(StorageMoneyTransaction.transactionHistory, "MoneyReport.json");
     }
 
+    /**
+     * Saves a security report.
+     */
     protected abstract void saveSecurityReport();
+
+    /**
+     * Saves a modification security report.
+     */
     protected abstract void saveModificationSecurityReport();
 }

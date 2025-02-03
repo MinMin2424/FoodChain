@@ -1,0 +1,29 @@
+[ {
+  "product" : {
+    "description" : "COW"
+  },
+  "operationType" : "STORE",
+  "transactionDate" : "2024-11-27",
+  "price" : 0.0,
+  "personFrom" : {
+    "name" : "Farmer Verca",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "personTo" : null,
+  "movedFrom" : "MANUFACTORY",
+  "movedTo" : "WAREHOUSE_FARMER"
+}, {
+  "product" : {
+    "description" : "COW"
+  },
+  "operationType" : "REMOVE",
+  "transactionDate" : "2024-12-08",
+  "price" : 0.0,
+  "personFrom" : {
+    "name" : "Farmer Verca",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "personTo" : null,
+  "movedFrom" : "WAREHOUSE",
+  "movedTo" : "MANUFACTORY"
+} ]
