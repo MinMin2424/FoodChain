@@ -1,8 +1,6 @@
 package cz.cvut.fel.omo.semestralka.model.roles;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import cz.cvut.fel.omo.semestralka.model.Address;
 import cz.cvut.fel.omo.semestralka.model.Person;
 import cz.cvut.fel.omo.semestralka.model.Storage;

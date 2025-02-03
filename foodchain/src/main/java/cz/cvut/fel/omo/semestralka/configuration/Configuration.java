@@ -1,10 +1,11 @@
 package cz.cvut.fel.omo.semestralka.configuration;
 
 import cz.cvut.fel.omo.semestralka.decorator.ProductInterface;
-import cz.cvut.fel.omo.semestralka.model.Product;
-import cz.cvut.fel.omo.semestralka.report.*;
+import cz.cvut.fel.omo.semestralka.report.PlainTextFormatterAdapter;
+import cz.cvut.fel.omo.semestralka.report.JsonFormatter;
+import cz.cvut.fel.omo.semestralka.report.ReportGenerator;
+import cz.cvut.fel.omo.semestralka.report.ReportSaver;
 import cz.cvut.fel.omo.semestralka.transaction.StorageMoneyTransaction;
-import cz.cvut.fel.omo.semestralka.transaction.StorageSecurityTransaction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +22,12 @@ public abstract class Configuration {
 
     public void run() {
         initialize();
-        generateProductReport();
-        generateMoneyReport();
-        saveProductReport();
-        saveMoneyReport();
-        saveSecurityReport();
+//        generateProductReport();
+//        generateMoneyReport();
+//        saveProductReport();
+//        saveMoneyReport();
+//        saveSecurityReport();
+//        saveModificationSecurityReport();
     }
 
     protected abstract void initialize();
@@ -55,7 +57,6 @@ public abstract class Configuration {
         ReportSaver.saveMoneyReportToJson(StorageMoneyTransaction.transactionHistory, "MoneyReport.json");
     }
 
-    protected void saveSecurityReport() {
-        ReportSaver.saveSecurityReportToJson(StorageSecurityTransaction.securityTransactions, "SecurityReport.json");
-    }
+    protected abstract void saveSecurityReport();
+    protected abstract void saveModificationSecurityReport();
 }

@@ -12,7 +12,8 @@ public enum OperationType {
     TRANSPORT(100),
     REMOVE(0),
     RETURN(0),
-    PURCHASE(0);
+    PURCHASE(0),
+    MODIFICATION_DATA_TRANSACTION(0);
 
     private final double price;
 }

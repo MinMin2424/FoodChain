@@ -3,7 +3,6 @@ package cz.cvut.fel.omo.semestralka.enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-
 @AllArgsConstructor
 @Getter
 public enum ProductsCatalogue {

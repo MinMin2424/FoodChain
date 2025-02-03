@@ -1,9 +1,7 @@
 package cz.cvut.fel.omo.semestralka.enums;
 
-import cz.cvut.fel.omo.semestralka.model.Address;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 @AllArgsConstructor
 @Getter

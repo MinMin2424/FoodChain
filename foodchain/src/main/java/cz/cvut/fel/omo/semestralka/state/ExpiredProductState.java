@@ -9,7 +9,7 @@ public class ExpiredProductState implements ProductState{
 
     @Override
     public boolean expired() {
-        System.out.println("Product is expired. You cannot sell it.");
+//        System.out.println("Product is expired. You cannot sell it.");
         return true;
     }
 

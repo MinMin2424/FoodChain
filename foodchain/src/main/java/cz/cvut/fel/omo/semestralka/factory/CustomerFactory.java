@@ -3,15 +3,12 @@ package cz.cvut.fel.omo.semestralka.factory;
 import cz.cvut.fel.omo.semestralka.decorator.ProductInterface;
 import cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue;
 import cz.cvut.fel.omo.semestralka.model.Person;
-import cz.cvut.fel.omo.semestralka.model.Product;
 import cz.cvut.fel.omo.semestralka.model.Storage;
 import cz.cvut.fel.omo.semestralka.enums.Place;
 import cz.cvut.fel.omo.semestralka.model.roles.Customer;
 
 import java.time.LocalDate;
 import java.util.List;
-
-import static cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue.getPriceByName;
 
 public class CustomerFactory extends AbstractFactory {
 
@@ -73,8 +70,9 @@ public class CustomerFactory extends AbstractFactory {
             salesman.getStorage().removeProductFromStorage(product, salesman, Place.WAREHOUSE, Place.ON_SALE, date);
             storeProduct(product, date);
             createMoneyTransaction(product, salesman, product.getPrice(), date);
+            System.out.println(getPerson().getName() + " successfully purchased product " + product.getName() + ".");
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            System.out.println(e.getMessage());
         }
 
     }

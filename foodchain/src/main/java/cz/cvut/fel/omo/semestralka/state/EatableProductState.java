@@ -1,7 +1,5 @@
 package cz.cvut.fel.omo.semestralka.state;
 
-import org.apache.commons.lang3.NotImplementedException;
-
 public class EatableProductState implements ProductState{
 
     @Override

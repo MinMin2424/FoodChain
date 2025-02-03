@@ -1,7 +1,5 @@
 package cz.cvut.fel.omo.semestralka.decorator;
 
-import cz.cvut.fel.omo.semestralka.model.Product;
-
 public class DiscountedProductDecorator extends ProductDecorator{
     private final double discount;
 

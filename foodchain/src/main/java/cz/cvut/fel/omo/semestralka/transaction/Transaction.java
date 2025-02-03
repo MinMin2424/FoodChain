@@ -100,38 +100,57 @@ public class Transaction {
     }
 
     public void setProduct(ProductInterface product) {
-        System.err.println("Modification of product is not allowed.");
+        System.out.println("Modification of product is not allowed.");
+        addModificationSecurityInStorage("Set product");
     }
 
     public void setOperationType(OperationType operationType) {
-        System.err.println("Modification of operation type is not allowed.");
+        System.out.println("Modification of operation type is not allowed.");
+        addModificationSecurityInStorage("Set operation type");
     }
 
     public void setPersonFrom(Person personFrom) {
-        System.err.println("Modification of person from is not allowed.");
+        System.out.println("Modification of person from is not allowed.");
+        addModificationSecurityInStorage("Set person from");
     }
 
     public void setPersonTo(Person personTo) {
-        System.err.println("Modification of person to is not allowed.");
+        System.out.println("Modification of person to is not allowed.");
+        addModificationSecurityInStorage("Set person to");
     }
 
     public void setMovedFrom(Place movedFrom) {
-        System.err.println("Modification of moved from is not allowed.");
+        System.out.println("Modification of moved from is not allowed.");
+        addModificationSecurityInStorage("Set moved from");
     }
 
     public void setMovedTo(Place movedTo) {
-        System.err.println("Modification of moved to is not allowed.");
+        System.out.println("Modification of moved to is not allowed.");
+        addModificationSecurityInStorage("Set moved from");
     }
 
     public void setTransactionDate(LocalDate transactionDate) {
-        System.err.println("Modification of transaction date is not allowed.");
+        System.out.println("Modification of transaction date is not allowed.");
+        addModificationSecurityInStorage("Set transaction date");
     }
 
     public void setPrice(double price) {
-        System.err.println("Modification of price is not allowed.");
+        System.out.println("Modification of price is not allowed.");
+        addModificationSecurityInStorage("Set price");
     }
 
     public void setPreviousTransaction(Transaction previousTransaction) {
-        System.err.println("Modification of previous transaction is not allowed.");
+        System.out.println("Modification of previous transaction is not allowed.");
+        addModificationSecurityInStorage("Set previous transaction");
+    }
+
+    private void addModificationSecurityInStorage(String dataType) {
+        StorageModificationSecurityTransaction.securityTransactions.add(
+                new ModificationSecurityTransaction(
+                        this.product,
+                        this.personFrom,
+                        dataType
+                )
+        );
     }
 }

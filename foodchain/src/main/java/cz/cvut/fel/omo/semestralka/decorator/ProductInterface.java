@@ -1,7 +1,6 @@
 package cz.cvut.fel.omo.semestralka.decorator;
 
 import cz.cvut.fel.omo.semestralka.enums.ProductStatus;
-import cz.cvut.fel.omo.semestralka.state.ProductState;
 import cz.cvut.fel.omo.semestralka.transaction.Transaction;
 
 import java.time.LocalDate;

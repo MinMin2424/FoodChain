@@ -3,6 +3,7 @@ package cz.cvut.fel.omo.semestralka.report;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import cz.cvut.fel.omo.semestralka.transaction.ModificationSecurityTransaction;
 import cz.cvut.fel.omo.semestralka.transaction.MoneyTransaction;
 import cz.cvut.fel.omo.semestralka.transaction.SecurityTransaction;
 import cz.cvut.fel.omo.semestralka.transaction.Transaction;
@@ -44,6 +45,17 @@ public class ReportSaver {
         try {
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(fileName), securityTransactions);
 
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    public static void saveModificationSecurityToJson(List<ModificationSecurityTransaction> securityTransactions, String fileName) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        try {
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(fileName), securityTransactions);
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }

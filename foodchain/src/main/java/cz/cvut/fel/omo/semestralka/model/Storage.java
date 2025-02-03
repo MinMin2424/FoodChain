@@ -199,4 +199,13 @@ public class Storage {
         return null;
     }
 
+    public ProductInterface getProduct(ProductInterface product) {
+        for (ProductInterface productInStorage : productList) {
+            if (productInStorage.equals(product)) {
+                return productInStorage;
+            }
+        }
+        return null;
+    }
+
 }

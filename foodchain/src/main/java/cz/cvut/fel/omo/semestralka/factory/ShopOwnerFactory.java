@@ -5,7 +5,6 @@ import cz.cvut.fel.omo.semestralka.enums.ProductStatus;
 import cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue;
 import cz.cvut.fel.omo.semestralka.model.Message;
 import cz.cvut.fel.omo.semestralka.model.Person;
-import cz.cvut.fel.omo.semestralka.model.Product;
 import cz.cvut.fel.omo.semestralka.model.Storage;
 import cz.cvut.fel.omo.semestralka.enums.Place;
 import cz.cvut.fel.omo.semestralka.model.roles.Customer;
@@ -33,7 +32,7 @@ public class ShopOwnerFactory extends AbstractFactory{
         try {
             getStorage().addProductToStorage(product, shopOwner, Place.VAN, Place.SHOP, date);
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
@@ -64,16 +63,18 @@ public class ShopOwnerFactory extends AbstractFactory{
                     throw new IllegalArgumentException("Product " + product.getName() + " is expired. Cannot sell product " + product.getName());
                 }
                 product.setProductStatus(ProductStatus.ON_SALE);
+                System.out.println(getPerson().getName() + " successfully sold product " + product.getName() + ".");
+                informCustomers(product);
             } else {
                 throw new IllegalArgumentException("Product " + product.getName() + " not found. Cannot sell product " + product.getName());
             }
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            System.out.println(e.getMessage());
         }
 
     }
 
-    private void informCustomers(Product product) {
+    private void informCustomers(ProductInterface product) {
         Message message = new Message(
                 this.shopOwner.getName(),
                 String.format("Dear customer! We would like to inform you that %s is now on sale for %f.",

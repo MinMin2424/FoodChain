@@ -1,6 +1,5 @@
 package cz.cvut.fel.omo.semestralka.factory;
 
-import cz.cvut.fel.omo.semestralka.decorator.ProductDecorator;
 import cz.cvut.fel.omo.semestralka.decorator.ProductInterface;
 import cz.cvut.fel.omo.semestralka.enums.ProductStatus;
 import cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue;
@@ -10,7 +9,11 @@ import cz.cvut.fel.omo.semestralka.model.Storage;
 import cz.cvut.fel.omo.semestralka.enums.OperationType;
 import cz.cvut.fel.omo.semestralka.enums.Place;
 import cz.cvut.fel.omo.semestralka.model.roles.Distributor;
-import cz.cvut.fel.omo.semestralka.transaction.*;
+import cz.cvut.fel.omo.semestralka.transaction.Transaction;
+import cz.cvut.fel.omo.semestralka.transaction.SecurityTransaction;
+import cz.cvut.fel.omo.semestralka.transaction.StorageSecurityTransaction;
+import cz.cvut.fel.omo.semestralka.transaction.MoneyTransaction;
+import cz.cvut.fel.omo.semestralka.transaction.StorageMoneyTransaction;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -26,16 +29,16 @@ public abstract class AbstractFactory {
     public final ProductInterface createProduct(ProductsCatalogue product, LocalDate date) {
         try {
             if (!canCreateProduct()) {
-                throw new UnsupportedOperationException("Cannot create product " + product.name());
+                throw new UnsupportedOperationException(getPerson().getName() + " cannot create product " + product.name() + ".");
             }
             List<ProductsCatalogue> origins = getProductOrigin(product);
             if (origins == null) {
-                throw new IllegalArgumentException("Origins is null. Cannot create product " + product.name());
+                throw new IllegalArgumentException("Origins is null. " + getPerson().getName() + " cannot create product " + product.name() + ".");
             }
             for (ProductsCatalogue origin : origins) {
                 boolean found = getStorage().findProduct(origin);
                 if (!found) {
-                    throw new IllegalArgumentException("Origin " + origin + " not found. Cannot create product " + product.name());
+                    throw new IllegalArgumentException("Origin " + origin + " not found. " + getPerson().getName() + " cannot create product " + product.name());
                 }
             }
             for (ProductsCatalogue origin : origins) {
@@ -45,9 +48,10 @@ public abstract class AbstractFactory {
             ProductInterface newProduct = new Product(product.name(), LocalDate.now());
             createNewTransaction(newProduct, date);
             storeProduct(newProduct, date);
+            System.out.println(getPerson().getName() + " successfully created product " + newProduct.getName() + ".");
             return newProduct;
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            System.out.println(e.getMessage());
             return null;
         }
     }
@@ -60,20 +64,21 @@ public abstract class AbstractFactory {
     public void sellProduct(ProductInterface product) {
         try {
             if (!canSellProduct()) {
-                throw new UnsupportedOperationException("Cannot sell product " + product.getName());
+                throw new UnsupportedOperationException(getPerson().getName() + " cannot sell product " + product.getName() + ".");
             }
             checkIfProductInNotNull(product);
             boolean found = getStorage().findProduct(product);
             if (found) {
                 if (product.checkExpirationDateForSale()) {
-                    throw new IllegalArgumentException("Product " + product.getName() + " is expired. Cannot sell product " + product.getName());
+                    throw new IllegalArgumentException("Product " + product.getName() + " is expired. " + getPerson().getName() + " cannot sell product " + product.getName() + ".");
                 }
                 product.setProductStatus(ProductStatus.ON_SALE);
+                System.out.println(getPerson().getName() + " successfully sold product " + product.getName() + ".");
             } else {
-                throw new IllegalArgumentException("Product " + product.getName() + " not found. Cannot sell product " + product.getName());
+                throw new IllegalArgumentException("Product " + product.getName() + " not found. " + getPerson().getName() + " cannot sell product " + product.getName() + ".");
             }
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            System.out.println(e.getMessage());
         }
 
     }
@@ -90,7 +95,7 @@ public abstract class AbstractFactory {
             getStorage().removeProduct(product);
             createNewTransaction(product, salesman, distributor, date);
         } else {
-            throw new IllegalArgumentException("Cannot transport product " + product.getName());
+            throw new IllegalArgumentException(distributor.getName() + " cannot transport product " + product.getName());
         }
     }
 
@@ -104,23 +109,31 @@ public abstract class AbstractFactory {
         try {
             checkIfPersonCanReturnProduct(product);
             checkIfProductInNotNull(product);
+            checkIfPersonHasProduct(product);
             addReturnTransaction(product, date);
             addTransportTransaction(product, distributor, salesman, date);
+            System.out.println(getPerson().getName() + " successfully returned product " + product.getName() + ".");
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            System.out.println(e.getMessage());
         }
 
     }
 
     protected void checkIfPersonCanReturnProduct(ProductInterface product) {
         if (!canReturnProduct()) {
-            throw new IllegalArgumentException("Cannot return product " + product.getName());
+            throw new IllegalArgumentException(getPerson().getName() + " cannot return product " + product.getName());
         }
     }
 
     protected void checkIfProductInNotNull(ProductInterface product) {
         if (product == null) {
-            throw new IllegalArgumentException("Product is null. Cannot return product.");
+            throw new IllegalArgumentException("Product is null.");
+        }
+    }
+
+    protected void checkIfPersonHasProduct(ProductInterface product) {
+        if (!getStorage().findProduct(product)) {
+            throw new IllegalArgumentException("Product " + product.getName() + " not found. " + getPerson().getName() + " doesn't have " + product.getName() + ".");
         }
     }
 
@@ -152,17 +165,18 @@ public abstract class AbstractFactory {
             checkIfPersonHasEnoughMoney(product);
 
             if (salesman.getStorage().removeProductFromStorage(product, salesman, Place.WAREHOUSE, Place.ON_SALE, date)) {
-                salesman.setWallet(salesman.getWallet() + product.getPrice());
-                getPerson().setWallet(getPerson().getWallet() - product.getPrice());
                 createNewTransaction(product, salesman, product.getPrice(), date);
                 transportProduct(product, distributor, salesman, date);
                 storeProduct(product, date);
+                salesman.setWallet(salesman.getWallet() + product.getPrice());
+                getPerson().setWallet(getPerson().getWallet() - product.getPrice());
                 createMoneyTransaction(product, salesman, product.getPrice(), date);
                 product.setProductStatus(ProductStatus.IS_ALREADY_PURCHASED);
+                System.out.println(getPerson().getName() + " successfully purchased product " + product.getName() + ".");
             }
 
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
@@ -185,7 +199,7 @@ public abstract class AbstractFactory {
             } else {
                 securityTransaction.increaseAttemptCount(date);
             }
-            throw new IllegalArgumentException("Product " + product.getName() + " is already purchased.");
+            throw new IllegalArgumentException("Product " + product.getName() + " is already purchased. " + getPerson().getName() + " cannot purchase " + product.getName() + ".");
         }
     }
 

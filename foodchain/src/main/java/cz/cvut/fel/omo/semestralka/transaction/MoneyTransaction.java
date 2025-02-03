@@ -5,8 +5,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import cz.cvut.fel.omo.semestralka.decorator.ProductInterface;
 import cz.cvut.fel.omo.semestralka.enums.OperationType;
 import cz.cvut.fel.omo.semestralka.model.Person;
-import cz.cvut.fel.omo.semestralka.model.Product;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.LocalDate;

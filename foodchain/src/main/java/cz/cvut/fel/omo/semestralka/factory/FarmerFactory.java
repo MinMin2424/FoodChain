@@ -2,7 +2,6 @@ package cz.cvut.fel.omo.semestralka.factory;
 
 import cz.cvut.fel.omo.semestralka.decorator.ProductInterface;
 import cz.cvut.fel.omo.semestralka.model.Person;
-import cz.cvut.fel.omo.semestralka.model.Product;
 import cz.cvut.fel.omo.semestralka.model.Storage;
 import cz.cvut.fel.omo.semestralka.enums.Place;
 import cz.cvut.fel.omo.semestralka.enums.ProductsCatalogue;
@@ -11,7 +10,6 @@ import cz.cvut.fel.omo.semestralka.strategy.ProductOriginStrategy;
 import cz.cvut.fel.omo.semestralka.strategy.farmerStrategy.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +30,7 @@ public class FarmerFactory extends AbstractFactory{
         try {
             getStorage().addProductToStorage(product, getPerson(), Place.MANUFACTORY, Place.WAREHOUSE_FARMER, date);
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
