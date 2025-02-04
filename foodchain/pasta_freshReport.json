@@ -3,7 +3,7 @@
     "description" : "PASTA_FRESH"
   },
   "operationType" : "STORE",
-  "transactionDate" : "2024-12-07",
+  "transactionDate" : "2024-12-23",
   "price" : 0.0,
   "personFrom" : {
     "name" : "Producer Josef",
@@ -18,7 +18,7 @@
     "price" : 60.0
   },
   "operationType" : "CREATE",
-  "transactionDate" : "2024-12-08",
+  "transactionDate" : "2024-12-24",
   "price" : 0.0,
   "personFrom" : {
     "name" : "Producer Josef",
@@ -33,7 +33,7 @@
     "price" : 60.0
   },
   "operationType" : "STORE",
-  "transactionDate" : "2024-12-08",
+  "transactionDate" : "2024-12-24",
   "price" : 0.0,
   "personFrom" : {
     "name" : "Producer Josef",
@@ -48,7 +48,7 @@
     "price" : 60.0
   },
   "operationType" : "REMOVE",
-  "transactionDate" : "2024-12-08",
+  "transactionDate" : "2024-12-24",
   "price" : 0.0,
   "personFrom" : {
     "name" : "Producer Josef",
@@ -63,7 +63,7 @@
     "price" : 60.0
   },
   "operationType" : "PURCHASE",
-  "transactionDate" : "2024-12-08",
+  "transactionDate" : "2024-12-24",
   "price" : 60.0,
   "personFrom" : {
     "name" : "Producer Josef",
@@ -81,7 +81,7 @@
     "price" : 60.0
   },
   "operationType" : "TRANSPORT",
-  "transactionDate" : "2024-12-08",
+  "transactionDate" : "2024-12-24",
   "price" : 100.0,
   "personFrom" : {
     "name" : "Producer Josef",
@@ -99,7 +99,7 @@
     "price" : 60.0
   },
   "operationType" : "STORE",
-  "transactionDate" : "2024-12-08",
+  "transactionDate" : "2024-12-24",
   "price" : 0.0,
   "personFrom" : {
     "name" : "ShopOwner Meridian",
@@ -114,7 +114,7 @@
     "price" : 60.0
   },
   "operationType" : "REMOVE",
-  "transactionDate" : "2024-12-10",
+  "transactionDate" : "2024-12-26",
   "price" : 0.0,
   "personFrom" : {
     "name" : "ShopOwner Meridian",
@@ -129,7 +129,7 @@
     "price" : 60.0
   },
   "operationType" : "PURCHASE",
-  "transactionDate" : "2024-12-10",
+  "transactionDate" : "2024-12-26",
   "price" : 60.0,
   "personFrom" : {
     "name" : "ShopOwner Meridian",
@@ -147,7 +147,7 @@
     "price" : 60.0
   },
   "operationType" : "STORE",
-  "transactionDate" : "2024-12-10",
+  "transactionDate" : "2024-12-26",
   "price" : 0.0,
   "personFrom" : {
     "name" : "Customer First",
@@ -162,7 +162,7 @@
     "price" : 60.0
   },
   "operationType" : "RETURN",
-  "transactionDate" : "2024-12-10",
+  "transactionDate" : "2024-12-26",
   "price" : 0.0,
   "personFrom" : {
     "name" : "Customer First",
@@ -177,7 +177,7 @@
     "price" : 60.0
   },
   "operationType" : "STORE",
-  "transactionDate" : "2024-12-10",
+  "transactionDate" : "2024-12-26",
   "price" : 0.0,
   "personFrom" : {
     "name" : "ShopOwner Meridian",

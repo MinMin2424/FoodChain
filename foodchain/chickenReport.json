@@ -1,5 +1,29 @@
 [ {
-  "productName" : "CHICKEN",
-  "personName" : "Farmer Azul",
-  "duration" : 20
+  "product" : {
+    "description" : "CHICKEN"
+  },
+  "operationType" : "STORE",
+  "transactionDate" : "2024-12-13",
+  "price" : 0.0,
+  "personFrom" : {
+    "name" : "Farmer Azul",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "personTo" : null,
+  "movedFrom" : "MANUFACTORY",
+  "movedTo" : "WAREHOUSE_FARMER"
+}, {
+  "product" : {
+    "description" : "CHICKEN"
+  },
+  "operationType" : "REMOVE",
+  "transactionDate" : "2024-12-24",
+  "price" : 0.0,
+  "personFrom" : {
+    "name" : "Farmer Azul",
+    "warehouse_TEMPERATURE" : 5
+  },
+  "personTo" : null,
+  "movedFrom" : "WAREHOUSE",
+  "movedTo" : "MANUFACTORY"
 } ]

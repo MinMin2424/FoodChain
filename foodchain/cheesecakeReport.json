@@ -3,7 +3,7 @@
     "description" : "CHEESECAKE"
   },
   "operationType" : "STORE",
-  "transactionDate" : "2024-12-09",
+  "transactionDate" : "2024-12-25",
   "price" : 0.0,
   "personFrom" : {
     "name" : "Producer Mina",
@@ -17,7 +17,7 @@
     "description" : "CHEESECAKE"
   },
   "operationType" : "REMOVE",
-  "transactionDate" : "2024-12-10",
+  "transactionDate" : "2024-12-26",
   "price" : 0.0,
   "personFrom" : {
     "name" : "Producer Mina",
@@ -31,7 +31,7 @@
     "description" : "CHEESECAKE"
   },
   "operationType" : "PURCHASE",
-  "transactionDate" : "2024-12-10",
+  "transactionDate" : "2024-12-26",
   "price" : 230.0,
   "personFrom" : {
     "name" : "Producer Mina",
@@ -48,7 +48,7 @@
     "description" : "CHEESECAKE"
   },
   "operationType" : "TRANSPORT",
-  "transactionDate" : "2024-12-10",
+  "transactionDate" : "2024-12-26",
   "price" : 100.0,
   "personFrom" : {
     "name" : "Producer Mina",
@@ -65,7 +65,7 @@
     "description" : "CHEESECAKE"
   },
   "operationType" : "STORE",
-  "transactionDate" : "2024-12-10",
+  "transactionDate" : "2024-12-26",
   "price" : 0.0,
   "personFrom" : {
     "name" : "ShopOwner Kaufland",
@@ -79,7 +79,7 @@
     "description" : "CHEESECAKE"
   },
   "operationType" : "REMOVE",
-  "transactionDate" : "2024-12-11",
+  "transactionDate" : "2024-12-27",
   "price" : 0.0,
   "personFrom" : {
     "name" : "ShopOwner Kaufland",
@@ -93,7 +93,7 @@
     "description" : "CHEESECAKE"
   },
   "operationType" : "PURCHASE",
-  "transactionDate" : "2024-12-11",
+  "transactionDate" : "2024-12-27",
   "price" : 230.0,
   "personFrom" : {
     "name" : "ShopOwner Kaufland",
@@ -110,7 +110,7 @@
     "description" : "CHEESECAKE"
   },
   "operationType" : "STORE",
-  "transactionDate" : "2024-12-11",
+  "transactionDate" : "2024-12-27",
   "price" : 0.0,
   "personFrom" : {
     "name" : "Customer Fourth",
@@ -124,7 +124,7 @@
     "description" : "CHEESECAKE"
   },
   "operationType" : "RETURN",
-  "transactionDate" : "2024-12-11",
+  "transactionDate" : "2024-12-27",
   "price" : 0.0,
   "personFrom" : {
     "name" : "Customer Fourth",
@@ -138,7 +138,7 @@
     "description" : "CHEESECAKE"
   },
   "operationType" : "STORE",
-  "transactionDate" : "2024-12-11",
+  "transactionDate" : "2024-12-27",
   "price" : 0.0,
   "personFrom" : {
     "name" : "ShopOwner Kaufland",

@@ -303,8 +303,8 @@ public abstract class AbstractFactory {
     private SecurityTransaction findSecurityTransaction(ProductInterface product, Person salesman) {
         for (SecurityTransaction securityTransaction : StorageSecurityTransaction.securityTransactions) {
             if (securityTransaction.getProduct().equals(product) &&
-                    securityTransaction.getAttemptedBuyer().equals(getPerson()) &&
-                    securityTransaction.getOriginOwner().equals(salesman)) {
+            securityTransaction.getAttemptedBuyer().equals(getPerson()) &&
+            securityTransaction.getOriginOwner().equals(salesman)) {
                 return securityTransaction;
             }
         }

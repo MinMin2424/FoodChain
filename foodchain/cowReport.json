@@ -3,7 +3,7 @@
     "description" : "COW"
   },
   "operationType" : "STORE",
-  "transactionDate" : "2024-11-27",
+  "transactionDate" : "2024-12-13",
   "price" : 0.0,
   "personFrom" : {
     "name" : "Farmer Verca",
@@ -17,7 +17,7 @@
     "description" : "COW"
   },
   "operationType" : "REMOVE",
-  "transactionDate" : "2024-12-08",
+  "transactionDate" : "2024-12-24",
   "price" : 0.0,
   "personFrom" : {
     "name" : "Farmer Verca",

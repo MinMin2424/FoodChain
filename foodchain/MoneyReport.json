@@ -1,27 +1,8 @@
 [ {
   "product" : {
-    "description" : "BEEF"
+    "description" : "CHICKEN"
   },
   "productPrice" : 250.0,
-  "personFrom" : {
-    "name" : "Farmer Verca",
-    "warehouse_TEMPERATURE" : 5
-  },
-  "personTo" : {
-    "name" : "Producer Mina",
-    "warehouse_TEMPERATURE" : 5
-  },
-  "operationType" : "PURCHASE",
-  "transactionDate" : "2024-12-09",
-  "wallet_PersonFrom_BeforeTransaction" : 500000.0,
-  "wallet_PersonTo_BeforeTransaction" : 10000.0,
-  "wallet_PersonFrom_AfterTransaction" : 500250.0,
-  "wallet_PersonTo_AfterTransaction" : 9750.0
-}, {
-  "product" : {
-    "description" : "CHICKEN_MEAT"
-  },
-  "productPrice" : 150.0,
   "personFrom" : {
     "name" : "Farmer Azul",
     "warehouse_TEMPERATURE" : 5
@@ -31,16 +12,16 @@
     "warehouse_TEMPERATURE" : 5
   },
   "operationType" : "PURCHASE",
-  "transactionDate" : "2024-12-10",
+  "transactionDate" : "2024-12-26",
   "wallet_PersonFrom_BeforeTransaction" : 600000.0,
-  "wallet_PersonTo_BeforeTransaction" : 9750.0,
-  "wallet_PersonFrom_AfterTransaction" : 600150.0,
-  "wallet_PersonTo_AfterTransaction" : 9600.0
+  "wallet_PersonTo_BeforeTransaction" : 10000.0,
+  "wallet_PersonFrom_AfterTransaction" : 600250.0,
+  "wallet_PersonTo_AfterTransaction" : 9750.0
 }, {
   "product" : {
-    "description" : "STRAWBERRY"
+    "description" : "CHEESECAKE"
   },
-  "productPrice" : 90.0,
+  "productPrice" : 230.0,
   "personFrom" : {
     "name" : "Producer Mina",
     "warehouse_TEMPERATURE" : 5
@@ -50,106 +31,9 @@
     "warehouse_TEMPERATURE" : 5
   },
   "operationType" : "PURCHASE",
-  "transactionDate" : "2024-12-08",
-  "wallet_PersonFrom_BeforeTransaction" : 9600.0,
+  "transactionDate" : "2024-12-28",
+  "wallet_PersonFrom_BeforeTransaction" : 9750.0,
   "wallet_PersonTo_BeforeTransaction" : 45000.0,
-  "wallet_PersonFrom_AfterTransaction" : 9690.0,
-  "wallet_PersonTo_AfterTransaction" : 44910.0
-}, {
-  "product" : {
-    "description" : "PASTA_FRESH(Bio)",
-    "price" : 60.0
-  },
-  "productPrice" : 60.0,
-  "personFrom" : {
-    "name" : "Producer Josef",
-    "warehouse_TEMPERATURE" : 5
-  },
-  "personTo" : {
-    "name" : "ShopOwner Meridian",
-    "warehouse_TEMPERATURE" : 5
-  },
-  "operationType" : "PURCHASE",
-  "transactionDate" : "2024-12-08",
-  "wallet_PersonFrom_BeforeTransaction" : 20000.0,
-  "wallet_PersonTo_BeforeTransaction" : 44910.0,
-  "wallet_PersonFrom_AfterTransaction" : 20060.0,
-  "wallet_PersonTo_AfterTransaction" : 44850.0
-}, {
-  "product" : {
-    "description" : "CHEESECAKE"
-  },
-  "productPrice" : 230.0,
-  "personFrom" : {
-    "name" : "Producer Mina",
-    "warehouse_TEMPERATURE" : 5
-  },
-  "personTo" : {
-    "name" : "ShopOwner Kaufland",
-    "warehouse_TEMPERATURE" : 5
-  },
-  "operationType" : "PURCHASE",
-  "transactionDate" : "2024-12-10",
-  "wallet_PersonFrom_BeforeTransaction" : 9690.0,
-  "wallet_PersonTo_BeforeTransaction" : 50000.0,
-  "wallet_PersonFrom_AfterTransaction" : 9920.0,
-  "wallet_PersonTo_AfterTransaction" : 49770.0
-}, {
-  "product" : {
-    "description" : "CHICKEN_MEAT"
-  },
-  "productPrice" : 150.0,
-  "personFrom" : {
-    "name" : "Producer Mina",
-    "warehouse_TEMPERATURE" : 5
-  },
-  "personTo" : {
-    "name" : "ShopOwner Kaufland",
-    "warehouse_TEMPERATURE" : 5
-  },
-  "operationType" : "PURCHASE",
-  "transactionDate" : "2024-12-09",
-  "wallet_PersonFrom_BeforeTransaction" : 9920.0,
-  "wallet_PersonTo_BeforeTransaction" : 49770.0,
-  "wallet_PersonFrom_AfterTransaction" : 10070.0,
-  "wallet_PersonTo_AfterTransaction" : 49620.0
-}, {
-  "product" : {
-    "description" : "PASTA_FRESH(Bio)",
-    "price" : 60.0
-  },
-  "productPrice" : 60.0,
-  "personFrom" : {
-    "name" : "ShopOwner Meridian",
-    "warehouse_TEMPERATURE" : 5
-  },
-  "personTo" : {
-    "name" : "Customer First",
-    "warehouse_TEMPERATURE" : -50
-  },
-  "operationType" : "PURCHASE",
-  "transactionDate" : "2024-12-10",
-  "wallet_PersonFrom_BeforeTransaction" : 44850.0,
-  "wallet_PersonTo_BeforeTransaction" : 2000.0,
-  "wallet_PersonFrom_AfterTransaction" : 44910.0,
-  "wallet_PersonTo_AfterTransaction" : 1940.0
-}, {
-  "product" : {
-    "description" : "CHEESECAKE"
-  },
-  "productPrice" : 230.0,
-  "personFrom" : {
-    "name" : "ShopOwner Kaufland",
-    "warehouse_TEMPERATURE" : 5
-  },
-  "personTo" : {
-    "name" : "Customer Fourth",
-    "warehouse_TEMPERATURE" : -50
-  },
-  "operationType" : "PURCHASE",
-  "transactionDate" : "2024-12-11",
-  "wallet_PersonFrom_BeforeTransaction" : 49620.0,
-  "wallet_PersonTo_BeforeTransaction" : 4000.0,
-  "wallet_PersonFrom_AfterTransaction" : 49850.0,
-  "wallet_PersonTo_AfterTransaction" : 3770.0
+  "wallet_PersonFrom_AfterTransaction" : 9980.0,
+  "wallet_PersonTo_AfterTransaction" : 44770.0
 } ]
